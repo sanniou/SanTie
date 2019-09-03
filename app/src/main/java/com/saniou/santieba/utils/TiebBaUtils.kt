@@ -7,7 +7,7 @@ import android.view.View
 import androidx.fragment.app.FragmentActivity
 import com.saniou.santieba.R
 import com.saniou.santieba.api.bean.Content
-import com.saniou.santieba.constant.ThreadContentType
+import com.saniou.santieba.constant.*
 import com.sanniou.common.helper.ViewHelper
 import com.sanniou.common.utilcode.util.*
 
@@ -17,13 +17,13 @@ fun analyzeText(contents: List<Content>): MutableList<Content> {
     var charSpan: SpanUtils? = null
     contents.forEach {
         when (it.type) {
-            ThreadContentType.TEXT -> {
+            TEXT -> {
                 charSpan ?: run {
                     charSpan = SpanUtils()
                 }
                 charSpan?.append(it.text)
             }
-            ThreadContentType.LINK -> {
+            LINK -> {
                 charSpan ?: run {
                     charSpan = SpanUtils()
                 }
@@ -31,13 +31,13 @@ fun analyzeText(contents: List<Content>): MutableList<Content> {
                     ?.setForegroundColor(ResourcesUtils.getColor(R.color.design_blue))
                     ?.setClickSpan(LinkClickSpan())
             }
-            ThreadContentType.EMOJI -> {
+            EMOJI -> {
                 charSpan ?: run {
                     charSpan = SpanUtils()
                 }
                 charSpan?.appendImage(getDrawable(it.text.toString()))
             }
-            ThreadContentType.ATME -> {
+            ATME -> {
                 charSpan?.append(it.text)
                     ?.setForegroundColor(ResourcesUtils.getColor(R.color.design_blue))
                     ?.setClickSpan(LinkClickSpan())
@@ -57,7 +57,7 @@ fun analyzeText(contents: List<Content>): MutableList<Content> {
                             "",
                             "",
                             charSpan!!.create(),
-                            ThreadContentType.TEXT
+                            TEXT
                         )
                     )
                     charSpan = null
@@ -80,7 +80,7 @@ fun analyzeText(contents: List<Content>): MutableList<Content> {
                 "",
                 "",
                 charSpan!!.create(),
-                ThreadContentType.TEXT
+                TEXT
             )
         )
         charSpan = null

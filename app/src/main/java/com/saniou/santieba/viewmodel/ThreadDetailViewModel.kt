@@ -5,8 +5,7 @@ import androidx.databinding.ObservableField
 import com.saniou.santieba.R
 import com.saniou.santieba.api.TiebaRequest
 import com.saniou.santieba.api.bean.UserXX
-import com.saniou.santieba.constant.RANGE_NUMBER
-import com.saniou.santieba.constant.ThreadContentType
+import com.saniou.santieba.constant.*
 import com.saniou.santieba.utils.DateUtil
 import com.saniou.santieba.utils.analyzeText
 import com.saniou.santieba.vo.*
@@ -67,7 +66,7 @@ class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
                     // 帖头
                     add(
                         ThreadCommentItem(
-                            "${ThreadContentType.PORTRAIT_HOST}${currentUser?.portrait}",
+                            "${PORTRAIT_HOST}${currentUser?.portrait}",
                             "${currentUser?.name_show}(${currentUser?.name})",
                             currentUser?.level_id ?: "0",
                             DateUtil.getDisplayTime(post.time.toLong())
@@ -78,16 +77,16 @@ class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
                         ?.apply {
                             analyzeText(this).forEach {
                                 when (it.type) {
-                                    ThreadContentType.TEXT -> {
+                                    TEXT -> {
                                         add(CommentTextItem(it.text, first))
                                     }
-                                    ThreadContentType.VIDEO -> {
+                                    VIDEO -> {
                                         add(CommentVoiceItem(first))
                                     }
-                                    ThreadContentType.VOICE -> {
+                                    VOICE -> {
                                         add(CommentVoiceItem(first))
                                     }
-                                    ThreadContentType.IMAGE -> {
+                                    IMAGE -> {
                                         add(
                                             CommentImageItem(
                                                 it.cdn_src_active,

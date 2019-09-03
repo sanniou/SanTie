@@ -2,8 +2,7 @@ package com.saniou.santieba.viewmodel
 
 import android.annotation.SuppressLint
 import com.saniou.santieba.api.TiebaRequest
-import com.saniou.santieba.constant.RANGE_NUMBER
-import com.saniou.santieba.constant.ThreadContentType
+import com.saniou.santieba.constant.*
 import com.saniou.santieba.utils.analyzeText
 import com.saniou.santieba.vo.CommentTextItem
 import com.saniou.santieba.vo.ThreadCommentItem
@@ -46,7 +45,7 @@ class ThreadSubCommentViewModel : BaseObservableListViewModel(), OnLoadListener 
                 val author = subComment.post.author
                 add(
                     ThreadCommentItem(
-                        "${ThreadContentType.PORTRAIT_HOST} + ${author.portrait}",
+                        "${PORTRAIT_HOST} + ${author.portrait}",
                         "${author.name_show}(${author.name})"
                         , author.level_id,
                         subComment.post.time
@@ -54,17 +53,17 @@ class ThreadSubCommentViewModel : BaseObservableListViewModel(), OnLoadListener 
                 )
                 subComment.post.content.forEach {
                     when (it.type) {
-                        ThreadContentType.TEXT -> {
+                        TEXT -> {
                             add(CommentTextItem(it.text))
                         }
-                        ThreadContentType.EMOJI -> {
+                        EMOJI -> {
                             add(CommentTextItem(it.text))
                         }
-                        ThreadContentType.VIDEO -> {
+                        VIDEO -> {
                         }
-                        ThreadContentType.IMAGE -> {
+                        IMAGE -> {
                         }
-                        ThreadContentType.VOICE -> {
+                        VOICE -> {
                         }
 
                     }
@@ -74,7 +73,7 @@ class ThreadSubCommentViewModel : BaseObservableListViewModel(), OnLoadListener 
                     val subAuthor = subPost.author
                     add(
                         ThreadCommentItem(
-                            "${ThreadContentType.PORTRAIT_HOST} + ${subAuthor.portrait}",
+                            "${PORTRAIT_HOST} + ${subAuthor.portrait}",
                             "${subAuthor.name_show}(${subAuthor.name})"
                             , subAuthor.level_id,
                             subComment.post.time
@@ -84,17 +83,17 @@ class ThreadSubCommentViewModel : BaseObservableListViewModel(), OnLoadListener 
 
                     analyzeText(subPost.content).forEach {
                         when (it.type) {
-                            ThreadContentType.TEXT -> {
+                            TEXT -> {
                                 add(CommentTextItem(it.text))
                             }
-                            ThreadContentType.EMOJI -> {
+                            EMOJI -> {
                                 add(CommentTextItem(it.text))
                             }
-                            ThreadContentType.VIDEO -> {
+                            VIDEO -> {
                             }
-                            ThreadContentType.IMAGE -> {
+                            IMAGE -> {
                             }
-                            ThreadContentType.VOICE -> {
+                            VOICE -> {
                             }
 
                         }

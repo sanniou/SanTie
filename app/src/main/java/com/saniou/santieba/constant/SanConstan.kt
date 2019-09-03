@@ -5,6 +5,18 @@ import com.saniou.santieba.R
 val RANGE_NUMBER = 20
 
 
+val HOST = "c.tieba.baidu.com/c"
+val PORTRAIT_HOST = "http://tb.himg.baidu.com/sys/portrait/item/"
+
+val TEXT = "0"
+val LINK = "1"
+val EMOJI = "2"
+val IMAGE = "3"
+val ATME = "4"
+val VIDEO = "5"
+val PHONE = "9"
+val VOICE = "10"
+
 val EMOJI_MAP = mapOf(
     "image_emoticon" to R.drawable.image_emoticon,
     "image_emoticon2" to R.drawable.image_emoticon2,

@@ -3,8 +3,7 @@ package com.saniou.santieba.viewmodel
 import android.annotation.SuppressLint
 import androidx.databinding.ObservableField
 import com.saniou.santieba.api.TiebaRequest
-import com.saniou.santieba.constant.RANGE_NUMBER
-import com.saniou.santieba.constant.ThreadContentType
+import com.saniou.santieba.constant.*
 import com.saniou.santieba.utils.DateUtil
 import com.saniou.santieba.vo.ForumTopItem
 import com.saniou.santieba.vo.ThreadItem
@@ -63,10 +62,10 @@ class ForumMainViewModel : BaseObservableListViewModel(), OnLoadListener {
                     var postImage = ""
                     if (!thread.media.isNullOrEmpty()) {
                         when (thread.media[0].type) {
-                            ThreadContentType.IMAGE -> {
+                            IMAGE -> {
                                 postImage = thread.media[0].src_pic
                             }
-                            ThreadContentType.VOICE -> {
+                            VOICE -> {
                                 postImage =
                                     "https://apic.douyucdn.cn/upload/avatar/000/31/02/60_avatar_middle.jpg"
                             }
@@ -84,7 +83,7 @@ class ForumMainViewModel : BaseObservableListViewModel(), OnLoadListener {
                             thread.reply_num,
                             thread.abstract[0].text,
                             DateUtil.getDisplayTime(thread.create_time.toLong()),
-                            "${ThreadContentType.PORTRAIT_HOST}${thread.author.portrait}",
+                            "${PORTRAIT_HOST}${thread.author.portrait}",
                             postImage
                         )
                     )

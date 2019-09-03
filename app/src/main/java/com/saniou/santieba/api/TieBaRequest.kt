@@ -3,8 +3,7 @@ package com.saniou.santieba.api
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
 import com.saniou.santieba.api.bean.*
-import com.saniou.santieba.constant.RANGE_NUMBER
-import com.saniou.santieba.constant.ThreadContentType
+import com.saniou.santieba.constant.*
 import com.saniou.santieba.utils.DateUtil
 import com.saniou.santieba.utils.StringUtil
 import com.sanniou.common.network.BaseRequest
@@ -38,7 +37,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
 
     init {
         headers["Cookie"] = "ka=open"
-        headers["net"] = ThreadContentType.IMAGE
+        headers["net"] = IMAGE
         headers["User-Agent"] = "bdtb for Android 6.9.2.1"
         headers["Pragma"] = "no-cache"
 
@@ -101,7 +100,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
         sb2.append(StringUtils.LF)
         sb2.append(preferences.getString("little_tail", ""))
         littleTail = sb2.toString()
-        netType = ThreadContentType.LINK
+        netType = LINK
         val sb3 = StringBuilder()
         sb3.append("wappc_")
         sb3.append(DateUtil.getTimestamp())
@@ -112,7 +111,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
             clientId = UUID.randomUUID().toString().replace("-", "")
             loginInfo.put("client_id", clientId)
         }
-        clientType = ThreadContentType.EMOJI
+        clientType = EMOJI
         clientVersion = "5.7.0"
         addClientVersion = "6.9.2.1"
         newClientVersion = "8.2.2"
@@ -176,7 +175,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["_client_version"] = this.clientVersion
         hashMap["_phone_imei"] = this.imei
         hashMap["from"] = "tieba"
-        hashMap["need_post_count"] = ThreadContentType.LINK
+        hashMap["need_post_count"] = LINK
         hashMap["net_type"] = this.netType
         hashMap["timestamp"] = DateUtil.getTimestamp().toString()
         hashMap["uid"] = this.uid
@@ -212,20 +211,20 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["_client_version"] = this.clientVersion
         hashMap["_phone_imei"] = this.imei
         hashMap["from"] = "tieba"
-        if (ThreadContentType.LINK == isGood) {
+        if (LINK == isGood) {
             hashMap["is_good"] = isGood
         }
         hashMap["kw"] = name
         hashMap["net_type"] = this.netType
         hashMap["pn"] = page.toString()
-        hashMap["q_type"] = ThreadContentType.EMOJI
+        hashMap["q_type"] = EMOJI
         hashMap["rn"] = RANGE_NUMBER.toString()
-        hashMap["scr_dip"] = ThreadContentType.TEXT
-        hashMap["scr_h"] = ThreadContentType.TEXT
-        hashMap["scr_w"] = ThreadContentType.TEXT
+        hashMap["scr_dip"] = TEXT
+        hashMap["scr_h"] = TEXT
+        hashMap["scr_w"] = TEXT
         hashMap["st_type"] = "tb_forumlist"
         hashMap["timestamp"] = DateUtil.getTimestamp().toString()
-        hashMap["with_group"] = ThreadContentType.TEXT
+        hashMap["with_group"] = TEXT
         hashMap["sign"] = calsign(hashMap)
         return threadConfigWithoutMap(postPage(hashMap))
     }
@@ -242,11 +241,11 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["_client_version"] = clientVersion
         hashMap["_phone_imei"] = imei
         hashMap["from"] = "tieba"
-        hashMap["like_forum"] = ThreadContentType.LINK
+        hashMap["like_forum"] = LINK
         hashMap["net_type"] = netType
-        hashMap["recommend"] = ThreadContentType.TEXT
+        hashMap["recommend"] = TEXT
         hashMap["timestamp"] = DateUtil.getTimestamp().toString()
-        hashMap["topic"] = ThreadContentType.TEXT
+        hashMap["topic"] = TEXT
         hashMap["sign"] = calsign(hashMap)
         return threadConfigWithoutMap(getFavorite(hashMap))
     }
@@ -265,29 +264,29 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["_client_type"] = this.clientType
         hashMap["_client_version"] = this.newClientVersion
         hashMap["_phone_imei"] = this.imei
-        hashMap["back"] = ThreadContentType.TEXT
-        hashMap["floor_rn"] = ThreadContentType.IMAGE
+        hashMap["back"] = TEXT
+        hashMap["floor_rn"] = IMAGE
         hashMap["from"] = "tieba"
         hashMap["kz"] = threadId
         if (lzOnly) {
-            hashMap["lz"] = ThreadContentType.LINK
+            hashMap["lz"] = LINK
         }
         if (reverse) {
-            hashMap["last"] = ThreadContentType.LINK
-            hashMap["r"] = ThreadContentType.LINK
+            hashMap["last"] = LINK
+            hashMap["r"] = LINK
         }
-        hashMap["mark"] = ThreadContentType.TEXT
+        hashMap["mark"] = TEXT
         hashMap["net_type"] = netType
         if (pid.isNotEmpty()) {
             hashMap["pid"] = pid
         }
         hashMap["rn"] = RANGE_NUMBER.toString()
-        hashMap["scr_dip"] = ThreadContentType.TEXT
-        hashMap["scr_h"] = ThreadContentType.TEXT
-        hashMap["scr_w"] = ThreadContentType.TEXT
+        hashMap["scr_dip"] = TEXT
+        hashMap["scr_h"] = TEXT
+        hashMap["scr_w"] = TEXT
         hashMap["st_type"] = "tb_frslist"
         hashMap["timestamp"] = DateUtil.getTimestamp().toString()
-        hashMap["with_floor"] = ThreadContentType.LINK
+        hashMap["with_floor"] = LINK
         hashMap["sign"] = calsign(hashMap)
         return threadConfigWithoutMap(threadDetail(hashMap))
 

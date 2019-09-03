@@ -1,7 +1,6 @@
 package com.saniou.santieba.viewmodel
 
 import android.annotation.SuppressLint
-import com.saniou.santieba.api.TiebaAPI
 import com.saniou.santieba.api.TiebaRequest
 import com.saniou.santieba.component.MSignActivity
 import com.saniou.santieba.vo.ForumItem
