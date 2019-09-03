@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/config_white">
+
+    <ImageView
+      android:id="@+id/forumImage"
+      res="@{item.forumImage}"
+      android:layout_width="60dp"
+      android:layout_height="60dp"
+      android:layout_margin="@dimen/comment_padding"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:src="@mipmap/ic_launcher" />
+
+    <TextView
+      android:id="@+id/forumName"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="@dimen/comment_padding"
+      android:text="@{item.forumName}"
+      android:textColor="@color/majorText"
+      android:textSize="@dimen/majorText"
+      app:layout_constraintStart_toEndOf="@id/forumImage"
+      app:layout_constraintTop_toTopOf="@id/forumImage"
+      tools:text="id/forumName" />
+
+    <TextView
+      android:id="@+id/forumMember"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@{item.forumMember}"
+      android:textColor="@color/minorText"
+      android:textSize="@dimen/minorText"
+      app:layout_constraintBottom_toBottomOf="@id/forumImage"
+      app:layout_constraintStart_toStartOf="@id/forumName"
+      tools:text="id/forumMember" />
+
+    <TextView
+      android:id="@+id/forumSlogan"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/comment_padding"
+      android:layout_marginBottom="@dimen/comment_padding"
+      android:text="@{item.forumSlogan}"
+      android:textColor="@color/minorText"
+      android:textSize="@dimen/minorText"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="@id/forumImage"
+      app:layout_constraintTop_toBottomOf="@id/forumImage"
+      tools:text="item.forumSlogan}" />
+
+
+    <TextView
+      android:id="@+id/forumLike"
+      backgroundStroke="@{item.strokeColor}"
+      backgroundStrokeWidthDP="@{1}"
+      visible="@{item.isLike}"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="@dimen/comment_padding"
+      android:text="关注"
+      android:textColor="@color/normalText"
+      android:textSize="@dimen/normalText"
+      app:layout_constraintBottom_toBottomOf="@id/forumImage"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="@id/forumImage"
+      tools:text="id/forumLike" />
+
+    <TextView
+      android:id="@+id/forumSignCount"
+      backgroundStroke="@{item.strokeColor}"
+      backgroundStrokeWidthDP="@{1}"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:onClick="@{v->item.signIn()}"
+      android:text="@{item.signInStr}"
+      android:textColor="@color/minorText"
+      android:textSize="@dimen/minorText"
+      app:layout_constraintBottom_toTopOf="@id/forumLevel"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_chainStyle="packed"
+      tools:text="id/forumLevel" />
+
+    <TextView
+      android:id="@+id/forumLevel"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:text="@{item.forumLevel}"
+      android:textColor="@color/minorText"
+      android:textSize="@dimen/minorText"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="@id/forumSignCount"
+      app:layout_constraintTop_toBottomOf="@id/forumSignCount"
+      tools:text="id/forumSignCount" />
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+  <data>
+
+    <variable
+      name="item"
+      type="com.saniou.santieba.vo.ForumTopItem" />
+  </data>
+</layout>

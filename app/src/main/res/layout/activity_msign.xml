@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.saniou.santieba.viewmodel.MsignViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".component.MSignActivity">
+
+        <TextView
+            android:id="@+id/msign_msg"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:background="#393f56"
+            android:gravity="bottom|center"
+            android:paddingBottom="10dp"
+            android:text="每日签到最佳时间 9:00-16:00、19:00-22:00"
+            android:textColor="#586376"
+            app:layout_constraintTop_toBottomOf="@id/msign_top" />
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:onClick="@{v->viewModel.msign()}"
+            android:src="@mipmap/ic_launcher_round"
+            app:layout_constraintEnd_toEndOf="@id/msign_msg"
+            app:layout_constraintStart_toStartOf="@id/msign_msg"
+            app:layout_constraintTop_toTopOf="@id/msign_msg" />
+
+        <TextView
+            android:id="@+id/msign_msg2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="7级以上的贴吧"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/msign_msg" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/minorText"
+            app:layout_constraintTop_toBottomOf="@id/msign_msg2" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            data="@{viewModel.list}"
+            dividerColor="@{@color/minorText}"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/msign_msg2" />
+
+        <com.sanniou.common.widget.TitleView
+            android:id="@+id/msign_top"
+            style="@style/Title.onBack"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:titleText="贴吧签到" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

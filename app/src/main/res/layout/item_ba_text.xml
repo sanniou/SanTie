@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+  <data>
+    <variable
+      name="item"
+      type="com.saniou.santieba.vo.ForumItem"/>
+  </data>
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:background="@color/config_white"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="签"
+      android:textColor="@{item.signColor}"/>
+    <TextView
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:gravity="center"
+      android:text="@{item.name}"
+      tools:text="name"/>
+    <TextView
+      backgroundColorRes="@{item.levelColor}"
+      backgroundRadius="@{item.radius}"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@{item.level}"
+      tools:text="lv21"/>
+  </LinearLayout>
+</layout>

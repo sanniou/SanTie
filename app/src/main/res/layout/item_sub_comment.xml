@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+  <data>
+    <variable
+      name="item"
+      type="com.saniou.santieba.vo.SubCommentItem"/>
+  </data>
+
+  <FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/config_white"
+    >
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="@dimen/comment_start"
+      android:padding="@dimen/comment_padding"
+      android:background="@color/subComment"
+      android:text="@{item.showText}"
+      android:textColor="@color/normalText"/>
+  </FrameLayout>
+</layout>

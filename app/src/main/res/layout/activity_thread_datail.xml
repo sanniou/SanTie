@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="clickListener"
+            type="com.sanniou.common.widget.recyclerview.OnItemClickListener" />
+
+        <variable
+            name="viewModel"
+            type="com.saniou.santieba.viewmodel.ThreadDetailViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroundColor"
+        android:orientation="vertical">
+
+        <com.sanniou.common.widget.TitleView
+            style="@style/Title.onBack"
+            app:titleText="@{viewModel.forumName }" />
+
+        <com.sanniou.common.widget.swiper.LSwipeRefreshLayout
+            android:id="@+id/refresh"
+            onRefresh="@{viewModel::init}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                data="@{viewModel.list}"
+                itemClick="@{clickListener}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/config_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/forumImage" />
+        </com.sanniou.common.widget.swiper.LSwipeRefreshLayout>
+    </LinearLayout>
+</layout>

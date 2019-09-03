@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.saniou.santieba.vo.ThreadItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/config_white"
+        android:onClickListener="@{item::onClick}"
+        android:padding="@dimen/comment_padding">
+
+        <ImageView
+            android:id="@+id/poster_avatar"
+            circle="@{true}"
+            res="@{item.avatar}"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/poster_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.time}"
+            android:textColor="@color/minorText"
+            android:textSize="@dimen/minorText"
+            app:layout_constraintBottom_toBottomOf="@+id/poster_avatar"
+            app:layout_constraintStart_toStartOf="@+id/poster_name"
+            tools:text="10:33" />
+
+        <TextView
+            android:id="@+id/poster_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@{item.posterName}"
+            android:textColor="@color/majorText"
+            android:textSize="@dimen/majorText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/poster_avatar"
+            app:layout_constraintTop_toTopOf="@+id/poster_avatar"
+            tools:text="name" />
+
+        <TextView
+            android:id="@+id/post_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{item.showTitle}"
+            android:textColor="@color/majorText"
+            android:textSize="@dimen/majorText"
+            app:layout_constraintEnd_toEndOf="@+id/poster_name"
+            app:layout_constraintStart_toStartOf="@+id/poster_avatar"
+            app:layout_constraintTop_toBottomOf="@+id/poster_avatar"
+            tools:text="titletitletitletitletitletitletitletitletitle" />
+
+        <TextView
+            android:id="@+id/post_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:text="@{item.content}"
+            android:textColor="@color/normalText"
+            android:textSize="@dimen/normalText"
+            app:layout_constraintEnd_toEndOf="@+id/post_title"
+            app:layout_constraintStart_toStartOf="@+id/post_title"
+            app:layout_constraintTop_toBottomOf="@id/post_title"
+            tools:text="contentcontentcontentcontentcontent" />
+
+        <ImageView
+            android:id="@+id/post_image"
+            res="@{item.postImage}"
+            visible="@{!item.postImage.isEmpty()}"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="@id/post_content"
+            app:layout_constraintStart_toStartOf="@id/post_content"
+            app:layout_constraintTop_toBottomOf="@id/post_content"
+            tools:src="@mipmap/ic_launcher" />
+
+        <ImageView
+            android:id="@+id/post_read_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintBottom_toBottomOf="@id/post_read_count"
+            app:layout_constraintEnd_toStartOf="@id/post_read_count"
+            app:layout_constraintTop_toTopOf="@id/post_read_count" />
+
+        <TextView
+            android:id="@+id/post_read_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="4dp"
+            android:text="@{item.readCount}"
+            android:textColor="@color/minorText"
+            android:textSize="@dimen/minorText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/post_image"
+            tools:text="432" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

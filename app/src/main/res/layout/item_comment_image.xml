@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.saniou.santieba.vo.CommentImageItem" />
+    </data>
+
+    <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+        res="@{item.image}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@{item.first?@dimen/comment_padding:@dimen/comment_start}"
+        android:paddingTop="@dimen/comment_padding"
+        android:paddingEnd="@dimen/comment_padding"
+        android:paddingBottom="@dimen/comment_padding">
+
+    </ImageView>
+</layout>
