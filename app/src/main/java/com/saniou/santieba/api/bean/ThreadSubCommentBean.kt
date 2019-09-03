@@ -1,16 +1,5 @@
 package com.saniou.santieba.api.bean
 
-data class ThreadSubComment(
-    val anti: Anti,
-    val display_forum: DisplayForum,
-    val error_code: String,
-    val page: Page,
-    val post: Post2,
-    val server_time: String,
-    val subpost_list: List<Subpost>,
-    val thread: Thread6,
-    val time: Int
-)
 
 
 data class Post2(

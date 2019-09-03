@@ -1,8 +1,10 @@
 package com.saniou.santieba
 
+import androidx.databinding.ObservableArrayList
 import org.junit.Test
 
 import org.junit.Assert.*
+import java.util.ArrayList
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -12,6 +14,14 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+        val a =ObservableArrayList<Int>()
+        a.add(1)
+        a.add(2)
+        a.add(3)
+        a.add(4)
+
+
+        a.removeAll(a.subList(0,2))
+        println(a.size)
     }
 }

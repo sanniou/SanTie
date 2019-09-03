@@ -1,34 +1,6 @@
 package com.saniou.santieba.api.bean
 
-data class ThreadProfile(
-    val anti: Anti,
-    val asp_shown_info: String,
-    val bottle: Bottle,
-    val ctime: Int,
-    val error_code: String,
-    val filter_swan_thread: String,
-    val fortune_bag: String,
-    val fortune_desc: String,
-    val forum: Forum,
-    val frs_star: FrsStar,
-    val frs_tab_default: String,
-    val frs_tab_info: List<FrsTabInfo>,
-    val game_default_tab_id: String,
-    val gcon_account: GconAccount,
-    val is_new_url: String,
-    val need_log: String,
-    val page: Page,
-    val partial_visible_toast: String,
-    val private_forum_active_info: PrivateForumActiveInfo,
-    val server_time: String,
-    val sort_type: String,
-    val thread_list: List<Thread>,
-    val time: Int,
-    val twzhibo_pos: String,
-    val user: User,
-    val user_extend: UserExtend,
-    val video_auto_play: String
-)
+
 
 data class Thread(
     val `abstract`: List<Abstract>,

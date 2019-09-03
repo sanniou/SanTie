@@ -6,30 +6,7 @@ import com.google.gson.JsonElement
 import com.sanniou.common.helper.JsonUtils
 import java.lang.reflect.Type
 
-data class ThreadDetail(
-    val anti: Anti,
-    val banner_list: BannerList,
-    val ctime: Int,
-    val display_forum: DisplayForum,
-    val error_code: String,
-    val fold_tip: String,
-    val forum: Forum3,
-    val has_floor: String,
-    val is_new_url: String,
-    val news_info: List<Any>,
-    val page: Page,
-    val partial_visible_toast: String,
-    val pb_sort_info: List<PbSortInfo>,
-    val post_list: List<Post>,
-    val server_time: String,
-    val sort_type: String,
-    val switch_read_open: String,
-    val thread: Thread2,
-    val thread_topic: List<ThreadTopic>,
-    val time: Int,
-    val user: User2,
-    val user_list: List<UserXX>
-)
+
 
 data class User2(
     val agree_num: String,

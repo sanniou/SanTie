@@ -148,6 +148,7 @@ class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
                 add(loadMoreItem)
                 loadMoreItem.loadSuccess(threadDetail.post_list.size == threadDetail.page.page_size)
                 updateUi(0)
+                items
             }
     }
 }

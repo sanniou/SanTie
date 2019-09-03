@@ -10,7 +10,7 @@ import java.util.*
 interface TiebaService {
     @POST("c/forum/sign")
     @FormUrlEncoded
-    fun sign(@FieldMap params: Map<String, String>): Observable<Objects>
+    fun sign(@FieldMap params: Map<String, String>): Observable<TieResponse>
 
     @POST("f/forum/getforumlist")
     @FormUrlEncoded
@@ -18,11 +18,11 @@ interface TiebaService {
 
     @POST("c/forum/msign")
     @FormUrlEncoded
-    fun msign(@FieldMap params: Map<String, String>): Observable<Objects>
+    fun msign(@FieldMap params: Map<String, String>): Observable<TieResponse>
 
     @POST("u/user/profile")
     @FormUrlEncoded
-    fun profile(@FieldMap params: Map<String, String>): Observable<String>
+    fun profile(@FieldMap params: Map<String, String>): Observable<UserProfile>
 
     @POST("f/frs/page")
     @FormUrlEncoded

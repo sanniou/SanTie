@@ -19,12 +19,8 @@ class MainViewModel : BaseObservableListViewModel() {
         clear()
         TiebaRequest.profile()
             .flatMap {
-                val jSONObject = JSONObject(it)
-                val jSONObject2 = jSONObject.getJSONObject("anti")
-                val jSONObject3 = jSONObject.getJSONObject("user")
-                val tbs = jSONObject2.getString("tbs")
                 val loginInfo = SPUtils.getInstance("login_info")
-                loginInfo.put("tbs", tbs)
+                loginInfo.put("tbs", it.anti.tbs)
                 TiebaRequest.reset()
                 TiebaRequest.getFavorite()
             }

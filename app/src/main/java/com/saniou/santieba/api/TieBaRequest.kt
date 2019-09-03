@@ -8,9 +8,17 @@ import com.saniou.santieba.utils.DateUtil
 import com.saniou.santieba.utils.StringUtil
 import com.sanniou.common.network.BaseRequest
 import com.sanniou.common.network.CommonRetrofit
+import com.sanniou.common.network.ResponseMapper
+import com.sanniou.common.network.exception.ApiErrorException
+import com.sanniou.common.network.response.BaseResponse
 import com.sanniou.common.utilcode.util.AppUtils
 import com.sanniou.common.utilcode.util.SPUtils
 import io.reactivex.Observable
+import io.reactivex.ObservableSource
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.annotations.NonNull
+import io.reactivex.functions.Function
+import io.reactivex.schedulers.Schedulers
 import org.apache.commons.lang3.StringUtils
 import retrofit2.http.FieldMap
 import java.util.*
@@ -131,7 +139,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
 
     override fun msign(params: Map<String, String>) = tiebaService.msign(params)
 
-    fun msing(forumIds: String): Observable<Objects> {
+    fun msing(forumIds: String): Observable<TieResponse> {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
@@ -145,7 +153,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["timestamp"] = DateUtil.getTimestamp().toString()
         hashMap["user_id"] = this.uid
         hashMap["sign"] = calsign(hashMap)
-        return threadConfigWithoutMap(msign(hashMap))
+        return threadTieConfig(msign(hashMap))
     }
 
     override fun getforumlist(params: Map<String, String>) = tiebaService.getforumlist(params)
@@ -162,12 +170,12 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["timestamp"] = DateUtil.getTimestamp().toString()
         hashMap["user_id"] = this.uid
         hashMap["sign"] = calsign(hashMap)
-        return threadConfigWithoutMap(getforumlist(hashMap))
+        return threadTieConfig(getforumlist(hashMap))
     }
 
     override fun profile(params: Map<String, String>) = tiebaService.profile(params)
 
-    fun profile(): Observable<String> {
+    fun profile(): Observable<UserProfile> {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
@@ -180,12 +188,12 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["timestamp"] = DateUtil.getTimestamp().toString()
         hashMap["uid"] = this.uid
         hashMap["sign"] = calsign(hashMap)
-        return threadConfigWithoutMap(profile(hashMap))
+        return threadTieConfig(profile(hashMap))
     }
 
     override fun sign(params: Map<String, String>) = tiebaService.sign(params)
 
-    fun sign(name: String): Observable<Objects> {
+    fun sign(name: String): Observable<TieResponse> {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
@@ -198,7 +206,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["tbs"] = this.tbs
         hashMap["timestamp"] = DateUtil.getTimestamp().toString()
         hashMap["sign"] = calsign(hashMap)
-        return threadConfigWithoutMap(sign(hashMap))
+        return threadTieConfig(sign(hashMap))
     }
 
     override fun postPage(params: Map<String, String>) = tiebaService.postPage(params)
@@ -226,7 +234,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["timestamp"] = DateUtil.getTimestamp().toString()
         hashMap["with_group"] = TEXT
         hashMap["sign"] = calsign(hashMap)
-        return threadConfigWithoutMap(postPage(hashMap))
+        return threadTieConfig(postPage(hashMap))
     }
 
     override fun getFavorite(@FieldMap params: Map<String, String>): Observable<Forum2> {
@@ -247,7 +255,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["timestamp"] = DateUtil.getTimestamp().toString()
         hashMap["topic"] = TEXT
         hashMap["sign"] = calsign(hashMap)
-        return threadConfigWithoutMap(getFavorite(hashMap))
+        return threadTieConfig(getFavorite(hashMap))
     }
 
     override fun threadDetail(params: Map<String, String>) = tiebaService.threadDetail(params)
@@ -288,7 +296,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["timestamp"] = DateUtil.getTimestamp().toString()
         hashMap["with_floor"] = LINK
         hashMap["sign"] = calsign(hashMap)
-        return threadConfigWithoutMap(threadDetail(hashMap))
+        return threadTieConfig(threadDetail(hashMap))
 
     }
 
@@ -319,7 +327,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
         }
         hashMap["timestamp"] = DateUtil.getTimestamp().toString()
         hashMap["sign"] = calsign(hashMap)
-        return threadConfigWithoutMap(getSubFloor(hashMap))
+        return threadTieConfig(getSubFloor(hashMap))
 
     }
 
@@ -335,6 +343,34 @@ object TiebaRequest : TiebaService, BaseRequest() {
     fun reset() {
         val loginInfo = SPUtils.getInstance("login_info")
         tbs = loginInfo.getString("tbs")
+    }
+
+    fun <T : TieResponse> threadTieConfig(request: Observable<T>): Observable<T> {
+        return request.observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .concatMap(TieResponseMapper())
+    }
+
+
+    class TieResponseMapper<T : TieResponse> : Function<T, ObservableSource<T>> {
+
+        override fun apply(t: T): ObservableSource<T> {
+            //error code 不为0 ，将 error message 作为异常信息抛出
+            val resultCode = t.getErrorCode()
+            if (!mAllowedCode.contains(resultCode)) {
+                return Observable
+                    .error(ApiErrorException(resultCode, t.getErrorMessage()))
+            }
+            return Observable.just(t)
+        }
+
+
+        private val mAllowedCode = ArrayList<Int>()
+
+        init {
+            mAllowedCode.add(CODE_SUCCESS)
+        }
+
     }
 
 

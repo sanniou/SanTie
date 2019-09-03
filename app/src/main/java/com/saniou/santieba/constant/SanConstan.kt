@@ -3,7 +3,7 @@ package com.saniou.santieba.constant
 import com.saniou.santieba.R
 
 val RANGE_NUMBER = 20
-
+val CODE_SUCCESS=0
 
 val HOST = "c.tieba.baidu.com/c"
 val PORTRAIT_HOST = "http://tb.himg.baidu.com/sys/portrait/item/"
