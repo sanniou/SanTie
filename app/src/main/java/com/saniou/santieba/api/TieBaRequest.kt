@@ -43,7 +43,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
 
     init {
         headers["Cookie"] = "ka=open"
-        headers["net"] = IMAGE
+        headers["net"] = "3"
         headers["User-Agent"] = "bdtb for Android 6.9.2.1"
         headers["Pragma"] = "no-cache"
 
@@ -181,7 +181,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["_client_version"] = this.clientVersion
         hashMap["_phone_imei"] = this.imei
         hashMap["from"] = "tieba"
-        hashMap["need_post_count"] = LINK
+        hashMap["need_post_count"] = BOOLEAN_TRUE
         hashMap["net_type"] = this.netType
         hashMap["timestamp"] = DateUtil.getTimestamp().toString()
         hashMap["uid"] = this.uid
@@ -217,20 +217,20 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["_client_version"] = this.clientVersion
         hashMap["_phone_imei"] = this.imei
         hashMap["from"] = "tieba"
-        if (LINK == isGood) {
+        if (BOOLEAN_TRUE == isGood) {
             hashMap["is_good"] = isGood
         }
         hashMap["kw"] = name
         hashMap["net_type"] = this.netType
         hashMap["pn"] = page.toString()
-        hashMap["q_type"] = EMOJI
+        hashMap["q_type"] = "2"
         hashMap["rn"] = RANGE_NUMBER.toString()
-        hashMap["scr_dip"] = TEXT
-        hashMap["scr_h"] = TEXT
-        hashMap["scr_w"] = TEXT
+        hashMap["scr_dip"] = NO_VALUE
+        hashMap["scr_h"] = NO_VALUE
+        hashMap["scr_w"] = NO_VALUE
         hashMap["st_type"] = "tb_forumlist"
         hashMap["timestamp"] = DateUtil.getTimestamp().toString()
-        hashMap["with_group"] = TEXT
+        hashMap["with_group"] = NO_VALUE
         hashMap["sign"] = calsign(hashMap)
         return threadTieConfig(postPage(hashMap))
     }
@@ -247,11 +247,11 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["_client_version"] = clientVersion
         hashMap["_phone_imei"] = imei
         hashMap["from"] = "tieba"
-        hashMap["like_forum"] = LINK
+        hashMap["like_forum"] = BOOLEAN_TRUE
         hashMap["net_type"] = netType
-        hashMap["recommend"] = TEXT
+        hashMap["recommend"] = NO_VALUE
         hashMap["timestamp"] = DateUtil.getTimestamp().toString()
-        hashMap["topic"] = TEXT
+        hashMap["topic"] = NO_VALUE
         hashMap["sign"] = calsign(hashMap)
         return threadTieConfig(getFavorite(hashMap))
     }
@@ -270,29 +270,29 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["_client_type"] = this.clientType
         hashMap["_client_version"] = this.newClientVersion
         hashMap["_phone_imei"] = this.imei
-        hashMap["back"] = TEXT
-        hashMap["floor_rn"] = IMAGE
+        hashMap["back"] = NO_VALUE
+        hashMap["floor_rn"] = "3"
         hashMap["from"] = "tieba"
         hashMap["kz"] = threadId
         if (lzOnly) {
-            hashMap["lz"] = LINK
+            hashMap["lz"] = BOOLEAN_TRUE
         }
         if (reverse) {
-            hashMap["last"] = LINK
-            hashMap["r"] = LINK
+            hashMap["last"] = BOOLEAN_TRUE
+            hashMap["r"] = BOOLEAN_TRUE
         }
-        hashMap["mark"] = TEXT
+        hashMap["mark"] = NO_VALUE
         hashMap["net_type"] = netType
         if (pid.isNotEmpty()) {
             hashMap["pid"] = pid
         }
         hashMap["rn"] = RANGE_NUMBER.toString()
-        hashMap["scr_dip"] = TEXT
-        hashMap["scr_h"] = TEXT
-        hashMap["scr_w"] = TEXT
+        hashMap["scr_dip"] = NO_VALUE
+        hashMap["scr_h"] = NO_VALUE
+        hashMap["scr_w"] = NO_VALUE
         hashMap["st_type"] = "tb_frslist"
         hashMap["timestamp"] = DateUtil.getTimestamp().toString()
-        hashMap["with_floor"] = LINK
+        hashMap["with_floor"] = BOOLEAN_TRUE
         hashMap["sign"] = calsign(hashMap)
         return threadTieConfig(threadDetail(hashMap))
 
@@ -353,7 +353,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
 
 
     fun addStore(tid: String, pid: String): Observable<StatusResponse> {
-        val dataBeanX = DataBean.DataBeanX(pid, TEXT, tid, TEXT)
+        val dataBeanX = DataDTO(pid, NO_VALUE, tid, NO_VALUE)
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId

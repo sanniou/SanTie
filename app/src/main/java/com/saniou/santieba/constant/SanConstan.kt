@@ -2,21 +2,29 @@ package com.saniou.santieba.constant
 
 import com.saniou.santieba.R
 
-val RANGE_NUMBER = 20
-val CODE_SUCCESS=0
 
-val HOST = "c.tieba.baidu.com/c"
-val PORTRAIT_HOST = "http://tb.himg.baidu.com/sys/portrait/item/"
-val TIEBA_HOST = "https://tieba.baidu.com/p/"
+const val BOOLEAN_TRUE = "1"
+const val NO_VALUE = "0"
 
-val TEXT = "0"
-val LINK = "1"
-val EMOJI = "2"
-val IMAGE = "3"
-val ATME = "4"
-val VIDEO = "5"
-val PHONE = "9"
-val VOICE = "10"
+const val RANGE_NUMBER = 20
+const val CODE_SUCCESS = 0
+
+const val HOST = "c.tieba.baidu.com/c"
+const val PORTRAIT_HOST = "http://tb.himg.baidu.com/sys/portrait/item/"
+const val TIEBA_HOST = "https://tieba.baidu.com/p/"
+
+const val THREAD_SCHEME = "tbpb"
+const val FORUM_SCHEME = "tbfrs"
+const val THREAD_URL = "tbpb://tieba.baidu.com/"
+
+const val TEXT = "0"
+const val LINK = "1"
+const val EMOJI = "2"
+const val IMAGE = "3"
+const val ATME = "4"
+const val VIDEO = "5"
+const val PHONE = "9"
+const val VOICE = "10"
 
 val EMOJI_MAP = mapOf(
     "image_emoticon" to R.drawable.image_emoticon,

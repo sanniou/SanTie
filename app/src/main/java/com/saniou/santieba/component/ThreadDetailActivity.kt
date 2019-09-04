@@ -7,11 +7,14 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.Observer
 import com.saniou.santieba.R
+import com.saniou.santieba.constant.THREAD_SCHEME
+import com.saniou.santieba.constant.THREAD_URL
 import com.saniou.santieba.constant.TIEBA_HOST
 import com.saniou.santieba.databinding.ActivityThreadDatailBinding
-import com.saniou.santieba.kts.*
+import com.saniou.santieba.kts.getViewModel
+import com.saniou.santieba.kts.setDataBindingContentView
+import com.saniou.santieba.kts.tintDrawable
 import com.saniou.santieba.viewmodel.ThreadDetailViewModel
-import com.saniou.santieba.vo.ForumItem
 import com.saniou.santieba.vo.SubCommentItem
 import com.sanniou.common.utilcode.subutil.ClipboardUtils
 import com.sanniou.common.utilcode.util.IntentUtils
@@ -85,11 +88,11 @@ class ThreadDetailActivity : SanBaseActivity() {
     }
 
     private fun tiebaLinkFilter() {
-        if ("android.intent.action.VIEW" == intent.action) {
-            if ("tbpb" == intent.scheme) {
+        if (Intent.ACTION_DEFAULT == intent.action) {
+            if (THREAD_SCHEME == intent.scheme) {
                 fromSide = true
                 val uri = intent.data!!.toString()
-                if (uri.startsWith("tbpb://tieba.baidu.com/")) {
+                if (uri.startsWith(THREAD_URL)) {
                     intent.putExtra("tid", uri.replace(".*tid=(\\d*)".toRegex(), "$1"))
                 }
             }

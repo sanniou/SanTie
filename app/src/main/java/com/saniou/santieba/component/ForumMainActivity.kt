@@ -1,8 +1,10 @@
 package com.saniou.santieba.component
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.saniou.santieba.R
+import com.saniou.santieba.constant.FORUM_SCHEME
 import com.saniou.santieba.databinding.ActivityForumMainBinding
 import com.saniou.santieba.kts.getViewModel
 import com.saniou.santieba.kts.setDataBindingContentView
@@ -47,8 +49,8 @@ class ForumMainActivity : SanBaseActivity() {
 
     private fun tiebaLinkFilter() {
         val intent = intent
-        if ("android.intent.action.VIEW" == intent.action) {
-            if ("tbfrs" == intent.scheme) {
+        if (Intent.ACTION_DEFAULT == intent.action) {
+            if (FORUM_SCHEME == intent.scheme) {
                 val decode = URLDecoder.decode(intent.data!!.toString(), "UTF-8")
                 intent.putExtra(
                     "forum_name",

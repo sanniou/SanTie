@@ -239,13 +239,10 @@ data class ThemeProfile(
     val pattern_image: String
 )
 
-data class DataBean(
-    val dataBeanXes: List<DataBeanX>
-) {
-    data class DataBeanX(
-        val pid: String,
-        val status: String,
-        val tid: String,
-        val type: String
-    )
-}
+
+data class DataDTO(
+    val pid: String,
+    val status: String,
+    val tid: String,
+    val type: String
+)
