@@ -9,6 +9,9 @@ import com.saniou.santieba.vo.ForumTopItem
 import com.saniou.santieba.vo.ThreadItem
 import com.sanniou.common.databinding.BaseObservableListViewModel
 import com.sanniou.common.helper.ListUtil
+import com.sanniou.common.network.exception.ExceptionEngine
+import com.sanniou.common.utilcode.util.ThrowableUtils
+import com.sanniou.common.utilcode.util.ToastUtils
 import com.sanniou.common.vo.LoadCallBack
 import com.sanniou.common.vo.LoadMoreItem
 import com.sanniou.common.vo.OnLoadListener
@@ -37,7 +40,7 @@ class ForumMainViewModel : BaseObservableListViewModel(), OnLoadListener {
     fun requestPosts(page: Int) {
         TiebaRequest.postPage(name, page)
             .`as`(bindLifeEvent())
-            .subscribe { threadProfile ->
+            .subscribe({ threadProfile ->
                 mPage++
                 val forum = threadProfile.forum
                 forumName.set(forum.name)
@@ -90,8 +93,12 @@ class ForumMainViewModel : BaseObservableListViewModel(), OnLoadListener {
                 }
 
                 add(loadMoreItem)
-                loadMoreItem.loadSuccess(threadProfile.thread_list.size == threadProfile.page.page_size)
+                loadMoreItem.loadSuccess(threadProfile.thread_list.isNotEmpty())
                 updateUi(0)
+            }) {
+                ToastUtils.showShort(ExceptionEngine.handleMessage(it))
+                loadMoreItem.loadFailed()
+                updateUi(1)
             }
     }
 

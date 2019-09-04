@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -16,11 +17,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/backgroundColor"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:context="com.saniou.santieba.component.ThreadDetailActivity">
 
-        <com.sanniou.common.widget.TitleView
-            style="@style/Title.onBack"
-            app:titleText="@{viewModel.forumName }" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_title_background"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:popupTheme="@style/ToolbarTheme"
+            app:title="@{viewModel.forumName,default=title}" />
+
 
         <com.sanniou.common.widget.swiper.LSwipeRefreshLayout
             android:id="@+id/refresh"

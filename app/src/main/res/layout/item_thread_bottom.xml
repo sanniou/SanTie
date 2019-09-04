@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.saniou.santieba.vo.ThreadBottomItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/comment_padding">
+
+        <ImageView
+            android:id="@+id/thread_star"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:visibility="gone"
+            android:layout_marginEnd="@dimen/comment_padding"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintBottom_toBottomOf="@id/thread_replay"
+            app:layout_constraintEnd_toStartOf="@id/thread_replay"
+            app:layout_constraintTop_toTopOf="@id/thread_replay" />
+
+        <ImageView
+            android:id="@+id/thread_replay"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icon_comment"
+            app:layout_constraintEnd_toStartOf="@id/thread_replay_counts"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/thread_replay_counts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(item.replayCounts), default=my_default}"
+            android:textColor="@color/normalText"
+            app:layout_constraintBottom_toBottomOf="@id/thread_replay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/thread_replay" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

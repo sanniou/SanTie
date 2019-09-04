@@ -2,6 +2,8 @@ package com.saniou.santieba.kts
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import androidx.annotation.NonNull
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -21,3 +23,8 @@ fun <T : ViewDataBinding> Activity.setDataBindingContentView(layout: Int) =
     DataBindingUtil.setContentView<T>(this, layout)
 
 fun Any.isEmpty() = ObjectUtils.isEmpty(this)
+
+fun Drawable.tintDrawable(i: Int): Drawable {
+    this.mutate().setColorFilter(i, PorterDuff.Mode.SRC_ATOP)
+    return this
+}

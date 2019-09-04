@@ -11,18 +11,21 @@ import com.saniou.santieba.utils.analyzeText
 import com.saniou.santieba.vo.*
 import com.sanniou.common.databinding.BaseObservableListViewModel
 import com.sanniou.common.helper.ListUtil
-import com.sanniou.common.utilcode.util.ColorUtils
-import com.sanniou.common.utilcode.util.ResourcesUtils
-import com.sanniou.common.utilcode.util.SizeUtils
-import com.sanniou.common.utilcode.util.SpanUtils
+import com.sanniou.common.network.exception.ExceptionEngine
+import com.sanniou.common.utilcode.util.*
 import com.sanniou.common.vo.LoadCallBack
 import com.sanniou.common.vo.LoadMoreItem
 import com.sanniou.common.vo.OnLoadListener
 
+@SuppressLint("CheckResult")
 class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
+
+    var lzOly = false
+    private var store = false
+    var reverse = false
     var tid = ""
     private var mPid = ""
-    var forumName = ObservableField<String>()
+    var forumName = ObservableField("")
     private val loadMoreItem = LoadMoreItem(this)
 
     override fun onLoad(callBack: LoadCallBack): Boolean {
@@ -37,13 +40,17 @@ class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
         add(loadMoreItem)
     }
 
-    @SuppressLint("CheckResult")
     fun requestPosts(pid: String) {
-        TiebaRequest.threadDetail(tid, pid)
+        TiebaRequest.threadDetail(tid, pid, lzOly, reverse)
             .`as`(bindLifeEvent())
-            .subscribe { threadDetail ->
+            .subscribe({ threadDetail ->
                 ListUtil.removeLast(items)
                 forumName.set(threadDetail.forum.name)
+                store = threadDetail.thread.collect_status == 1
+                if (store) {
+                    updateUi(3)
+                }
+
                 // 用户列表
                 val treadId = threadDetail.thread.id
                 val userMap = mutableMapOf<String, UserXX>()
@@ -54,9 +61,9 @@ class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
                     add(ThreadTitleItem(threadDetail.thread.title))
                 }
 
-                var first = pid.isEmpty()
                 //帖子列表
                 threadDetail.post_list.forEach { post ->
+                    val first = post.floor == 1
 
                     if (mPid == post.id) {
                         return@forEach
@@ -66,7 +73,8 @@ class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
                     // 帖头
                     add(
                         ThreadCommentItem(
-                            "${PORTRAIT_HOST}${currentUser?.portrait}",
+                            post.floor,
+                            "$PORTRAIT_HOST${currentUser?.portrait}",
                             "${currentUser?.name_show}(${currentUser?.name})",
                             currentUser?.level_id ?: "0",
                             DateUtil.getDisplayTime(post.time.toLong())
@@ -120,12 +128,15 @@ class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
                         }
                     }
                     if (first) {
+                        add(ThreadBottomItem(threadDetail.thread.id, threadDetail.thread.reply_num))
                         add(
                             DividerItem(
                                 SizeUtils.dp2px(4F),
                                 ResourcesUtils.getColor(R.color.backgroundColor)
                             )
                         )
+
+
                     } else {
                         add(
                             DividerItem(
@@ -142,13 +153,52 @@ class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
                             )
                         )
                     }
-                    first = false
                     mPid = post.id
                 }
                 add(loadMoreItem)
-                loadMoreItem.loadSuccess(threadDetail.post_list.size == threadDetail.page.page_size)
+                loadMoreItem.loadSuccess(threadDetail.post_list.isNotEmpty() && !(threadDetail.post_list.size == 1 && mPid.isNotEmpty()))
                 updateUi(0)
                 items
+            }) {
+                ToastUtils.showShort(ExceptionEngine.handleMessage(it))
+                loadMoreItem.loadFailed()
+                updateUi(1)
             }
+    }
+
+    private fun addStore() {
+        TiebaRequest.addStore(tid, mPid)
+            .`as`(bindLifeEvent())
+            .subscribe({
+                ToastUtils.showShort("收藏成功")
+                updateUi(3)
+                store = !store
+            }) {
+                ToastUtils.showShort(ExceptionEngine.handleMessage(it))
+                updateUi(4)
+            }
+
+    }
+
+    private fun rmStore() {
+        TiebaRequest.rmStore(tid)
+            .`as`(bindLifeEvent())
+            .subscribe({
+                ToastUtils.showShort("取消收藏成功")
+                updateUi(4)
+                store = !store
+            }) {
+                ToastUtils.showShort(ExceptionEngine.handleMessage(it))
+                updateUi(3)
+            }
+
+    }
+
+    fun changeStore() {
+        if (store) {
+            rmStore()
+        } else {
+            addStore()
+        }
     }
 }

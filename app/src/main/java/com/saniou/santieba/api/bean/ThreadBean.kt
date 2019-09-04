@@ -449,13 +449,6 @@ data class ManagerX(
 )
 
 
-data class PrivSets(
-    val group: String,
-    val like: String,
-    val live: String,
-    val post: String
-)
-
 data class Lbs(
     val lat: String,
     val lng: String,

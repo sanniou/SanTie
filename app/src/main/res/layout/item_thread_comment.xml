@@ -63,7 +63,18 @@
             android:layout_height="20dp"
             android:layout_marginEnd="8dp"
             android:src="@mipmap/ic_launcher"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/comment_level" />
+
+        <TextView
+            android:id="@+id/comment_floor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.floor+@string/floor,default=123}"
+            android:textColor="@color/majorText"
+            android:textSize="@dimen/majorText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

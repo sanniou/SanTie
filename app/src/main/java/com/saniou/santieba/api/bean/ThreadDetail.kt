@@ -7,7 +7,6 @@ import com.sanniou.common.helper.JsonUtils
 import java.lang.reflect.Type
 
 
-
 data class User2(
     val agree_num: String,
     val bawu_type: String,
@@ -63,7 +62,7 @@ data class Forum3(
 data class Thread2(
     val author: Author2,
     val collect_mark_pid: String,
-    val collect_status: String,
+    val collect_status: Int,
     val create_time: String,
     val id: String,
     val is_activity: String,
@@ -75,7 +74,7 @@ data class Thread2(
     val no_smart_pb: String,
     val pids: String,
     val post_id: String,
-    val reply_num: String,
+    val reply_num: Int,
     val repost_num: String,
     val share_num: String,
     val t_share_img: String,
@@ -104,7 +103,6 @@ data class Author2(
     val name_show: String,
     val new_tshow_icon: List<NewTshowIcon>,
     val portrait: String,
-    val priv_sets: PrivSets,
     val seal_prefix: String,
     val thread_num: String,
     val tshow_icon: List<TshowIcon>,
@@ -218,7 +216,7 @@ data class Post(
     val author_id: String,
     val bimg_url: String,
     val content: List<Content>,
-    val floor: String,
+    val floor: Int,
     val fold_tip: String,
     val from_thread_id: String,
     val has_signature: String,

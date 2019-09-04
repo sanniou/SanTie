@@ -6,17 +6,15 @@ import com.saniou.santieba.api.bean.*
 import com.saniou.santieba.constant.*
 import com.saniou.santieba.utils.DateUtil
 import com.saniou.santieba.utils.StringUtil
+import com.sanniou.common.helper.JsonUtils
 import com.sanniou.common.network.BaseRequest
 import com.sanniou.common.network.CommonRetrofit
-import com.sanniou.common.network.ResponseMapper
 import com.sanniou.common.network.exception.ApiErrorException
-import com.sanniou.common.network.response.BaseResponse
 import com.sanniou.common.utilcode.util.AppUtils
 import com.sanniou.common.utilcode.util.SPUtils
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.annotations.NonNull
 import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import org.apache.commons.lang3.StringUtils
@@ -139,7 +137,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
 
     override fun msign(params: Map<String, String>) = tiebaService.msign(params)
 
-    fun msing(forumIds: String): Observable<TieResponse> {
+    fun msing(forumIds: String): Observable<StatusResponse> {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
@@ -193,7 +191,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
 
     override fun sign(params: Map<String, String>) = tiebaService.sign(params)
 
-    fun sign(name: String): Observable<TieResponse> {
+    fun sign(name: String): Observable<StatusResponse> {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
@@ -237,9 +235,9 @@ object TiebaRequest : TiebaService, BaseRequest() {
         return threadTieConfig(postPage(hashMap))
     }
 
-    override fun getFavorite(@FieldMap params: Map<String, String>): Observable<Forum2> {
-        return tiebaService.getFavorite(params)
-    }
+    override fun getFavorite(@FieldMap params: Map<String, String>) =
+        tiebaService.getFavorite(params)
+
 
     fun getFavorite(): Observable<Forum2> {
         val hashMap = HashMap<String, String>()
@@ -331,6 +329,48 @@ object TiebaRequest : TiebaService, BaseRequest() {
 
     }
 
+    override fun addStore(@FieldMap params: Map<String, String>) = tiebaService.addStore(params)
+
+
+    fun rmStore(tid: String): Observable<StatusResponse> {
+        val hashMap = HashMap<String, String>()
+        hashMap["BDUSS"] = this.BDUSS
+        hashMap["_client_id"] = this.clientId
+        hashMap["_client_type"] = this.clientType
+        hashMap["_client_version"] = this.newClientVersion
+        hashMap["_phone_imei"] = this.imei
+        hashMap["from"] = "tieba"
+        hashMap["net_type"] = this.netType
+        hashMap["tbs"] = this.tbs
+        hashMap["tid"] = tid
+        hashMap["timestamp"] = DateUtil.getTimestamp().toString()
+        hashMap["sign"] = calsign(hashMap)
+        return threadTieConfig(rmStore(hashMap))
+
+    }
+
+    override fun rmStore(@FieldMap params: Map<String, String>) = tiebaService.rmStore(params)
+
+
+    fun addStore(tid: String, pid: String): Observable<StatusResponse> {
+        val dataBeanX = DataBean.DataBeanX(pid, TEXT, tid, TEXT)
+        val hashMap = HashMap<String, String>()
+        hashMap["BDUSS"] = this.BDUSS
+        hashMap["_client_id"] = this.clientId
+        hashMap["_client_type"] = this.clientType
+        hashMap["_client_version"] = this.newClientVersion
+        hashMap["_phone_imei"] = this.imei
+        hashMap["data"] = JsonUtils.toJson(listOf(dataBeanX))
+        hashMap["from"] = "tieba"
+        hashMap["net_type"] = this.netType
+        hashMap["tbs"] = this.tbs
+        hashMap["timestamp"] = DateUtil.getTimestamp().toString()
+        hashMap["sign"] = calsign(hashMap)
+        return threadTieConfig(addStore(hashMap))
+
+    }
+
+
     private fun calsign(map: Map<String, String>): String {
         val sb = StringBuilder()
         for ((key, value) in TreeMap(map)) {
@@ -344,6 +384,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
         val loginInfo = SPUtils.getInstance("login_info")
         tbs = loginInfo.getString("tbs")
     }
+
 
     fun <T : TieResponse> threadTieConfig(request: Observable<T>): Observable<T> {
         return request.observeOn(AndroidSchedulers.mainThread())

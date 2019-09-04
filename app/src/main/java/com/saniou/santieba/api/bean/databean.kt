@@ -5,6 +5,15 @@ sealed class TieResponse {
     abstract fun getErrorMessage(): String
 }
 
+data class StatusResponse(
+    val error_code: Int,
+    val error_msg: String
+) : TieResponse() {
+    override fun getErrorMessage() = error_msg
+
+    override fun getErrorCode() = error_code
+}
+
 data class Forum2(
     val ctime: Int,
     val error_code: Int,
@@ -229,3 +238,14 @@ data class ThemeProfile(
     val light_color: String,
     val pattern_image: String
 )
+
+data class DataBean(
+    val dataBeanXes: List<DataBeanX>
+) {
+    data class DataBeanX(
+        val pid: String,
+        val status: String,
+        val tid: String,
+        val type: String
+    )
+}

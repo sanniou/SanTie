@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import com.saniou.santieba.api.TiebaRequest
 import com.saniou.santieba.vo.MSignForumItem
 import com.sanniou.common.databinding.BaseObservableListViewModel
+import com.sanniou.common.network.exception.ExceptionEngine
 import com.sanniou.common.utilcode.util.ToastUtils
 import org.json.JSONObject
 import java.util.HashMap
@@ -20,9 +21,11 @@ class MsignViewModel : BaseObservableListViewModel() {
         }
         TiebaRequest.msing(forumIds.toString())
             .`as`(bindLifeEvent())
-            .subscribe {
+            .subscribe({
                 ToastUtils.showShort("签到成功")
                 getForumList()
+            }) {
+                ToastUtils.showShort(ExceptionEngine.handleMessage(it))
             }
     }
 
@@ -31,7 +34,7 @@ class MsignViewModel : BaseObservableListViewModel() {
         clear()
         TiebaRequest.getforumlist()
             .`as`(bindLifeEvent())
-            .subscribe { forumListP ->
+            .subscribe({ forumListP ->
                 forumIds.clear()
                 forumListP.forum_info.forEach {
                     if (it.is_sign_in != 1) {
@@ -53,6 +56,8 @@ class MsignViewModel : BaseObservableListViewModel() {
                 if (forumIds.isNotEmpty()) {
                     forumIds.deleteCharAt(forumIds.length - 1)
                 }
+            }) {
+                ToastUtils.showShort(ExceptionEngine.handleMessage(it))
             }
     }
 }

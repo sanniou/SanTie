@@ -8,9 +8,17 @@ import retrofit2.http.POST
 import java.util.*
 
 interface TiebaService {
+    @POST("c/post/addstore")
+    @FormUrlEncoded
+    fun addStore(@FieldMap params: Map<String, String>): Observable<StatusResponse>
+
+    @POST("c/post/rmstore")
+    @FormUrlEncoded
+    fun rmStore(@FieldMap params: Map<String, String>): Observable<StatusResponse>
+
     @POST("c/forum/sign")
     @FormUrlEncoded
-    fun sign(@FieldMap params: Map<String, String>): Observable<TieResponse>
+    fun sign(@FieldMap params: Map<String, String>): Observable<StatusResponse>
 
     @POST("f/forum/getforumlist")
     @FormUrlEncoded
@@ -18,7 +26,7 @@ interface TiebaService {
 
     @POST("c/forum/msign")
     @FormUrlEncoded
-    fun msign(@FieldMap params: Map<String, String>): Observable<TieResponse>
+    fun msign(@FieldMap params: Map<String, String>): Observable<StatusResponse>
 
     @POST("u/user/profile")
     @FormUrlEncoded

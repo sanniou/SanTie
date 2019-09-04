@@ -7,6 +7,7 @@ val CODE_SUCCESS=0
 
 val HOST = "c.tieba.baidu.com/c"
 val PORTRAIT_HOST = "http://tb.himg.baidu.com/sys/portrait/item/"
+val TIEBA_HOST = "https://tieba.baidu.com/p/"
 
 val TEXT = "0"
 val LINK = "1"

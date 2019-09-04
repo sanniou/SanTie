@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_single"
+        android:icon="@drawable/ic_lz_only"
+        android:title="只看楼主"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_reverse"
+        android:icon="@drawable/ic_order"
+        android:title="倒序"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_star"
+        android:icon="@drawable/ic_thread_store"
+        android:title="收藏"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_share"
+        android:icon="@drawable/ali_004"
+        android:title="分享"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_link"
+        android:icon="@drawable/ali_005"
+        android:title="复制链接"
+        app:showAsAction="ifRoom" />
+</menu>

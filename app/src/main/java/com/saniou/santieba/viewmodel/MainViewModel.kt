@@ -5,8 +5,10 @@ import com.saniou.santieba.api.TiebaRequest
 import com.saniou.santieba.component.MSignActivity
 import com.saniou.santieba.vo.ForumItem
 import com.sanniou.common.databinding.BaseObservableListViewModel
+import com.sanniou.common.network.exception.ExceptionEngine
 import com.sanniou.common.utilcode.util.ActivityUtils
 import com.sanniou.common.utilcode.util.SPUtils
+import com.sanniou.common.utilcode.util.ToastUtils
 import org.json.JSONObject
 
 class MainViewModel : BaseObservableListViewModel() {
@@ -25,12 +27,16 @@ class MainViewModel : BaseObservableListViewModel() {
                 TiebaRequest.getFavorite()
             }
             .`as`(bindLifeEvent())
-            .subscribe { forum ->
+            .subscribe({ forum ->
                 forum.like_forum
                     .forEach {
                         add(ForumItem(it.forum_name, it.avatar, it.is_sign == 1, it.level_id))
                     }
 
+            }) {
+                ToastUtils.showShort(ExceptionEngine.handleMessage(it))
+//                loadMoreItem.loadFailed()
+                updateUi(1)
             }
     }
 

@@ -96,7 +96,7 @@
             android:id="@+id/post_read_icon"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/icon_comment"
             app:layout_constraintBottom_toBottomOf="@id/post_read_count"
             app:layout_constraintEnd_toStartOf="@id/post_read_count"
             app:layout_constraintTop_toTopOf="@id/post_read_count" />

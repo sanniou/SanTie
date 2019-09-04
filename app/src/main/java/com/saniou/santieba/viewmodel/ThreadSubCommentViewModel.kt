@@ -8,6 +8,8 @@ import com.saniou.santieba.vo.CommentTextItem
 import com.saniou.santieba.vo.ThreadCommentItem
 import com.sanniou.common.databinding.BaseObservableListViewModel
 import com.sanniou.common.helper.ListUtil
+import com.sanniou.common.network.exception.ExceptionEngine
+import com.sanniou.common.utilcode.util.ToastUtils
 import com.sanniou.common.vo.LoadCallBack
 import com.sanniou.common.vo.LoadMoreItem
 import com.sanniou.common.vo.OnLoadListener
@@ -38,14 +40,15 @@ class ThreadSubCommentViewModel : BaseObservableListViewModel(), OnLoadListener 
     fun getSubComment(pn: String) {
         TiebaRequest.getSubFloor(threadId, pid, spid, pn)
             .`as`(bindLifeEvent())
-            .subscribe { subComment ->
+            .subscribe({ subComment ->
                 ListUtil.removeLast(items)
                 pageNumber++
 
                 val author = subComment.post.author
                 add(
                     ThreadCommentItem(
-                        "${PORTRAIT_HOST} + ${author.portrait}",
+                        subComment.post.floor,
+                        "$PORTRAIT_HOST + ${author.portrait}",
                         "${author.name_show}(${author.name})"
                         , author.level_id,
                         subComment.post.time
@@ -73,7 +76,8 @@ class ThreadSubCommentViewModel : BaseObservableListViewModel(), OnLoadListener 
                     val subAuthor = subPost.author
                     add(
                         ThreadCommentItem(
-                            "${PORTRAIT_HOST} + ${subAuthor.portrait}",
+                            subPost.floor,
+                            "$PORTRAIT_HOST + ${subAuthor.portrait}",
                             "${subAuthor.name_show}(${subAuthor.name})"
                             , subAuthor.level_id,
                             subComment.post.time
@@ -102,8 +106,12 @@ class ThreadSubCommentViewModel : BaseObservableListViewModel(), OnLoadListener 
                 }
 
                 add(loadMoreItem)
-                loadMoreItem.loadSuccess(subComment.subpost_list.size == subComment.page.page_size)
+                loadMoreItem.loadSuccess(subComment.subpost_list.isNotEmpty())
                 updateUi(0)
+            }) {
+                ToastUtils.showShort(ExceptionEngine.handleMessage(it))
+                loadMoreItem.loadFailed()
+                updateUi(1)
             }
 
     }
