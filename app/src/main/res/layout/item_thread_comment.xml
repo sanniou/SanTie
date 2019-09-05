@@ -29,33 +29,32 @@
             android:id="@+id/comment_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/comment_start"
-            android:text="@{item.name}"
+            android:layout_marginStart="@dimen/comment_start_sub_padding"
+            android:text="@{item.name,default=用户}"
             android:textColor="@color/normalText"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/comment_avatar"
-            tools:text="comment_name" />
+            app:layout_constraintTop_toTopOf="@id/comment_avatar" />
 
         <TextView
             android:id="@+id/comment_level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:layout_marginStart="8dp"
-            android:text="@{item.levle}"
-            android:textColor="@color/design_yellow"
+            android:text="@{item.levle+@string/level,default=11}"
+            android:textColor="@color/design_blue"
+            app:layout_constraintBottom_toBottomOf="@id/comment_name"
             app:layout_constraintStart_toEndOf="@id/comment_name"
-            app:layout_constraintTop_toTopOf="@id/comment_name"
-            tools:text="comment_level" />
+            app:layout_constraintTop_toTopOf="@id/comment_name" />
 
         <TextView
             android:id="@+id/comment_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.time}"
+            android:text="@{item.time,default=1100}"
             android:textColor="@color/minorText"
             app:layout_constraintBottom_toBottomOf="@id/comment_avatar"
-            app:layout_constraintStart_toStartOf="@+id/comment_name"
-            tools:text="comment_time" />
+            app:layout_constraintStart_toStartOf="@+id/comment_name" />
 
         <ImageView
             android:id="@+id/comment_reply"
@@ -72,8 +71,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{item.floor+@string/floor,default=123}"
-            android:textColor="@color/majorText"
-            android:textSize="@dimen/majorText"
+            android:textColor="@color/minorText"
+            android:textSize="@dimen/minorText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,9 +21,14 @@
         android:orientation="vertical"
         tools:context=".component.ForumMainActivity">
 
-        <com.sanniou.common.widget.TitleView
-            style="@style/Title.onBack"
-            app:titleText="@{viewModel.forumName }" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_title_background"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:popupTheme="@style/ToolbarTheme"
+            app:title="@{viewModel.forumName,default=title}" />
 
         <com.sanniou.common.widget.swiper.LSwipeRefreshLayout
             android:id="@+id/refresh"
@@ -32,6 +37,7 @@
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler"
                 data="@{viewModel.list}"
                 dividerHeightDp="@{4}"
                 android:layout_width="match_parent"

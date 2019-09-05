@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.Observer
 import com.saniou.santieba.R
+import com.saniou.santieba.constant.ORANGE_COLOR
 import com.saniou.santieba.constant.THREAD_SCHEME
 import com.saniou.santieba.constant.THREAD_URL
 import com.saniou.santieba.constant.TIEBA_HOST
@@ -33,6 +34,9 @@ class ThreadDetailActivity : SanBaseActivity() {
 
         setSupportActionBar(binding.actionBar)
         binding.actionBar.setNavigationOnClickListener {
+            onBackClick(it)
+        }
+        binding.actionBar.setOnClickListener {
             if (fromSide && binding.viewModel!!.forumName.get()!!.isNotEmpty()) {
                 val intent = Intent(this, ForumMainActivity::class.java)
                 intent.putExtra("name", binding.viewModel!!.forumName.get())
@@ -41,7 +45,6 @@ class ThreadDetailActivity : SanBaseActivity() {
                 onBackClick(it)
             }
         }
-
 
         binding.setClickListener { holder ->
             when (val item = holder.item) {
@@ -72,7 +75,7 @@ class ThreadDetailActivity : SanBaseActivity() {
                     3 -> {
                         val menuItem = binding.actionBar.menu.findItem(R.id.menu_star)
                         menuItem.icon = ResourcesUtils.getDrawable(R.drawable.ic_thread_store)
-                            .tintDrawable(orangeColor)
+                            .tintDrawable(ORANGE_COLOR)
                     }
                     4 -> {
                         val menuItem = binding.actionBar.menu.findItem(R.id.menu_star)
@@ -101,12 +104,11 @@ class ThreadDetailActivity : SanBaseActivity() {
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val menuInflater = menuInflater
         menuInflater.inflate(R.menu.thread_detail, menu)
         return true
     }
 
-    val orangeColor = Color.rgb(250, 128, 10)
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -118,7 +120,7 @@ class ThreadDetailActivity : SanBaseActivity() {
                     item.setIcon(
                         if (lzOly)
                             ResourcesUtils.getDrawable(R.drawable.ic_lz_only)
-                            !!.tintDrawable(orangeColor)
+                            !!.tintDrawable(ORANGE_COLOR)
                         else
                             ResourcesUtils.getDrawable(R.drawable.ic_lz_only)
                     )
@@ -132,7 +134,7 @@ class ThreadDetailActivity : SanBaseActivity() {
                     item.setIcon(
                         if (reverse)
                             ResourcesUtils.getDrawable(R.drawable.ic_order)
-                            !!.tintDrawable(orangeColor)
+                            !!.tintDrawable(ORANGE_COLOR)
                         else
                             ResourcesUtils.getDrawable(R.drawable.ic_order)
                     )

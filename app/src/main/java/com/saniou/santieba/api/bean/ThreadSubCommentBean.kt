@@ -7,7 +7,7 @@ data class Post2(
     val arr_video: List<Any>,
     val author: AuthorX,
     val bimg_url: String,
-    val content: List<ContentX>,
+    val content: List<Content>,
     val floor: Int,
     val id: String,
     val ios_bimg_format: String,
@@ -37,11 +37,6 @@ data class Subpost(
     val ptype: String,
     val time: String,
     val title: String
-)
-
-data class ContentX(
-    val text: String,
-    val type: String
 )
 
 data class AuthorX(

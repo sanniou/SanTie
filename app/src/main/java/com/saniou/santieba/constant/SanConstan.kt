@@ -1,8 +1,9 @@
 package com.saniou.santieba.constant
 
+import android.graphics.Color
 import com.saniou.santieba.R
 
-
+val ORANGE_COLOR = Color.rgb(250, 128, 10)
 const val BOOLEAN_TRUE = "1"
 const val NO_VALUE = "0"
 

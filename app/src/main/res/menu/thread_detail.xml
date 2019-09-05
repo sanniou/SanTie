@@ -5,26 +5,24 @@
     <item
         android:id="@+id/menu_single"
         android:icon="@drawable/ic_lz_only"
-        android:title="只看楼主"
+        android:title="@string/lz_only"
         app:showAsAction="always" />
     <item
         android:id="@+id/menu_reverse"
         android:icon="@drawable/ic_order"
-        android:title="倒序"
+        android:title="@string/reverse"
         app:showAsAction="always" />
     <item
         android:id="@+id/menu_star"
         android:icon="@drawable/ic_thread_store"
-        android:title="收藏"
+        android:title="@string/thread_store"
         app:showAsAction="always" />
     <item
         android:id="@+id/menu_share"
-        android:icon="@drawable/ali_004"
-        android:title="分享"
-        app:showAsAction="ifRoom" />
+        android:title="@string/thread_share"
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_link"
-        android:icon="@drawable/ali_005"
-        android:title="复制链接"
-        app:showAsAction="ifRoom" />
+        android:title="@string/copy_link"
+        app:showAsAction="never" />
 </menu>

@@ -2,20 +2,23 @@ package com.saniou.santieba.viewmodel
 
 import android.annotation.SuppressLint
 import androidx.databinding.ObservableField
+import com.saniou.santieba.R
 import com.saniou.santieba.api.TiebaRequest
-import com.saniou.santieba.constant.*
+import com.saniou.santieba.constant.IMAGE
+import com.saniou.santieba.constant.PORTRAIT_HOST
+import com.saniou.santieba.constant.VOICE
 import com.saniou.santieba.utils.DateUtil
 import com.saniou.santieba.vo.ForumTopItem
 import com.saniou.santieba.vo.ThreadItem
 import com.sanniou.common.databinding.BaseObservableListViewModel
 import com.sanniou.common.helper.ListUtil
 import com.sanniou.common.network.exception.ExceptionEngine
-import com.sanniou.common.utilcode.util.ThrowableUtils
 import com.sanniou.common.utilcode.util.ToastUtils
 import com.sanniou.common.vo.LoadCallBack
 import com.sanniou.common.vo.LoadMoreItem
 import com.sanniou.common.vo.OnLoadListener
 
+@SuppressLint("CheckResult")
 class ForumMainViewModel : BaseObservableListViewModel(), OnLoadListener {
 
     override fun onLoad(callBack: LoadCallBack): Boolean {
@@ -25,40 +28,48 @@ class ForumMainViewModel : BaseObservableListViewModel(), OnLoadListener {
 
     private val loadMoreItem = LoadMoreItem(this)
     var name = ""
+    var isGood = false
     private var mPage = 1
-    var forumName = ObservableField<String>()
+    private var fid = ""
+    private var subscribed = false
+    var forumName = ObservableField("")
 
     fun init() {
         clear()
         mPage = 1
+        updateUi(if (isGood) 3 else 4)
         loadMoreItem.ready()
         add(loadMoreItem)
-
     }
 
-    @SuppressLint("CheckResult")
     fun requestPosts(page: Int) {
-        TiebaRequest.postPage(name, page)
+        TiebaRequest.postPage(name, page, isGood)
             .`as`(bindLifeEvent())
             .subscribe({ threadProfile ->
+                fid = threadProfile.forum.id
                 mPage++
                 val forum = threadProfile.forum
                 forumName.set(forum.name)
+                subscribed = forum.is_like == 1
 
-                ListUtil.removeLast(items)
                 if (list.size == 1) {
                     add(
+                        0,
                         ForumTopItem(
+                            forum.id,
                             forum.avatar, forum.name,
-                            "关注${forum.member_num} 帖子${forum.post_num} thread ${forum.thread_num}",
+                            "关注 ${forum.member_num} 帖子 ${forum.post_num}",
                             forum.slogan,
-                            forum.is_like,
+                            forum.is_like == 1,
                             "LV${forum.level_id}${forum.level_name}\r\n${forum.cur_score}/${forum.levelup_score}",
                             forum.sign_in_info.user_info.is_sign_in == 1,
-                            forum.sign_in_info.user_info.c_sign_num
+                            forum.sign_in_info.user_info.c_sign_num,
+                            this::subscribe
                         )
                     )
                 }
+
+                ListUtil.removeLast(items)
 
                 //帖子列表
                 threadProfile.thread_list.forEach { thread ->
@@ -86,7 +97,7 @@ class ForumMainViewModel : BaseObservableListViewModel(), OnLoadListener {
                             thread.reply_num,
                             thread.abstract[0].text,
                             DateUtil.getDisplayTime(thread.create_time.toLong()),
-                            "${PORTRAIT_HOST}${thread.author.portrait}",
+                            "$PORTRAIT_HOST${thread.author.portrait}",
                             postImage
                         )
                     )
@@ -102,5 +113,36 @@ class ForumMainViewModel : BaseObservableListViewModel(), OnLoadListener {
             }
     }
 
+    fun unSubscribe() {
+        if (!subscribed) {
+            ToastUtils.showShort("未关注")
+            return
+        }
+        TiebaRequest.unSubscribe(fid, name)
+            .`as`(bindLifeEvent())
+            .subscribe({
+                ToastUtils.showShort(R.string.unsubscribe_success)
+                init()
+            }) {
+                ToastUtils.showShort(ExceptionEngine.handleMessage(it))
+            }
+    }
+
+    fun subscribe() {
+        if (!subscribed) {
+            ToastUtils.showShort("已关注")
+            return
+        }
+        TiebaRequest.subscribe(fid, name)
+            .`as`(bindLifeEvent())
+            .subscribe({
+                ToastUtils.showShort(R.string.subscribe_success)
+                init()
+            }) {
+                ToastUtils.showShort(ExceptionEngine.handleMessage(it))
+            }
+    }
+
 
 }
+

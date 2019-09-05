@@ -42,35 +42,38 @@ class ThreadSubCommentViewModel : BaseObservableListViewModel(), OnLoadListener 
             .`as`(bindLifeEvent())
             .subscribe({ subComment ->
                 ListUtil.removeLast(items)
-                pageNumber++
 
-                val author = subComment.post.author
-                add(
-                    ThreadCommentItem(
-                        subComment.post.floor,
-                        "$PORTRAIT_HOST + ${author.portrait}",
-                        "${author.name_show}(${author.name})"
-                        , author.level_id,
-                        subComment.post.time
-                    )
-                )
-                subComment.post.content.forEach {
-                    when (it.type) {
-                        TEXT -> {
-                            add(CommentTextItem(it.text))
-                        }
-                        EMOJI -> {
-                            add(CommentTextItem(it.text))
-                        }
-                        VIDEO -> {
-                        }
-                        IMAGE -> {
-                        }
-                        VOICE -> {
-                        }
+                if (pageNumber == 1) {
+                    subComment.post.run {
 
+                        add(
+                            ThreadCommentItem(
+                                floor,
+                                "$PORTRAIT_HOST + ${author.portrait}",
+                                "${author.name_show}(${author.name})"
+                                , author.level_id,
+                                time
+                            )
+                        )
+                        analyzeText(content).forEach {
+                            when (it.type) {
+                                TEXT -> {
+                                    add(CommentTextItem(it.text))
+                                }
+                                EMOJI -> {
+                                    add(CommentTextItem(it.text))
+                                }
+                                VIDEO -> {
+                                }
+                                IMAGE -> {
+                                }
+                                VOICE -> {
+                                }
+                            }
+                        }
                     }
                 }
+
 
                 subComment.subpost_list.forEach { subPost ->
                     val subAuthor = subPost.author
@@ -80,7 +83,7 @@ class ThreadSubCommentViewModel : BaseObservableListViewModel(), OnLoadListener 
                             "$PORTRAIT_HOST + ${subAuthor.portrait}",
                             "${subAuthor.name_show}(${subAuthor.name})"
                             , subAuthor.level_id,
-                            subComment.post.time
+                            subPost.time
                         )
                     )
 
@@ -105,6 +108,7 @@ class ThreadSubCommentViewModel : BaseObservableListViewModel(), OnLoadListener 
 
                 }
 
+                pageNumber++
                 add(loadMoreItem)
                 loadMoreItem.loadSuccess(subComment.subpost_list.isNotEmpty())
                 updateUi(0)

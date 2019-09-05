@@ -21,7 +21,7 @@
             android:background="#393f56"
             android:gravity="bottom|center"
             android:paddingBottom="10dp"
-            android:text="每日签到最佳时间 9:00-16:00、19:00-22:00"
+            android:text="@string/sign_in_description"
             android:textColor="#586376"
             app:layout_constraintTop_toBottomOf="@id/msign_top" />
 
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="7级以上的贴吧"
+            android:text="@string/level_up_7"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/msign_msg" />
 
@@ -63,7 +63,7 @@
             style="@style/Title.onBack"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:titleText="贴吧签到" />
+            app:titleText="@string/one_click_sign" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

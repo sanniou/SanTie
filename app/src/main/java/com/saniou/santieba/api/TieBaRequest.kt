@@ -207,9 +207,48 @@ object TiebaRequest : TiebaService, BaseRequest() {
         return threadTieConfig(sign(hashMap))
     }
 
+    override fun subscribe(params: Map<String, String>) = tiebaService.subscribe(params)
+
+    fun subscribe(fid: String, kw: String): Observable<StatusResponse> {
+        val hashMap = HashMap<String, String>()
+        hashMap["BDUSS"] = this.BDUSS
+        hashMap["_client_id"] = this.clientId
+        hashMap["_client_type"] = this.clientType
+        hashMap["_client_version"] = "6.6.0"
+        hashMap["_phone_imei"] = this.imei
+        hashMap["fid"] = fid
+        hashMap["from"] = "tieba"
+        hashMap["kw"] = kw
+        hashMap["net_type"] = this.netType
+        hashMap["tbs"] = this.tbs
+        hashMap["timestamp"] = DateUtil.getTimestamp().toString()
+        hashMap.put("sign", calsign(hashMap))
+        return threadTieConfig(subscribe(hashMap))
+    }
+
+    override fun unSubscribe(params: Map<String, String>) = tiebaService.unSubscribe(params)
+
+
+    fun unSubscribe(fid: String, kw: String): Observable<StatusResponse> {
+        val hashMap = HashMap<String, String>()
+        hashMap["BDUSS"] = this.BDUSS
+        hashMap["_client_id"] = this.clientId
+        hashMap["_client_type"] = this.clientType
+        hashMap["_client_version"] = "6.6.0"
+        hashMap["_phone_imei"] = this.imei
+        hashMap["fid"] = fid
+        hashMap["from"] = "tieba"
+        hashMap["kw"] = kw
+        hashMap["net_type"] = this.netType
+        hashMap["tbs"] = this.tbs
+        hashMap["timestamp"] = DateUtil.getTimestamp().toString()
+        hashMap.put("sign", calsign(hashMap))
+        return threadTieConfig(unSubscribe(hashMap))
+    }
+
     override fun postPage(params: Map<String, String>) = tiebaService.postPage(params)
 
-    fun postPage(name: String, page: Int = 1, isGood: String = "0"): Observable<ThreadProfile> {
+    fun postPage(name: String, page: Int = 1, isGood: Boolean = false): Observable<ThreadProfile> {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
@@ -217,8 +256,8 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["_client_version"] = this.clientVersion
         hashMap["_phone_imei"] = this.imei
         hashMap["from"] = "tieba"
-        if (BOOLEAN_TRUE == isGood) {
-            hashMap["is_good"] = isGood
+        if (isGood) {
+            hashMap["is_good"] = BOOLEAN_TRUE
         }
         hashMap["kw"] = name
         hashMap["net_type"] = this.netType

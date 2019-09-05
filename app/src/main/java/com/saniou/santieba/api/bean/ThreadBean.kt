@@ -1,7 +1,6 @@
 package com.saniou.santieba.api.bean
 
 
-
 data class Thread(
     val `abstract`: List<Abstract>,
     val agree: Agree,
@@ -196,22 +195,17 @@ data class Forum(
     val album_open_photo_frs: String,
     val anchor_power: AnchorPower,
     val avatar: String,
-    val badges: List<Any>,
-    val banner_list: BannerList,
-    val can_use_accelerate: String,
     val cur_score: String,
     val first_class: String,
     val forum_button: ForumButton,
     val forum_game_label: String,
     val forum_sign_calendar: List<Any>,
-    val forumvip_show_icon: ForumvipShowIcon,
-    val game_card: List<Any>,
     val good_classify: List<GoodClassify>,
     val has_frs_star: String,
     val has_game: String,
     val id: String,
     val is_exists: String,
-    val is_like: Boolean,
+    val is_like: Int,
     val is_live_game_forum: String,
     val is_new_game_forum: String,
     val is_readonly: String,
@@ -315,9 +309,6 @@ data class UserInfo(
     val user_sign_rank: String
 )
 
-data class BannerList(
-    val app: List<Any>
-)
 
 data class TagInfo(
     val color: String,

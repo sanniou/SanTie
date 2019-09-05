@@ -60,7 +60,6 @@ data class UserProfile(
 
 data class ThreadDetail(
     val anti: Anti,
-    val banner_list: BannerList,
     val ctime: Int,
     val display_forum: DisplayForum,
     val error_code: Int,

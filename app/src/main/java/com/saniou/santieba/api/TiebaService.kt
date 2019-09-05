@@ -8,6 +8,14 @@ import retrofit2.http.POST
 import java.util.*
 
 interface TiebaService {
+    @POST("c/forum/unlike")
+    @FormUrlEncoded
+    fun unSubscribe(@FieldMap params: Map<String, String>): Observable<StatusResponse>
+
+    @POST("c/forum/like")
+    @FormUrlEncoded
+    fun subscribe(@FieldMap params: Map<String, String>): Observable<StatusResponse>
+
     @POST("c/post/addstore")
     @FormUrlEncoded
     fun addStore(@FieldMap params: Map<String, String>): Observable<StatusResponse>
