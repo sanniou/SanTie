@@ -74,7 +74,7 @@ class ForumMainActivity : SanBaseActivity() {
             if (FORUM_SCHEME == intent.scheme) {
                 val decode = URLDecoder.decode(intent.data!!.toString(), "UTF-8")
                 intent.putExtra(
-                    "forum_name",
+                    "name",
                     decode.substring(decode.indexOf("kw=") + 3, decode.length)
                 )
 

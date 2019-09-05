@@ -94,10 +94,10 @@
 
         <ImageView
             android:id="@+id/post_read_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:src="@drawable/icon_comment"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@id/post_read_count"
+            app:layout_constraintDimensionRatio="W,1:1"
             app:layout_constraintEnd_toStartOf="@id/post_read_count"
             app:layout_constraintTop_toTopOf="@id/post_read_count" />
 

@@ -27,8 +27,9 @@
 
         <ImageView
             android:id="@+id/thread_replay"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintDimensionRatio="W,1:1"
             android:src="@drawable/icon_comment"
             app:layout_constraintEnd_toStartOf="@id/thread_replay_counts"
             app:layout_constraintTop_toTopOf="parent" />
