@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-  <data>
-    <variable
-      name="item"
-      type="com.saniou.santieba.vo.ThreadTitleItem"/>
 
-  </data>
-  <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:textStyle="bold"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="@dimen/comment_padding"
-    android:background="@color/config_white"
-    android:text="@{item.content}"
-    android:textColor="@color/majorText"
-    android:textSize="@dimen/majorText">
+    <data>
 
-  </TextView>
+        <variable
+            name="item"
+            type="com.saniou.santieba.vo.ThreadTitleItem" />
+
+    </data>
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/comment_padding"
+        android:background="@color/config_white"
+        android:text="@{item.content}"
+        android:textColor="@color/majorText"
+        android:textSize="@dimen/majorText">
+
+    </TextView>
 </layout>

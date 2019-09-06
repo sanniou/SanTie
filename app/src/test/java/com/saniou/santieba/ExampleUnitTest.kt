@@ -1,10 +1,9 @@
 package com.saniou.santieba
 
-import androidx.databinding.ObservableArrayList
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
-
-import org.junit.Assert.*
-import java.util.ArrayList
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -13,15 +12,23 @@ import java.util.ArrayList
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
-        val a =ObservableArrayList<Int>()
-        a.add(1)
-        a.add(2)
-        a.add(3)
-        a.add(4)
-
-
-        a.removeAll(a.subList(0,2))
-        println(a.size)
+    fun addition_isCorrect() = runBlocking {
+        val job1 = launch { // ①
+            log(1)
+            try {
+                delay(1000)
+            } catch (e: Exception) {
+                log("cancelled. $e")
+            }
+            log(2)
+        }
+        delay(100)
+        log(3)
+        job1.cancel() // ③
+        log(4)
     }
+
 }
+
+fun log(a:Any)=println("$a")
+

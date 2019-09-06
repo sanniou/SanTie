@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-  <data>
-    <variable
-      name="item"
-      type="com.saniou.santieba.vo.CommentTextItem"/>
 
-  </data>
-  <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="@dimen/comment_padding"
-    android:paddingBottom="@dimen/comment_padding"
-    android:paddingStart="@{item.first?@dimen/comment_padding:@dimen/comment_start}"
-    android:paddingEnd="@dimen/comment_padding"
-    android:background="@color/config_white"
-    android:text="@{item.content}"
-    android:textColor="@color/majorText">
+    <data>
 
-  </TextView>
+        <variable
+            name="item"
+            type="com.saniou.santieba.vo.CommentTextItem" />
+
+    </data>
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/comment_padding"
+        android:paddingBottom="@dimen/comment_padding"
+        android:paddingStart="@{item.first?@dimen/comment_padding:@dimen/comment_start}"
+        android:paddingEnd="@dimen/comment_padding"
+        android:background="@color/config_white"
+        android:text="@{item.content}"
+        android:textColor="@color/majorText">
+
+    </TextView>
 </layout>

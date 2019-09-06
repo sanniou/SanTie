@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-  <data>
-    <variable
-      name="item"
-      type="com.saniou.santieba.vo.CommentVoiceItem"/>
-  </data>
-  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="@dimen/comment_padding"
-    android:paddingBottom="@dimen/comment_padding"
-    android:paddingStart="@{item.first?@dimen/comment_padding:@dimen/comment_start}"
-    android:paddingEnd="@dimen/comment_padding"
-    android:orientation="vertical">
-    <ImageView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:src="@mipmap/ic_launcher"/>
-  </LinearLayout>
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.saniou.santieba.vo.CommentVoiceItem" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/comment_padding"
+        android:paddingBottom="@dimen/comment_padding"
+        android:paddingStart="@{item.first?@dimen/comment_padding:@dimen/comment_start}"
+        android:paddingEnd="@dimen/comment_padding"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher" />
+    </LinearLayout>
 </layout>

@@ -8,28 +8,25 @@ class ForumItem(var name: String, var image: String, private var isSign: Boolean
     Item {
 
     private val LEVEL_CLOLRS = intArrayOf(
-        R.color.design_yellow,
-        R.color.design_yellow,
-        R.color.design_yellow,
-        R.color.design_yellow,
-        R.color.design_yellow,
-        R.color.design_yellow,
-        R.color.design_yellow,
-        R.color.design_yellow,
-        R.color.design_yellow,
-        R.color.design_yellow,
-        R.color.design_yellow,
-        R.color.design_yellow,
-        R.color.design_yellow,
-        R.color.design_yellow,
-        R.color.design_yellow,
-        R.color.design_yellow,
-        R.color.design_yellow,
-        R.color.design_yellow,
-        R.color.design_yellow,
-        R.color.design_yellow,
-        R.color.design_yellow
-    )
+        R.color.design_minor,
+        R.color.config_gray,
+        R.color.design_normal,
+        R.color.config_dialog_cancel,
+        R.color.config_black_2,
+        R.color.design_major,
+        R.color.config_green,
+        R.color.config_blue_2,
+        R.color.design_red,
+        R.color.config_red,
+        R.color.config_orange,
+        R.color.config_gold,
+        R.color.design_orange,
+        R.color.design_orange,
+        R.color.design_orange,
+        R.color.design_orange,
+        R.color.design_orange,
+        R.color.design_orange
+        )
 
 
     var levelColor: Int

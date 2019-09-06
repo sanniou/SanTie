@@ -38,9 +38,10 @@ data class Forum2(
     val sort_type: String,
     val tag_recommend_forum: List<Any>,
     val time: Int,
+    val error_msg: String,
     val topic: List<Any>
 ) : TieResponse() {
-    override fun getErrorMessage() = "d"
+    override fun getErrorMessage() = error_msg
 
     override fun getErrorCode() = error_code
 }
@@ -49,12 +50,111 @@ data class Forum2(
 data class UserProfile(
     val anti: AnTi,
     val user: UserInfo,
+    val error_msg: String,
     val error_code: Int
 ) : TieResponse() {
-    override fun getErrorMessage() = "d"
+    override fun getErrorMessage() = error_msg
     override fun getErrorCode() = error_code
     data class AnTi(val tbs: String)
-    data class UserInfo(val tbs: String)
+    data class UserInfo(
+        val ala_info: AlaInfo,
+        val baijiahao_info: List<Any>,
+        val bg_pic: String,
+        val bookmark_count: String,
+        val bookmark_new_count: String,
+        val concern_num: String,
+        val consume_info: List<Any>,
+        val fans_num: String,
+        val friend_num: String,
+        val has_bottle_enter: String,
+        val has_concerned: String,
+        val iconinfo: List<Any>,
+        val id: String,
+        val intro: String,
+        val is_fans: String,
+        val is_invited: String,
+        val is_mask: String,
+        val is_mem: String,
+        val is_show_redpacket: String,
+        val like_forum_num: String,
+        val my_like_num: String,
+        val name: String,
+        val name_show: String,
+        val outer_id: String,
+        val parr_scores: ParrScores,
+        val pay_member_info: PayMemberInfo,
+        val pendant: List<Any>,
+        val portrait: String,
+        val portraith: String,
+        val post_num: String,
+        val priv_sets: PrivSets,
+        val profit_list: List<Any>,
+        val repost_num: String,
+        val seal_prefix: String,
+        val sex: String,
+        val tb_age: String,
+        val tb_vip: List<Any>,
+        val thread_num: String,
+        val total_visitor_num: String,
+        val tshow_icon: List<Any>,
+        val tw_anchor_info: List<Any>,
+        val user_pics: List<Any>,
+        val vipInfo: VipInfo,
+        val vip_close_ad: VipCloseAd,
+        val visitor_num: String
+    )
+
+    data class AlaInfo(
+        val ala_id: String,
+        val level_exp: String,
+        val level_id: String,
+        val live_id: String,
+        val live_status: String
+    )
+
+    data class ParrScores(
+        val level: String,
+        val limit: String,
+        val scores_fetch: String,
+        val scores_money: String,
+        val scores_other: String,
+        val scores_total: String,
+        val update_time: String
+    )
+
+    data class PayMemberInfo(
+        val end_time: String,
+        val expire_remind: String,
+        val props_id: String,
+        val url: String
+    )
+
+    data class PrivSets(
+        val friend: String,
+        val group: String,
+        val like: String,
+        val live: String,
+        val location: String,
+        val post: String,
+        val reply: String
+    )
+
+    data class VipInfo(
+        val a_score: String,
+        val e_time: String,
+        val ext_score: String,
+        val icon_url: String,
+        val n_score: String,
+        val s_time: String,
+        val v_level: String,
+        val v_status: String
+    )
+
+    data class VipCloseAd(
+        val forum_close: List<Any>,
+        val is_open: String,
+        val vip_close: String
+    )
 }
 
 
@@ -64,6 +164,7 @@ data class ThreadDetail(
     val display_forum: DisplayForum,
     val error_code: Int,
     val fold_tip: String,
+    val error_msg: String,
     val forum: Forum3,
     val has_floor: String,
     val is_new_url: String,
@@ -81,7 +182,7 @@ data class ThreadDetail(
     val user: User2,
     val user_list: List<UserXX>
 ) : TieResponse() {
-    override fun getErrorMessage() = "ThreadSubComment"
+    override fun getErrorMessage() = error_msg
 
     override fun getErrorCode() = error_code
 }
@@ -94,11 +195,12 @@ data class ThreadSubComment(
     val page: Page,
     val post: Post2,
     val server_time: String,
+    val error_msg: String,
     val subpost_list: List<Subpost>,
     val thread: Thread6,
     val time: Int
 ) : TieResponse() {
-    override fun getErrorMessage() = "ThreadSubComment"
+    override fun getErrorMessage() = error_msg
 
     override fun getErrorCode() = error_code
 }
@@ -126,6 +228,7 @@ data class ThreadProfile(
     val private_forum_active_info: PrivateForumActiveInfo,
     val server_time: String,
     val sort_type: String,
+    val error_msg: String,
     val thread_list: List<Thread>,
     val time: Int,
     val twzhibo_pos: String,
@@ -133,7 +236,7 @@ data class ThreadProfile(
     val user_extend: UserExtend,
     val video_auto_play: String
 ) : TieResponse() {
-    override fun getErrorMessage() = "ThreadProfile"
+    override fun getErrorMessage() = error_msg
     override fun getErrorCode() = error_code
 }
 
@@ -244,4 +347,62 @@ data class DataDTO(
     val status: String,
     val tid: String,
     val type: String
+)
+
+
+data class StoreThreadData(
+    val ctime: Int,
+    val error: Error,
+    val error_code: Int,
+    val logid: Int,
+    val server_time: String,
+    val store_thread: List<StoreThread>,
+    val time: Int
+) : TieResponse() {
+    override fun getErrorMessage() = error.errmsg
+
+    override fun getErrorCode() = error_code
+}
+
+
+data class StoreThread(
+    val author: AuthorR,
+    val count: String,
+    val create_time: String,
+    val floor_num: String,
+    val forum_name: String,
+    val god: String,
+    val is_deleted: String,
+    val is_follow: String,
+    val last_time: String,
+    val mark_pid: String,
+    val mark_status: String,
+    val max_pid: String,
+    val media: List<MediaX>,
+    val min_pid: String,
+    val post_no: String,
+    val post_no_msg: String,
+    val reply_num: String,
+    val status: String,
+    val thread_id: String,
+    val thread_type: String,
+    val title: String,
+    val type: String
+)
+
+data class AuthorR(
+    val lz_uid: String,
+    val name: String,
+    val name_show: String,
+    val user_portrait: String
+)
+
+data class MediaX(
+    val big_pic: String,
+    val height: String,
+    val size: String,
+    val small_pic: String,
+    val type: String,
+    val water_pic: String,
+    val width: String
 )

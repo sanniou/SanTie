@@ -19,16 +19,182 @@
         android:layout_height="match_parent"
         tools:context=".component.MainActivity">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/design_white"
+            app:layout_constraintBottom_toBottomOf="@id/user_avatar"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@color/config_red" />
+
+        <ImageView
+            android:id="@+id/user_avatar"
+            circle="@{true}"
+            res="@{viewModel.avatar}"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/comment_padding"
+            app:layout_constraintDimensionRatio="W,1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/user_thread_count_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/comment_padding"
+            android:text="@string/personal_thread"
+            android:textColor="@color/normalText"
+            android:textSize="@dimen/normalText"
+            app:layout_constraintBottom_toBottomOf="@id/user_avatar"
+            app:layout_constraintEnd_toStartOf="@id/thread_line"
+            app:layout_constraintStart_toEndOf="@id/user_avatar"
+            app:layout_constraintTop_toBottomOf="@id/user_thread_count"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/user_thread_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.threadCount,default=11111}"
+            android:textColor="@color/design_orange"
+            android:textSize="@dimen/majorText"
+            app:layout_constraintBottom_toTopOf="@id/user_thread_count_text"
+            app:layout_constraintEnd_toEndOf="@id/user_thread_count_text"
+            app:layout_constraintStart_toStartOf="@id/user_thread_count_text"
+            app:layout_constraintTop_toTopOf="@id/user_avatar" />
+
+
+        <View
+            android:id="@+id/thread_line"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@color/backgroundColor"
+            app:layout_constraintBottom_toBottomOf="@id/user_thread_count_text"
+            app:layout_constraintEnd_toStartOf="@id/user_fans_count_text"
+            app:layout_constraintStart_toEndOf="@id/user_thread_count_text"
+            app:layout_constraintTop_toTopOf="@id/user_thread_count" />
+
+        <TextView
+            android:id="@+id/user_fans_count_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/comment_padding"
+            android:text="@string/personal_fans"
+            android:textColor="@color/normalText"
+            android:textSize="@dimen/normalText"
+            app:layout_constraintBottom_toBottomOf="@id/user_avatar"
+            app:layout_constraintEnd_toStartOf="@id/fans_line"
+            app:layout_constraintStart_toEndOf="@id/thread_line"
+            app:layout_constraintTop_toBottomOf="@id/user_fans_count"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/user_fans_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.fansCount,default=111}"
+            android:textColor="@color/design_orange"
+            android:textSize="@dimen/majorText"
+            app:layout_constraintBottom_toTopOf="@id/user_fans_count_text"
+            app:layout_constraintEnd_toEndOf="@id/user_fans_count_text"
+            app:layout_constraintStart_toStartOf="@id/user_fans_count_text"
+            app:layout_constraintTop_toTopOf="@id/user_avatar" />
+
+        <View
+            android:id="@+id/fans_line"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@color/backgroundColor"
+            app:layout_constraintBottom_toBottomOf="@id/user_fans_count_text"
+            app:layout_constraintEnd_toStartOf="@id/user_like_count_text"
+            app:layout_constraintStart_toEndOf="@id/user_fans_count_text"
+            app:layout_constraintTop_toTopOf="@id/user_fans_count" />
+
+        <TextView
+            android:id="@+id/user_like_count_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/comment_padding"
+            android:text="@string/personal_like"
+            android:textColor="@color/normalText"
+            android:textSize="@dimen/normalText"
+            app:layout_constraintBottom_toBottomOf="@id/user_avatar"
+            app:layout_constraintEnd_toStartOf="@id/like_line"
+            app:layout_constraintStart_toEndOf="@id/fans_line"
+            app:layout_constraintTop_toBottomOf="@id/user_like_count"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/user_like_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.likeCount,default=111}"
+            android:textColor="@color/design_orange"
+            android:textSize="@dimen/majorText"
+            app:layout_constraintBottom_toTopOf="@id/user_like_count_text"
+            app:layout_constraintEnd_toEndOf="@id/user_like_count_text"
+            app:layout_constraintStart_toStartOf="@id/user_like_count_text"
+            app:layout_constraintTop_toTopOf="@id/user_avatar" />
+
+
+        <View
+            android:id="@+id/like_line"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@color/backgroundColor"
+            app:layout_constraintBottom_toBottomOf="@id/user_fans_count_text"
+            app:layout_constraintEnd_toStartOf="@id/user_store_count_text"
+            app:layout_constraintStart_toEndOf="@id/user_like_count_text"
+            app:layout_constraintTop_toTopOf="@id/user_fans_count" />
+
+        <TextView
+            android:id="@+id/user_store_count_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/comment_padding"
+            android:text="@string/personal_store"
+            android:textColor="@color/normalText"
+            android:textSize="@dimen/normalText"
+            app:layout_constraintBottom_toBottomOf="@id/user_avatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/like_line"
+            app:layout_constraintTop_toBottomOf="@id/user_store_count"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/user_store_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.storeCount,default=111}"
+            android:textColor="@color/design_orange"
+            android:textSize="@dimen/majorText"
+            app:layout_constraintBottom_toTopOf="@id/user_store_count_text"
+            app:layout_constraintEnd_toEndOf="@id/user_store_count_text"
+            app:layout_constraintStart_toStartOf="@id/user_store_count_text"
+            app:layout_constraintTop_toTopOf="@id/user_avatar" />
+
+        <View
+            android:onClick="@{v->viewModel.toStore()}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/user_avatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/like_line"
+            app:layout_constraintTop_toTopOf="@id/user_avatar" />
+
         <androidx.recyclerview.widget.RecyclerView
             data="@{viewModel.list}"
             itemClick="@{itemClick}"
             span="@{2}"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/user_avatar" />
 
         <TextView
             android:layout_width="100dp"

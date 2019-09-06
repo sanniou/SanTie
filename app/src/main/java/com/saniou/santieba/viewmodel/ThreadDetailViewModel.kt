@@ -156,7 +156,8 @@ class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
                     mPid = post.id
                 }
                 add(loadMoreItem)
-                loadMoreItem.loadSuccess(threadDetail.post_list.isNotEmpty() && !(threadDetail.post_list.size == 1 && mPid.isNotEmpty()))
+                // 不知道为什么返回多 2 条
+                loadMoreItem.loadSuccess(threadDetail.post_list.size == threadDetail.page.page_size + 2)
                 updateUi(0)
                 items
             }) {

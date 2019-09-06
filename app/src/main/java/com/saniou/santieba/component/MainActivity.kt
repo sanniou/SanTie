@@ -31,6 +31,16 @@ class MainActivity : SanBaseActivity() {
             startActivity(intent)
             true
         }
+        mViewModel.observe {
+            when (it) {
+                3 -> {
+                    startActivityEx(StoreActivity::class.java, "UID", mViewModel.mID)
+                }
+                else -> {
+
+                }
+            }
+        }
         checkLogin()
     }
 

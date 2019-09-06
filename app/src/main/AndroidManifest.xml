@@ -13,9 +13,10 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/CommonAppTheme">
-        <activity android:name=".component.MSignActivity"></activity>
-        <activity android:name=".component.ThreadSubCommentActivity"></activity>
+        android:theme="@style/AppTheme">
+        <activity android:name=".component.StoreActivity"></activity>
+        <activity android:name=".component.MSignActivity" />
+        <activity android:name=".component.ThreadSubCommentActivity" />
         <activity android:name=".component.ForumMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

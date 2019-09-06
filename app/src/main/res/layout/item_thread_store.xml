@@ -5,7 +5,7 @@
 
         <variable
             name="item"
-            type="com.saniou.santieba.vo.SubCommentItem" />
+            type="com.saniou.santieba.vo.ThreadStoreItem" />
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,10 +17,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/comment_start"
-            android:background="@color/subComment"
+            android:text="@{item.name}"
+            android:textSize="@dimen/normalText"
             android:padding="@dimen/comment_padding"
-            android:text="@{item.showText}"
             android:textColor="@color/normalText" />
     </FrameLayout>
 </layout>

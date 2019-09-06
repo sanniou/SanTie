@@ -18,9 +18,9 @@
             android:id="@+id/thread_star"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:visibility="gone"
             android:layout_marginEnd="@dimen/comment_padding"
             android:src="@mipmap/ic_launcher"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/thread_replay"
             app:layout_constraintEnd_toStartOf="@id/thread_replay"
             app:layout_constraintTop_toTopOf="@id/thread_replay" />
@@ -29,8 +29,8 @@
             android:id="@+id/thread_replay"
             android:layout_width="25dp"
             android:layout_height="wrap_content"
-            app:layout_constraintDimensionRatio="W,1:1"
             android:src="@drawable/icon_comment"
+            app:layout_constraintDimensionRatio="W,1:1"
             app:layout_constraintEnd_toStartOf="@id/thread_replay_counts"
             app:layout_constraintTop_toTopOf="parent" />
 

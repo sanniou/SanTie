@@ -9,6 +9,7 @@
     <string name="add_success">发送成功</string>
     <string name="advantage_settings">高级设置</string>
     <string name="begin_sign_in">开始签到</string>
+    <string name="sign_in_single">签</string>
     <string name="btn_cancel">取消</string>
     <string name="btn_confirm">确认</string>
     <string name="content_loading">内容还没加载出来呢</string>
@@ -70,6 +71,10 @@
     <string name="too_frequent">操作太频繁啦</string>
     <string name="updated_just_now">刚刚更新</string>
     <string name="user_thread">TA的帖子</string>
+    <string name="personal_thread">我的帖子</string>
+    <string name="personal_fans">我的粉丝</string>
+    <string name="personal_like">我的关注</string>
+    <string name="personal_store">我的收藏</string>
     <string name="vcode">验证码</string>
     <string name="wait_plz">请稍等…</string>
 

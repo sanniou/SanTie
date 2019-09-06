@@ -7,8 +7,8 @@ import com.sanniou.common.widget.recyclerview.Item
 
 class DividerItem(
     var height: Int = SizeUtils.dp2px(12f),
-    var backgroundColor: Int = 0,
     var color: Int = 0,
+    var backgroundColor: Int = 0,
     var padding: Int = 0
 ) : Item {
 

@@ -23,7 +23,6 @@ import java.util.*
 import kotlin.collections.HashMap
 
 object TiebaRequest : TiebaService, BaseRequest() {
-
     private var clientId: String
     private var netType: String
     private var littleTail: String
@@ -169,6 +168,25 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["user_id"] = this.uid
         hashMap["sign"] = calsign(hashMap)
         return threadTieConfig(getforumlist(hashMap))
+    }
+
+    override fun threadstore(params: Map<String, String>) = tiebaService.threadstore(params)
+
+    fun threadstore(pageNum: Int, userID: String): Observable<StoreThreadData> {
+        val hashMap = HashMap<String, String>()
+        hashMap["BDUSS"] = this.BDUSS
+        hashMap["_client_id"] = this.clientId
+        hashMap["_client_type"] = this.clientType
+        hashMap["_client_version"] = this.newClientVersion
+        hashMap["_phone_imei"] = this.imei
+        hashMap["from"] = "tieba"
+        hashMap["net_type"] = this.netType
+        hashMap["offset"] = pageNum.minus(1).times(RANGE_NUMBER).toString()
+        hashMap["rn"] = RANGE_NUMBER.toString()
+        hashMap["user_id"] = userID
+        hashMap["timestamp"] = DateUtil.getTimestamp().toString()
+        hashMap["sign"] = calsign(hashMap)
+        return threadTieConfig(threadstore(hashMap))
     }
 
     override fun profile(params: Map<String, String>) = tiebaService.profile(params)

@@ -1,66 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools">
-  <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="8dp">
-    <ImageView
-      android:id="@+id/forumImage"
-        res="@{item.forumImage}"
-      android:layout_width="60dp"
-      android:layout_height="60dp"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      tools:src="@mipmap/ic_launcher" />
-    <TextView
-      android:id="@+id/forumName"
-      android:textStyle="bold"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="8dp"
-      android:text="@{item.forumName}"
-      app:layout_constraintBottom_toTopOf="@id/forumProgress"
-      app:layout_constraintStart_toEndOf="@id/forumImage"
-      app:layout_constraintTop_toTopOf="@id/forumImage"
-      tools:text="string/about" />
-    <TextView
-      android:id="@+id/forumLevel"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="3dp"
-      android:text="@{item.forumLevel}"
-      app:layout_constraintStart_toEndOf="@id/forumName"
-      app:layout_constraintTop_toTopOf="@id/forumName"
-      tools:text="string/about" />
-    <TextView
-      android:id="@+id/forumProgress"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:paddingTop="4dp"
-      android:text="@{item.forumProgress}"
-      android:textColor="@color/minorText"
-      android:textSize="@dimen/minorText"
-      app:layout_constraintBottom_toBottomOf="@id/forumImage"
-      app:layout_constraintStart_toStartOf="@id/forumName"
-      app:layout_constraintTop_toBottomOf="@id/forumName"
-      tools:text="string/about" />
-    <TextView
-      android:id="@+id/forumState"
-      visible="@{item.forumState}"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@{item.forumStateText}"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toTopOf="@id/forumName"
-      tools:text="string/about" />
+    xmlns:tools="http://schemas.android.com/tools">
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
-  <data>
-    <variable
-      name="item"
-      type="com.saniou.santieba.vo.MSignForumItem" />
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?selectableItemBackground"
+        android:padding="8dp">
 
-  </data>
+        <ImageView
+            android:id="@+id/forumImage"
+            res="@{item.forumImage}"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/forumName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@{item.forumName}"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/forumProgress"
+            app:layout_constraintStart_toEndOf="@id/forumImage"
+            app:layout_constraintTop_toTopOf="@id/forumImage"
+            tools:text="string/about" />
+
+        <TextView
+            android:id="@+id/forumLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:text="@{item.forumLevel}"
+            app:layout_constraintStart_toEndOf="@id/forumName"
+            app:layout_constraintTop_toTopOf="@id/forumName"
+            tools:text="string/about" />
+
+        <TextView
+            android:id="@+id/forumProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:text="@{item.forumProgress}"
+            android:textColor="@color/minorText"
+            android:textSize="@dimen/minorText"
+            app:layout_constraintBottom_toBottomOf="@id/forumImage"
+            app:layout_constraintStart_toStartOf="@id/forumName"
+            app:layout_constraintTop_toBottomOf="@id/forumName"
+            tools:text="string/about" />
+
+        <TextView
+            android:id="@+id/forumState"
+            visible="@{item.forumState}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.forumStateText}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/forumName"
+            tools:text="string/about" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.saniou.santieba.vo.MSignForumItem" />
+
+    </data>
 
 </layout>

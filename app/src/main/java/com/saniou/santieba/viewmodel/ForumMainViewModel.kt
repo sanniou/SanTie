@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import androidx.databinding.ObservableField
 import com.saniou.santieba.R
 import com.saniou.santieba.api.TiebaRequest
-import com.saniou.santieba.constant.IMAGE
-import com.saniou.santieba.constant.PORTRAIT_HOST
-import com.saniou.santieba.constant.VOICE
+import com.saniou.santieba.constant.*
 import com.saniou.santieba.utils.DateUtil
 import com.saniou.santieba.vo.ForumTopItem
 import com.saniou.santieba.vo.ThreadItem
@@ -43,6 +41,7 @@ class ForumMainViewModel : BaseObservableListViewModel(), OnLoadListener {
     }
 
     fun requestPosts(page: Int) {
+
         TiebaRequest.postPage(name, page, isGood)
             .`as`(bindLifeEvent())
             .subscribe({ threadProfile ->
@@ -104,12 +103,12 @@ class ForumMainViewModel : BaseObservableListViewModel(), OnLoadListener {
                 }
 
                 add(loadMoreItem)
-                loadMoreItem.loadSuccess(threadProfile.thread_list.isNotEmpty())
-                updateUi(0)
+                loadMoreItem.loadSuccess(threadProfile.thread_list.size == threadProfile.page.page_size)
+                updateUi(EVENT_UI_REFRESH_SUCCESS)
             }) {
                 ToastUtils.showShort(ExceptionEngine.handleMessage(it))
                 loadMoreItem.loadFailed()
-                updateUi(1)
+                updateUi(EVENT_UI_REFRESH_FAILED)
             }
     }
 
@@ -129,7 +128,7 @@ class ForumMainViewModel : BaseObservableListViewModel(), OnLoadListener {
     }
 
     fun subscribe() {
-        if (!subscribed) {
+        if (subscribed) {
             ToastUtils.showShort("已关注")
             return
         }

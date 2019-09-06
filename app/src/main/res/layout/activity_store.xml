@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
-            name="clickListener"
+            name="itemClick"
             type="com.sanniou.common.widget.recyclerview.OnItemClickListener" />
 
         <variable
             name="viewModel"
-            type="com.saniou.santieba.viewmodel.ThreadDetailViewModel" />
+            type="com.saniou.santieba.viewmodel.StoreViewModel" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="com.saniou.santieba.component.ThreadDetailActivity">
+        tools:context=".component.StoreActivity">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/action_bar"
@@ -26,8 +26,7 @@
             android:background="@drawable/shape_title_background"
             app:navigationIcon="?attr/homeAsUpIndicator"
             app:popupTheme="@style/ToolbarTheme"
-            app:title="@{viewModel.forumName,default=title}" />
-
+            app:title="@string/my_store" />
 
         <com.sanniou.common.widget.swiper.LSwipeRefreshLayout
             android:id="@+id/refresh"
@@ -36,13 +35,12 @@
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                data="@{viewModel.list}"
-                itemClick="@{clickListener}"
+                android:id="@+id/recycler"
+                data="@{viewModel.items}"
+                dividerHeightDp="@{4}"
+                itemClick="@{itemClick}"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/config_white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/forumImage" />
+                android:layout_height="match_parent" />
         </com.sanniou.common.widget.swiper.LSwipeRefreshLayout>
     </LinearLayout>
 </layout>

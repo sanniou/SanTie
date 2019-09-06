@@ -16,6 +16,10 @@ interface TiebaService {
     @FormUrlEncoded
     fun subscribe(@FieldMap params: Map<String, String>): Observable<StatusResponse>
 
+    @POST("f/post/threadstore")
+    @FormUrlEncoded
+    fun threadstore(@FieldMap params: Map<String, String>): Observable<StoreThreadData>
+
     @POST("c/post/addstore")
     @FormUrlEncoded
     fun addStore(@FieldMap params: Map<String, String>): Observable<StatusResponse>

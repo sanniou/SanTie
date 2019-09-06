@@ -13,6 +13,7 @@ import com.sanniou.common.utilcode.util.ToastUtils
 import com.sanniou.common.vo.LoadCallBack
 import com.sanniou.common.vo.LoadMoreItem
 import com.sanniou.common.vo.OnLoadListener
+import java.lang.ref.SoftReference
 
 class ThreadSubCommentViewModel : BaseObservableListViewModel(), OnLoadListener {
 
@@ -49,7 +50,7 @@ class ThreadSubCommentViewModel : BaseObservableListViewModel(), OnLoadListener 
                         add(
                             ThreadCommentItem(
                                 floor,
-                                "$PORTRAIT_HOST + ${author.portrait}",
+                                "$PORTRAIT_HOST+${author.portrait}",
                                 "${author.name_show}(${author.name})"
                                 , author.level_id,
                                 time
@@ -80,7 +81,7 @@ class ThreadSubCommentViewModel : BaseObservableListViewModel(), OnLoadListener 
                     add(
                         ThreadCommentItem(
                             subPost.floor,
-                            "$PORTRAIT_HOST + ${subAuthor.portrait}",
+                            "$PORTRAIT_HOST+${subAuthor.portrait}",
                             "${subAuthor.name_show}(${subAuthor.name})"
                             , subAuthor.level_id,
                             subPost.time
@@ -110,7 +111,7 @@ class ThreadSubCommentViewModel : BaseObservableListViewModel(), OnLoadListener 
 
                 pageNumber++
                 add(loadMoreItem)
-                loadMoreItem.loadSuccess(subComment.subpost_list.isNotEmpty())
+                loadMoreItem.loadSuccess(subComment.subpost_list.size == subComment.page.page_size - 1)
                 updateUi(0)
             }) {
                 ToastUtils.showShort(ExceptionEngine.handleMessage(it))

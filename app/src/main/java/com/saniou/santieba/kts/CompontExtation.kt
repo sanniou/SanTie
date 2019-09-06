@@ -16,8 +16,18 @@ fun Activity.startActivityEx(clazz: Class<out Activity>) {
     startActivity(Intent(this, clazz))
 }
 
+fun Activity.startActivityEx(clazz: Class<out Activity>, vararg strings: String) {
+    val intent = Intent(this, clazz)
+    strings.forEachIndexed { index, s ->
+        if (index % 2 != 0) {
+            intent.putExtra(strings[index - 1], s)
+        }
+    }
+    startActivity(intent)
+}
+
 fun <T : ViewModel> FragmentActivity.getViewModel(clazz: Class<T>) =
-    ViewModelProviders.of(this).get<T>(clazz)
+    ViewModelProviders.of(this).get(clazz)
 
 fun <T : ViewDataBinding> Activity.setDataBindingContentView(layout: Int) =
     DataBindingUtil.setContentView<T>(this, layout)
