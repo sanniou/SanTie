@@ -104,7 +104,7 @@ class ForumMainViewModel : BaseObservableListViewModel(), OnLoadListener {
 
                 add(loadMoreItem)
                 loadMoreItem.loadSuccess(threadProfile.page.run {
-                    total_page != current_page && threadProfile.thread_list.isNotEmpty()
+                    has_more == BOOLEAN_TRUE_INT && threadProfile.thread_list.isNotEmpty()
                 }
                 )
                 updateUi(EVENT_UI_REFRESH_SUCCESS)

@@ -162,7 +162,7 @@ class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
                 // 不知道为什么返回多
                 loadMoreItem.loadSuccess(
                     threadDetail.page.run {
-                        total_page != current_page && threadDetail.post_list.isNotEmpty()
+                        has_more == BOOLEAN_TRUE_INT && threadDetail.post_list.isNotEmpty()
                     })
                 updateUi(0)
                 items

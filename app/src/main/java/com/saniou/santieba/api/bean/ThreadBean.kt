@@ -155,7 +155,7 @@ data class Page(
     val cur_good_id: String,
     val current_page: String,
     val total_count: String,
-    val has_more: String,
+    val has_more: Int,
     val has_prev: String,
     val new_total_page: String,
     val offset: String,
