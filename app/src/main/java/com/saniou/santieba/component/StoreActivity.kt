@@ -2,7 +2,6 @@ package com.saniou.santieba.component
 
 import android.os.Bundle
 import com.saniou.santieba.R
-import com.saniou.santieba.constant.BOOLEAN_TRUE
 import com.saniou.santieba.constant.BOOLEAN_TRUE_INT
 import com.saniou.santieba.constant.EVENT_UI_REFRESH_FAILED
 import com.saniou.santieba.constant.EVENT_UI_REFRESH_SUCCESS
@@ -12,7 +11,7 @@ import com.saniou.santieba.kts.setDataBindingContentView
 import com.saniou.santieba.kts.startActivityEx
 import com.saniou.santieba.viewmodel.StoreViewModel
 import com.saniou.santieba.vo.ThreadStoreItem
-import com.sanniou.common.widget.recyclerview.BaseBindingHolder
+import com.sanniou.common.utilcode.util.ToastUtils
 
 class StoreActivity : SanBaseActivity() {
     val binding: ActivityStoreBinding by lazy {
@@ -31,10 +30,11 @@ class StoreActivity : SanBaseActivity() {
                     (holder.item as ThreadStoreItem).takeIf {
                         it.isDeleted != BOOLEAN_TRUE_INT
                     }?.run {
-
                         startActivityEx(
                             ThreadDetailActivity::class.java, "tid", tid
                         )
+                    }?:run {
+                       ToastUtils.showShort("帖子被删除")
                     }
                     true
                 }

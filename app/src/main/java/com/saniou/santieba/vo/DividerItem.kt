@@ -6,7 +6,7 @@ import com.sanniou.common.utilcode.util.SizeUtils
 import com.sanniou.common.widget.recyclerview.Item
 
 class DividerItem(
-    var height: Int = SizeUtils.dp2px(12f),
+    var height: Int = 4,
     var color: Int = 0,
     var backgroundColor: Int = 0,
     var padding: Int = 0
