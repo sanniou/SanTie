@@ -94,6 +94,9 @@ class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
                                     VOICE -> {
                                         add(CommentVoiceItem(first))
                                     }
+                                    ATME -> {
+                                        add(CommentTextItem(it.text, first))
+                                    }
                                     IMAGE -> {
                                         add(
                                             CommentImageItem(
@@ -157,7 +160,10 @@ class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
                 }
                 add(loadMoreItem)
                 // 不知道为什么返回多
-                loadMoreItem.loadSuccess(threadDetail.post_list.size >= threadDetail.page.page_size + 2)
+                loadMoreItem.loadSuccess(
+                    threadDetail.page.run {
+                        total_page != current_page && threadDetail.post_list.isNotEmpty()
+                    })
                 updateUi(0)
                 items
             }) {

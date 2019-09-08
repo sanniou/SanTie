@@ -103,7 +103,10 @@ class ForumMainViewModel : BaseObservableListViewModel(), OnLoadListener {
                 }
 
                 add(loadMoreItem)
-                loadMoreItem.loadSuccess(threadProfile.thread_list.size >= threadProfile.page.page_size)
+                loadMoreItem.loadSuccess(threadProfile.page.run {
+                    total_page != current_page && threadProfile.thread_list.isNotEmpty()
+                }
+                )
                 updateUi(EVENT_UI_REFRESH_SUCCESS)
             }) {
                 ToastUtils.showShort(ExceptionEngine.handleMessage(it))

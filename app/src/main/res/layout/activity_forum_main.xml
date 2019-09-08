@@ -7,9 +7,6 @@
             name="viewModel"
             type="com.saniou.santieba.viewmodel.ForumMainViewModel" />
 
-        <variable
-            name="refreshListener"
-            type="com.sanniou.common.widget.swiper.OnRequestListener" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -31,7 +28,7 @@
 
         <com.sanniou.common.widget.swiper.LSwipeRefreshLayout
             android:id="@+id/refresh"
-            onRefresh="@{refreshListener}"
+            onRefresh="@{viewModel::init}"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

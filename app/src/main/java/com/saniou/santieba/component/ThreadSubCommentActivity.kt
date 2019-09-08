@@ -33,6 +33,8 @@ class ThreadSubCommentActivity : SanBaseActivity() {
             }
         })
 
-        model.init()
+        binding.refresh.post {
+            binding.refresh.startRefresh()
+        }
     }
 }

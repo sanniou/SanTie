@@ -12,7 +12,9 @@
         res="@{item.image}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/view_padding"
         android:paddingStart="@{item.first?@dimen/comment_padding:@dimen/comment_start}"
+        android:paddingTop="@dimen/view_padding"
         android:paddingEnd="@dimen/comment_padding">
 
     </ImageView>

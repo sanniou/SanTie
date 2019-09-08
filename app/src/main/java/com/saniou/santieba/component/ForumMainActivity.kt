@@ -58,10 +58,10 @@ class ForumMainActivity : SanBaseActivity() {
 
             })
             viewModel.name = name
-            viewModel.init()
-            binding.setRefreshListener {
-                viewModel.init()
+            binding.refresh.post {
+                binding.refresh.startRefresh()
             }
+
         } ?: run {
             ToastUtils.showShort("no forum name")
             finish()

@@ -3,6 +3,7 @@ package com.saniou.santieba.viewmodel
 import android.annotation.SuppressLint
 import com.saniou.santieba.api.TiebaRequest
 import com.saniou.santieba.constant.*
+import com.saniou.santieba.kts.getDisplayTime
 import com.saniou.santieba.utils.analyzeText
 import com.saniou.santieba.vo.CommentTextItem
 import com.saniou.santieba.vo.ThreadCommentItem
@@ -53,7 +54,7 @@ class ThreadSubCommentViewModel : BaseObservableListViewModel(), OnLoadListener 
                                 "$PORTRAIT_HOST${author.portrait}",
                                 "${author.name_show}(${author.name})"
                                 , author.level_id,
-                                time
+                                getDisplayTime(time)
                             )
                         )
                         analyzeText(content).forEach {
@@ -64,7 +65,11 @@ class ThreadSubCommentViewModel : BaseObservableListViewModel(), OnLoadListener 
                                 EMOJI -> {
                                     add(CommentTextItem(it.text))
                                 }
+                                ATME -> {
+                                    add(CommentTextItem(it.text))
+                                }
                                 VIDEO -> {
+                                    add(CommentTextItem(it.text))
                                 }
                                 IMAGE -> {
                                 }
@@ -81,10 +86,10 @@ class ThreadSubCommentViewModel : BaseObservableListViewModel(), OnLoadListener 
                     add(
                         ThreadCommentItem(
                             subPost.floor,
-                            "$PORTRAIT_HOST+${subAuthor.portrait}",
+                            "$PORTRAIT_HOST${subAuthor.portrait}",
                             "${subAuthor.name_show}(${subAuthor.name})"
                             , subAuthor.level_id,
-                            subPost.time
+                            getDisplayTime(subPost.time)
                         )
                     )
 
@@ -111,7 +116,9 @@ class ThreadSubCommentViewModel : BaseObservableListViewModel(), OnLoadListener 
 
                 pageNumber++
                 add(loadMoreItem)
-                loadMoreItem.loadSuccess(subComment.subpost_list.size >= subComment.page.page_size - 1)
+                loadMoreItem.loadSuccess(subComment.page.run {
+                    total_page != current_page && subComment.subpost_list.isNotEmpty()
+                })
                 updateUi(0)
             }) {
                 ToastUtils.showShort(ExceptionEngine.handleMessage(it))

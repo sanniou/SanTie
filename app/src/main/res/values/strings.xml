@@ -15,6 +15,7 @@
     <string name="content_loading">内容还没加载出来呢</string>
     <string name="copy_bduss">复制BDUSS</string>
     <string name="copy_link">复制链接</string>
+    <string name="copied_to_clipboard">已复制至剪贴板</string>
     <string name="unsubscribe">取消关注</string>
     <string name="unsubscribe_success">取消关注成功</string>
     <string name="subscribe_success">关注成功</string>

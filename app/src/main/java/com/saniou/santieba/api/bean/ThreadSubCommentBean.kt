@@ -19,7 +19,7 @@ data class Post2(
     val ptype: String,
     val show_squared: String,
     val skin_info: String,
-    val time: String,
+    val time: Long,
     val title: String,
     val tpoint_post: String,
     val voice_info: List<Any>
@@ -35,7 +35,7 @@ data class Subpost(
     val is_giftpost: String,
     val location: List<Any>,
     val ptype: String,
-    val time: String,
+    val time: Long,
     val title: String
 )
 

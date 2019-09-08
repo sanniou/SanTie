@@ -9,7 +9,7 @@ open class SanBaseActivity : BaseActivity() {
 
     override fun setStatusBar() {
         super.setStatusBar()
-        BarUtils.setStatusBarColor(this, ResourcesUtils.getColor(R.color.design_blue))
+        BarUtils.setStatusBarDrawable(this, R.drawable.shape_title_background)
     }
 
 }

@@ -59,6 +59,7 @@
 
         <TextView
             android:id="@+id/comment_floor"
+            visible="@{item.floor!=0}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{item.floor+@string/floor,default=123}"

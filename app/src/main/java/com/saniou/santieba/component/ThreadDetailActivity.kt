@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.webkit.MimeTypeMap
 import androidx.lifecycle.Observer
 import com.saniou.santieba.R
 import com.saniou.santieba.constant.ORANGE_COLOR
@@ -86,7 +87,9 @@ class ThreadDetailActivity : SanBaseActivity() {
             })
             viewModel.tid = tid
             binding.viewModel = viewModel
-            viewModel.init()
+            binding.refresh.post {
+                binding.refresh.startRefresh()
+            }
         } ?: finish()
     }
 
@@ -107,7 +110,6 @@ class ThreadDetailActivity : SanBaseActivity() {
         menuInflater.inflate(R.menu.thread_detail, menu)
         return true
     }
-
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -148,7 +150,7 @@ class ThreadDetailActivity : SanBaseActivity() {
             }
             R.id.menu_link -> {
                 ClipboardUtils.copyText(TIEBA_HOST + binding.viewModel?.tid)
-                ToastUtils.showShort("已复制至剪贴板")
+                ToastUtils.showShort(R.string.copied_to_clipboard)
             }
             else -> {
             }
