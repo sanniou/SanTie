@@ -52,7 +52,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             data="@{viewModel.list}"
-            dividerColor="@{@color/minorText}"
+            dividerHeightDp="@{1}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"

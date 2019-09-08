@@ -50,7 +50,7 @@ class ThreadSubCommentViewModel : BaseObservableListViewModel(), OnLoadListener 
                         add(
                             ThreadCommentItem(
                                 floor,
-                                "$PORTRAIT_HOST+${author.portrait}",
+                                "$PORTRAIT_HOST${author.portrait}",
                                 "${author.name_show}(${author.name})"
                                 , author.level_id,
                                 time
@@ -111,7 +111,7 @@ class ThreadSubCommentViewModel : BaseObservableListViewModel(), OnLoadListener 
 
                 pageNumber++
                 add(loadMoreItem)
-                loadMoreItem.loadSuccess(subComment.subpost_list.size == subComment.page.page_size - 1)
+                loadMoreItem.loadSuccess(subComment.subpost_list.size >= subComment.page.page_size - 1)
                 updateUi(0)
             }) {
                 ToastUtils.showShort(ExceptionEngine.handleMessage(it))

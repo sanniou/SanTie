@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,18 +9,108 @@
             type="com.saniou.santieba.vo.ThreadStoreItem" />
     </data>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/config_white"
-        android:foreground="?selectableItemBackground">
+        android:foreground="?selectableItemBackground"
+        android:padding="@dimen/comment_padding">
+
+        <ImageView
+            android:id="@+id/thread_avatar"
+            res="@{item.avatar}"
+            android:layout_width="50dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="W,1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ali_003" />
 
         <TextView
+            android:id="@+id/thread_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/view_padding"
+            android:text="@{item.name}"
+            android:textColor="@color/majorText"
+            android:textSize="@dimen/majorText"
+            app:layout_constraintStart_toEndOf="@id/thread_avatar"
+            app:layout_constraintTop_toTopOf="@id/thread_avatar"
+            tools:text="@string/my_store" />
+
+        <TextView
+            android:id="@+id/thread_first_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_padding"
+            android:text="@{item.firstTime,default=1111}"
+            android:textColor="@color/minorText"
+            android:textSize="@dimen/minorText"
+            app:layout_constraintStart_toStartOf="@id/thread_name"
+            app:layout_constraintTop_toBottomOf="@id/thread_name" />
+
+        <TextView
+            android:id="@+id/thread_last_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_padding"
+            android:text="@{item.lastTime,default=1111}"
+            android:textColor="@color/minorText"
+            android:textSize="@dimen/minorText"
+            app:layout_constraintStart_toStartOf="@id/thread_forum"
+            app:layout_constraintTop_toBottomOf="@id/thread_forum" />
+
+
+        <TextView
+            android:id="@+id/thread_forum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.forum,default=dsafds}"
+            android:textColor="@color/design_orange"
+            android:textSize="@dimen/majorText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/thread_avatar" />
+
+        <TextView
+            android:id="@+id/thread_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{item.name}"
-            android:textSize="@dimen/normalText"
-            android:padding="@dimen/comment_padding"
-            android:textColor="@color/normalText" />
-    </FrameLayout>
+            android:layout_marginTop="@dimen/view_padding"
+            android:text="@{item.title,default=dsfsdfsdf}"
+            android:textColor="@color/majorText"
+            android:textSize="@dimen/majorText"
+            app:layout_constraintTop_toBottomOf="@id/thread_avatar" />
+
+        <ImageView
+            android:id="@+id/thread_media"
+            res="@{item.media}"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="@dimen/view_padding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/thread_title"
+            tools:src="@drawable/ali_003" />
+
+        <TextView
+            android:id="@+id/replay_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_padding"
+            android:text="@{item.replayCount,default=ddddd}"
+            android:textColor="@color/minorText"
+            android:textSize="@dimen/minorText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/thread_media" />
+
+        <ImageView
+            android:id="@+id/repay_icon"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/view_padding"
+            android:src="@drawable/icon_comment"
+            app:layout_constraintBottom_toBottomOf="@id/replay_count"
+            app:layout_constraintDimensionRatio="W,1:1"
+            app:layout_constraintEnd_toStartOf="@id/replay_count"
+            app:layout_constraintTop_toTopOf="@id/replay_count" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

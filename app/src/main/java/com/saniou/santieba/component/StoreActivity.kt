@@ -2,6 +2,8 @@ package com.saniou.santieba.component
 
 import android.os.Bundle
 import com.saniou.santieba.R
+import com.saniou.santieba.constant.BOOLEAN_TRUE
+import com.saniou.santieba.constant.BOOLEAN_TRUE_INT
 import com.saniou.santieba.constant.EVENT_UI_REFRESH_FAILED
 import com.saniou.santieba.constant.EVENT_UI_REFRESH_SUCCESS
 import com.saniou.santieba.databinding.ActivityStoreBinding
@@ -25,12 +27,15 @@ class StoreActivity : SanBaseActivity() {
         }
         intent?.run {
             getStringExtra("UID")?.run {
-                binding.setItemClick {
-                    startActivityEx(
-                        ThreadDetailActivity::class.java,
-                        "tid",
-                        (it.item as ThreadStoreItem).tid
-                    )
+                binding.setItemClick { holder ->
+                    (holder.item as ThreadStoreItem).takeIf {
+                        it.isDeleted != BOOLEAN_TRUE_INT
+                    }?.run {
+
+                        startActivityEx(
+                            ThreadDetailActivity::class.java, "tid", tid
+                        )
+                    }
                     true
                 }
                 val viewModel = getViewModel(StoreViewModel::class.java)

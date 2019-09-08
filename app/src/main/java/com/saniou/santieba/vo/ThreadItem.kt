@@ -10,6 +10,9 @@ import com.sanniou.common.utilcode.util.SizeUtils
 import com.sanniou.common.utilcode.util.SpanUtils
 import com.sanniou.common.widget.recyclerview.Item
 
+//  暂定一个字段表示 top 的展示
+const val showTop = false
+
 class ThreadItem(
     private var isTop: Boolean,
     private var isGood: Boolean,
@@ -23,7 +26,7 @@ class ThreadItem(
     var avatar: String,
     var postImage: String = ""
 ) : Item {
-    override fun getType() = R.layout.item_thread
+    override fun getType() = if (isTop && !showTop) R.layout.item_thread_simple else R.layout.item_thread
 
     fun getShowTitle() =
         SpanUtils()

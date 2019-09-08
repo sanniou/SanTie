@@ -13,9 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="@{item.first?@dimen/comment_padding:@dimen/comment_start}"
-        android:paddingTop="@dimen/comment_padding"
-        android:paddingEnd="@dimen/comment_padding"
-        android:paddingBottom="@dimen/comment_padding">
+        android:paddingEnd="@dimen/comment_padding">
 
     </ImageView>
 </layout>

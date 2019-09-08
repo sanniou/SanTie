@@ -4,7 +4,7 @@ import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
 import com.saniou.santieba.api.bean.*
 import com.saniou.santieba.constant.*
-import com.saniou.santieba.utils.DateUtil
+import com.saniou.santieba.kts.getTimestamp
 import com.saniou.santieba.utils.StringUtil
 import com.sanniou.common.helper.JsonUtils
 import com.sanniou.common.network.BaseRequest
@@ -21,6 +21,7 @@ import org.apache.commons.lang3.StringUtils
 import retrofit2.http.FieldMap
 import java.util.*
 import kotlin.collections.HashMap
+import kotlin.math.floor
 
 object TiebaRequest : TiebaService, BaseRequest() {
     private var clientId: String
@@ -108,9 +109,9 @@ object TiebaRequest : TiebaService, BaseRequest() {
         netType = LINK
         val sb3 = StringBuilder()
         sb3.append("wappc_")
-        sb3.append(DateUtil.getTimestamp())
+        sb3.append(getTimestamp())
         sb3.append("_")
-        sb3.append(Math.floor(Math.random() * 1000.0))
+        sb3.append(floor(Math.random() * 1000.0))
         clientId = sb3.toString()
         if (clientId.isEmpty()) {
             clientId = UUID.randomUUID().toString().replace("-", "")
@@ -147,7 +148,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["from"] = "tieba"
         hashMap["net_type"] = this.netType
         hashMap["tbs"] = this.tbs
-        hashMap["timestamp"] = DateUtil.getTimestamp().toString()
+        hashMap["timestamp"] = getTimestamp().toString()
         hashMap["user_id"] = this.uid
         hashMap["sign"] = calsign(hashMap)
         return threadTieConfig(msign(hashMap))
@@ -164,7 +165,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["_phone_imei"] = this.imei
         hashMap["from"] = "tieba"
         hashMap["net_type"] = this.netType
-        hashMap["timestamp"] = DateUtil.getTimestamp().toString()
+        hashMap["timestamp"] = getTimestamp().toString()
         hashMap["user_id"] = this.uid
         hashMap["sign"] = calsign(hashMap)
         return threadTieConfig(getforumlist(hashMap))
@@ -184,7 +185,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["offset"] = pageNum.minus(1).times(RANGE_NUMBER).toString()
         hashMap["rn"] = RANGE_NUMBER.toString()
         hashMap["user_id"] = userID
-        hashMap["timestamp"] = DateUtil.getTimestamp().toString()
+        hashMap["timestamp"] = getTimestamp().toString()
         hashMap["sign"] = calsign(hashMap)
         return threadTieConfig(threadstore(hashMap))
     }
@@ -201,7 +202,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["from"] = "tieba"
         hashMap["need_post_count"] = BOOLEAN_TRUE
         hashMap["net_type"] = this.netType
-        hashMap["timestamp"] = DateUtil.getTimestamp().toString()
+        hashMap["timestamp"] = getTimestamp().toString()
         hashMap["uid"] = this.uid
         hashMap["sign"] = calsign(hashMap)
         return threadTieConfig(profile(hashMap))
@@ -220,7 +221,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["kw"] = name
         hashMap["net_type"] = this.netType
         hashMap["tbs"] = this.tbs
-        hashMap["timestamp"] = DateUtil.getTimestamp().toString()
+        hashMap["timestamp"] = getTimestamp().toString()
         hashMap["sign"] = calsign(hashMap)
         return threadTieConfig(sign(hashMap))
     }
@@ -239,8 +240,8 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["kw"] = kw
         hashMap["net_type"] = this.netType
         hashMap["tbs"] = this.tbs
-        hashMap["timestamp"] = DateUtil.getTimestamp().toString()
-        hashMap.put("sign", calsign(hashMap))
+        hashMap["timestamp"] = getTimestamp().toString()
+        hashMap["sign"] = calsign(hashMap)
         return threadTieConfig(subscribe(hashMap))
     }
 
@@ -259,8 +260,8 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["kw"] = kw
         hashMap["net_type"] = this.netType
         hashMap["tbs"] = this.tbs
-        hashMap["timestamp"] = DateUtil.getTimestamp().toString()
-        hashMap.put("sign", calsign(hashMap))
+        hashMap["timestamp"] = getTimestamp().toString()
+        hashMap["sign"] = calsign(hashMap)
         return threadTieConfig(unSubscribe(hashMap))
     }
 
@@ -286,7 +287,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["scr_h"] = NO_VALUE
         hashMap["scr_w"] = NO_VALUE
         hashMap["st_type"] = "tb_forumlist"
-        hashMap["timestamp"] = DateUtil.getTimestamp().toString()
+        hashMap["timestamp"] = getTimestamp().toString()
         hashMap["with_group"] = NO_VALUE
         hashMap["sign"] = calsign(hashMap)
         return threadTieConfig(postPage(hashMap))
@@ -307,7 +308,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["like_forum"] = BOOLEAN_TRUE
         hashMap["net_type"] = netType
         hashMap["recommend"] = NO_VALUE
-        hashMap["timestamp"] = DateUtil.getTimestamp().toString()
+        hashMap["timestamp"] = getTimestamp().toString()
         hashMap["topic"] = NO_VALUE
         hashMap["sign"] = calsign(hashMap)
         return threadTieConfig(getFavorite(hashMap))
@@ -348,7 +349,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["scr_h"] = NO_VALUE
         hashMap["scr_w"] = NO_VALUE
         hashMap["st_type"] = "tb_frslist"
-        hashMap["timestamp"] = DateUtil.getTimestamp().toString()
+        hashMap["timestamp"] = getTimestamp().toString()
         hashMap["with_floor"] = BOOLEAN_TRUE
         hashMap["sign"] = calsign(hashMap)
         return threadTieConfig(threadDetail(hashMap))
@@ -380,7 +381,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
         if (spid.isNotEmpty()) {
             hashMap["spid"] = spid
         }
-        hashMap["timestamp"] = DateUtil.getTimestamp().toString()
+        hashMap["timestamp"] = getTimestamp().toString()
         hashMap["sign"] = calsign(hashMap)
         return threadTieConfig(getSubFloor(hashMap))
 
@@ -400,7 +401,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["net_type"] = this.netType
         hashMap["tbs"] = this.tbs
         hashMap["tid"] = tid
-        hashMap["timestamp"] = DateUtil.getTimestamp().toString()
+        hashMap["timestamp"] = getTimestamp().toString()
         hashMap["sign"] = calsign(hashMap)
         return threadTieConfig(rmStore(hashMap))
 
@@ -421,7 +422,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["from"] = "tieba"
         hashMap["net_type"] = this.netType
         hashMap["tbs"] = this.tbs
-        hashMap["timestamp"] = DateUtil.getTimestamp().toString()
+        hashMap["timestamp"] = getTimestamp().toString()
         hashMap["sign"] = calsign(hashMap)
         return threadTieConfig(addStore(hashMap))
 
@@ -443,7 +444,7 @@ object TiebaRequest : TiebaService, BaseRequest() {
     }
 
 
-    fun <T : TieResponse> threadTieConfig(request: Observable<T>): Observable<T> {
+    private fun <T : TieResponse> threadTieConfig(request: Observable<T>): Observable<T> {
         return request.observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .concatMap(TieResponseMapper())

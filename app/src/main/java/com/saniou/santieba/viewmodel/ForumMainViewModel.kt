@@ -5,7 +5,7 @@ import androidx.databinding.ObservableField
 import com.saniou.santieba.R
 import com.saniou.santieba.api.TiebaRequest
 import com.saniou.santieba.constant.*
-import com.saniou.santieba.utils.DateUtil
+import com.saniou.santieba.kts.getDisplayTime
 import com.saniou.santieba.vo.ForumTopItem
 import com.saniou.santieba.vo.ThreadItem
 import com.sanniou.common.databinding.BaseObservableListViewModel
@@ -76,7 +76,7 @@ class ForumMainViewModel : BaseObservableListViewModel(), OnLoadListener {
                     if (!thread.media.isNullOrEmpty()) {
                         when (thread.media[0].type) {
                             IMAGE -> {
-                                postImage = thread.media[0].src_pic
+                                postImage = thread.media[0].big_pic
                             }
                             VOICE -> {
                                 postImage =
@@ -95,7 +95,7 @@ class ForumMainViewModel : BaseObservableListViewModel(), OnLoadListener {
                             "${thread.author.name_show}(${thread.author.name})",
                             thread.reply_num,
                             thread.abstract[0].text,
-                            DateUtil.getDisplayTime(thread.create_time.toLong()),
+                            getDisplayTime(thread.create_time.toLong()),
                             "$PORTRAIT_HOST${thread.author.portrait}",
                             postImage
                         )
@@ -103,7 +103,7 @@ class ForumMainViewModel : BaseObservableListViewModel(), OnLoadListener {
                 }
 
                 add(loadMoreItem)
-                loadMoreItem.loadSuccess(threadProfile.thread_list.size == threadProfile.page.page_size)
+                loadMoreItem.loadSuccess(threadProfile.thread_list.size >= threadProfile.page.page_size)
                 updateUi(EVENT_UI_REFRESH_SUCCESS)
             }) {
                 ToastUtils.showShort(ExceptionEngine.handleMessage(it))

@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:foreground="?selectableItemBackground"
-        android:padding="8dp">
+        android:padding="@dimen/comment_padding">
 
         <ImageView
             android:id="@+id/forumImage"
@@ -21,7 +21,7 @@
             android:id="@+id/forumName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/view_padding"
             android:text="@{item.forumName}"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/forumProgress"
@@ -33,7 +33,7 @@
             android:id="@+id/forumLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
+            android:layout_marginStart="@dimen/view_padding"
             android:text="@{item.forumLevel}"
             app:layout_constraintStart_toEndOf="@id/forumName"
             app:layout_constraintTop_toTopOf="@id/forumName"
@@ -43,7 +43,7 @@
             android:id="@+id/forumProgress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="4dp"
+            android:paddingTop="@dimen/view_padding"
             android:text="@{item.forumProgress}"
             android:textColor="@color/minorText"
             android:textSize="@dimen/minorText"

@@ -6,7 +6,7 @@ import com.saniou.santieba.R
 import com.saniou.santieba.api.TiebaRequest
 import com.saniou.santieba.api.bean.UserXX
 import com.saniou.santieba.constant.*
-import com.saniou.santieba.utils.DateUtil
+import com.saniou.santieba.kts.getDisplayTime
 import com.saniou.santieba.utils.analyzeText
 import com.saniou.santieba.vo.*
 import com.sanniou.common.databinding.BaseObservableListViewModel
@@ -40,7 +40,7 @@ class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
         add(loadMoreItem)
     }
 
-    fun requestPosts(pid: String) {
+    private fun requestPosts(pid: String) {
         TiebaRequest.threadDetail(tid, pid, lzOly, reverse)
             .`as`(bindLifeEvent())
             .subscribe({ threadDetail ->
@@ -77,7 +77,7 @@ class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
                             "$PORTRAIT_HOST${currentUser?.portrait}",
                             "${currentUser?.name_show}(${currentUser?.name})",
                             currentUser?.level_id ?: "0",
-                            DateUtil.getDisplayTime(post.time.toLong())
+                            getDisplayTime(post.time.toLong())
                         )
                     )
                     // 帖子内容
@@ -97,7 +97,7 @@ class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
                                     IMAGE -> {
                                         add(
                                             CommentImageItem(
-                                                it.cdn_src_active,
+                                                it.cdn_src,
                                                 first,
                                                 it.show_original_btn == 1
                                             )
@@ -140,7 +140,7 @@ class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
                     } else {
                         add(
                             DividerItem(
-                                ResourcesUtils.getDimensionPixelSize(R.dimen.comment_padding),
+                                ResourcesUtils.getDimensionPixelSize(R.dimen.view_padding),
                                 ResourcesUtils.getColor(R.color.config_white)
                             )
                         )
@@ -156,8 +156,8 @@ class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
                     mPid = post.id
                 }
                 add(loadMoreItem)
-                // 不知道为什么返回多 2 条
-                loadMoreItem.loadSuccess(threadDetail.post_list.size == threadDetail.page.page_size + 2)
+                // 不知道为什么返回多
+                loadMoreItem.loadSuccess(threadDetail.post_list.size >= threadDetail.page.page_size + 2)
                 updateUi(0)
                 items
             }) {

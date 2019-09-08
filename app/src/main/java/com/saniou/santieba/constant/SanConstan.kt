@@ -9,6 +9,7 @@ const val EVENT_UI_REFRESH_SUCCESS = 0
 const val EVENT_UI_REFRESH_FAILED = 1
 
 const val BOOLEAN_TRUE = "1"
+const val BOOLEAN_TRUE_INT = 1
 const val NO_VALUE = "0"
 
 const val RANGE_NUMBER = 20

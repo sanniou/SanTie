@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import com.saniou.santieba.api.TiebaRequest
 import com.saniou.santieba.constant.EVENT_UI_REFRESH_FAILED
 import com.saniou.santieba.constant.EVENT_UI_REFRESH_SUCCESS
+import com.saniou.santieba.constant.PORTRAIT_HOST
 import com.saniou.santieba.constant.RANGE_NUMBER
+import com.saniou.santieba.kts.getDisplayTime
 import com.saniou.santieba.vo.ThreadStoreItem
 import com.sanniou.common.databinding.BaseObservableListViewModel
 import com.sanniou.common.helper.ListUtil
@@ -41,7 +43,20 @@ class StoreViewModel : BaseObservableListViewModel(), OnLoadListener {
                 ListUtil.removeLast(items)
 
                 threadData.store_thread.forEach {
-                    add(ThreadStoreItem(it.title, it.thread_id))
+                    add(
+                        ThreadStoreItem(
+                            "${it.author.name_show}(${it.author.name})",
+                            it.forum_name,
+                            "$PORTRAIT_HOST${it.author.user_portrait}",
+                            getDisplayTime(it.create_time),
+                            getDisplayTime(it.last_time),
+                            it.title, it.media[0].small_pic,
+                            it.reply_num,
+                            it.thread_id,
+                            it.is_deleted,
+                            it.author.lz_uid
+                        )
+                    )
                 }
 
                 add(loadMoreItem)

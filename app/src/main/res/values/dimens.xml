@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="comment_padding">8dp</dimen>
+    <dimen name="comment_padding">16dp</dimen>
+    <dimen name="view_padding">8dp</dimen>
+    <dimen name="view_inside_padding">4dp</dimen>
     <dimen name="comment_start">70dp</dimen>
-    <dimen name="comment_start_sub_padding">62dp</dimen>
+    <dimen name="comment_start_sub_padding">54dp</dimen>
 
-    <dimen name="minorText">12sp</dimen>
-    <dimen name="normalText">14sp</dimen>
+    <dimen name="minorText">13sp</dimen>
+    <dimen name="normalText">15sp</dimen>
     <dimen name="majorText">16sp</dimen>
 
 </resources>

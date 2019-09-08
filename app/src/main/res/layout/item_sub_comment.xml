@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/comment_start"
             android:background="@color/subComment"
-            android:padding="@dimen/comment_padding"
+            android:padding="@dimen/view_padding"
             android:text="@{item.showText}"
             android:textColor="@color/normalText" />
     </FrameLayout>
