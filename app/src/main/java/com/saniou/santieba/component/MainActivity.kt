@@ -47,6 +47,7 @@ class MainActivity : SanBaseActivity() {
     private fun checkLogin() {
         if (SPUtils.getInstance("login_info").getString("BDUSS").isEmpty()) {
             startActivityEx(WebLoginActivity::class.java)
+            finish()
         } else {
             mViewModel.getFavorite()
         }
