@@ -19,7 +19,7 @@ import com.sanniou.common.vo.OnLoadListener
 
 @SuppressLint("CheckResult")
 class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
-
+    val imageList = mutableListOf<String>()
     var lzOly = false
     private var store = false
     var reverse = false
@@ -36,6 +36,7 @@ class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
     fun init() {
         clear()
         mPid = ""
+        imageList.clear()
         loadMoreItem.ready()
         add(loadMoreItem)
     }
@@ -98,9 +99,10 @@ class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
                                         add(CommentTextItem(it.text, first))
                                     }
                                     IMAGE -> {
+                                        imageList.add(it.origin_src)
                                         add(
                                             CommentImageItem(
-                                                it.cdn_src,
+                                                it.cdn_src, it.origin_src,
                                                 first,
                                                 it.show_original_btn == 1
                                             )

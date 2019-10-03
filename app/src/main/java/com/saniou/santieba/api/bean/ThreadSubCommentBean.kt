@@ -4,7 +4,6 @@ package com.saniou.santieba.api.bean
 
 data class Post2(
     val agree: Agree,
-    val arr_video: List<Any>,
     val author: AuthorX,
     val bimg_url: String,
     val content: List<Content>,
@@ -15,14 +14,12 @@ data class Post2(
     val is_colorfull_thread: String,
     val is_voice: String,
     val is_vote: String,
-    val lbs_info: List<Any>,
     val ptype: String,
     val show_squared: String,
     val skin_info: String,
     val time: Long,
     val title: String,
-    val tpoint_post: String,
-    val voice_info: List<Any>
+    val tpoint_post: String
 )
 
 
@@ -33,7 +30,6 @@ data class Subpost(
     val floor: Int,
     val id: String,
     val is_giftpost: String,
-    val location: List<Any>,
     val ptype: String,
     val time: Long,
     val title: String
@@ -44,7 +40,6 @@ data class AuthorX(
     val bawu_type: String,
     val gender: String,
     val god_data: String,
-    val iconinfo: List<Any>,
     val id: String,
     val is_bawu: String,
     val is_like: String,
@@ -52,12 +47,8 @@ data class AuthorX(
     val level_id: String,
     val name: String,
     val name_show: String,
-    val new_tshow_icon: List<Any>,
-    val pendant: List<Any>,
     val portrait: String,
     val seal_prefix: String,
-    val tb_vip: List<Any>,
-    val tshow_icon: List<Any>,
     val type: String,
     val uk: String
 )
@@ -104,9 +95,7 @@ data class AuthorXX(
     val level_id: String,
     val name: String,
     val name_show: String,
-    val new_tshow_icon: List<Any>,
     val portrait: String,
-    val tshow_icon: List<Any>,
     val type: String,
     val uk: String
 )

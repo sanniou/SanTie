@@ -47,8 +47,7 @@ data class Thread(
     val tid: String,
     val title: String,
     val top_agree_post_id: String,
-    val view_num: String,
-    val voice_info: List<Any>
+    val view_num: String
 )
 
 data class Media(
@@ -147,8 +146,7 @@ data class DelThreadText(
 )
 
 data class FrsStar(
-    val has_frs_star: String,
-    val trade: List<Any>
+    val has_frs_star: String
 )
 
 data class Page(
@@ -168,7 +166,6 @@ data class Page(
 )
 
 data class UserExtend(
-    val `data`: List<Any>,
     val tips: String,
     val user_extend_storey: String
 )
@@ -199,7 +196,6 @@ data class Forum(
     val first_class: String,
     val forum_button: ForumButton,
     val forum_game_label: String,
-    val forum_sign_calendar: List<Any>,
     val good_classify: List<GoodClassify>,
     val has_frs_star: String,
     val has_game: String,
@@ -226,7 +222,6 @@ data class Forum(
     val theme_color: ThemeColor,
     val thread_num: String,
     val tids: String,
-    val top_notice: List<Any>,
     val user_level: String
 )
 
@@ -370,7 +365,6 @@ data class NewUserInfo(
     val is_hardworking: String,
     val is_tenyear: String,
     val lbs: Lbs,
-    val mParr_props: List<Any>,
     val meizhi_level: String,
     val new_active_forum: List<NewActiveForum>,
     val paper: String,
@@ -430,8 +424,7 @@ data class ProfessionManager(
 )
 
 data class Assist(
-    val count: String,
-    val forum_list: List<Any>
+    val count: String
 )
 
 data class ManagerX(

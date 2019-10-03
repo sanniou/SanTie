@@ -17,9 +17,7 @@ data class StatusResponse(
 data class Forum2(
     val ctime: Int,
     val error_code: Int,
-    val forum_create_info: List<Any>,
     val forum_dir: List<ForumDir>,
-    val frequently_forum_info: List<Any>,
     val group_count: String,
     val hot_search: HotSearch,
     val is_login: String,
@@ -28,18 +26,12 @@ data class Forum2(
     val msign_level: String,
     val msign_text: String,
     val msign_valid: String,
-    val new_banner_info: List<Any>,
-    val new_recommend: List<Any>,
-    val private_forum_popinfo: List<Any>,
     val recommend: Recommend,
-    val recommend_forum_info: List<Any>,
     val redirect: String,
     val server_time: String,
     val sort_type: String,
-    val tag_recommend_forum: List<Any>,
     val time: Int,
-    val error_msg: String,
-    val topic: List<Any>
+    val error_msg: String
 ) : TieResponse() {
     override fun getErrorMessage() = error_msg
 
@@ -58,17 +50,14 @@ data class UserProfile(
     data class AnTi(val tbs: String)
     data class UserInfo(
         val ala_info: AlaInfo,
-        val baijiahao_info: List<Any>,
         val bg_pic: String,
         val bookmark_count: String,
         val bookmark_new_count: String,
         val concern_num: String,
-        val consume_info: List<Any>,
         val fans_num: String,
         val friend_num: String,
         val has_bottle_enter: String,
         val has_concerned: String,
-        val iconinfo: List<Any>,
         val id: String,
         val intro: String,
         val is_fans: String,
@@ -83,21 +72,16 @@ data class UserProfile(
         val outer_id: String,
         val parr_scores: ParrScores,
         val pay_member_info: PayMemberInfo,
-        val pendant: List<Any>,
         val portrait: String,
         val portraith: String,
         val post_num: String,
         val priv_sets: PrivSets,
-        val profit_list: List<Any>,
         val repost_num: String,
         val seal_prefix: String,
         val sex: String,
         val tb_age: String,
-        val tb_vip: List<Any>,
         val thread_num: String,
         val total_visitor_num: String,
-        val tshow_icon: List<Any>,
-        val tw_anchor_info: List<Any>,
         val user_pics: List<Any>,
         val vipInfo: VipInfo,
         val vip_close_ad: VipCloseAd,
@@ -151,7 +135,6 @@ data class UserProfile(
     )
 
     data class VipCloseAd(
-        val forum_close: List<Any>,
         val is_open: String,
         val vip_close: String
     )
@@ -168,7 +151,6 @@ data class ThreadDetail(
     val forum: Forum3,
     val has_floor: String,
     val is_new_url: String,
-    val news_info: List<Any>,
     val page: Page,
     val partial_visible_toast: String,
     val pb_sort_info: List<PbSortInfo>,
@@ -242,7 +224,6 @@ data class ThreadProfile(
 
 data class ForumListP(
     val advert: Advert,
-    val anti_info: List<Any>,
     val ctime: Int,
     val error: Error,
     val error_code: Int,
@@ -270,7 +251,6 @@ data class ForumListP(
 }
 
 data class Recommend(
-    val daily_forum: List<Any>,
     val recommed_forum: List<RecommedForum>,
     val tag_name: String
 )

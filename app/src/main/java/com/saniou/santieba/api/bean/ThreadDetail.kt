@@ -22,11 +22,9 @@ data class User2(
     val level_id: String,
     val name: String,
     val name_show: String,
-    val new_tshow_icon: List<Any>,
     val portrait: String,
     val seal_prefix: String,
-    val thread_num: String,
-    val tshow_icon: List<Any>
+    val thread_num: String
 )
 
 data class PbSortInfo(
@@ -212,7 +210,6 @@ data class ThreadTopic(
 
 
 data class Post(
-    val arr_video: List<Any>,
     val author_id: String,
     val bimg_url: String,
     val content: List<Content>,

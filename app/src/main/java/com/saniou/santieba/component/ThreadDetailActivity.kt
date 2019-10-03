@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.webkit.MimeTypeMap
+import android.widget.ImageView
 import androidx.lifecycle.Observer
 import com.saniou.santieba.R
 import com.saniou.santieba.constant.ORANGE_COLOR
@@ -17,11 +18,13 @@ import com.saniou.santieba.kts.getViewModel
 import com.saniou.santieba.kts.setDataBindingContentView
 import com.saniou.santieba.kts.tintDrawable
 import com.saniou.santieba.viewmodel.ThreadDetailViewModel
+import com.saniou.santieba.vo.CommentImageItem
 import com.saniou.santieba.vo.SubCommentItem
 import com.sanniou.common.utilcode.subutil.ClipboardUtils
 import com.sanniou.common.utilcode.util.IntentUtils
 import com.sanniou.common.utilcode.util.ResourcesUtils
 import com.sanniou.common.utilcode.util.ToastUtils
+import com.sanniou.common.widget.ninegridview.ImagePreviewActivity
 
 
 class ThreadDetailActivity : SanBaseActivity() {
@@ -54,6 +57,13 @@ class ThreadDetailActivity : SanBaseActivity() {
                     intent.putExtra("pid", item.pid)
                     intent.putExtra("tid", item.threadId)
                     startActivity(intent)
+                }
+                is CommentImageItem -> {
+                    ImagePreviewActivity.imagePreview(
+                        binding.viewModel!!.imageList.indexOf(item.orgImage),
+                        binding.viewModel!!.imageList,
+                        holder.itemView as ImageView
+                    )
                 }
             }
 
