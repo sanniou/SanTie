@@ -21,7 +21,7 @@
             android:id="@+id/action_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_title_background"
+            android:background="@color/backgroundColor"
             app:navigationIcon="?attr/homeAsUpIndicator"
             app:popupTheme="@style/ToolbarTheme"
             app:title="@{viewModel.forumName,default=title}" />

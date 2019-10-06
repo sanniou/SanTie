@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.saniou.santieba.vo.SanLoadMoreItem" />
+    </data>
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        onBinding="@{item::load}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?selectableItemBackground"
+        android:padding="9dp"
+        android:text="@{item.mText}"
+        android:textColor="@color/design_minor"
+        android:textSize="@dimen/design_text_weak"
+        tools:text="mText">
+
+    </TextView>
+
+
+</layout>

@@ -34,6 +34,7 @@ class ThreadDetailActivity : SanBaseActivity() {
     private var fromSide = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        fromSide = intent.getBooleanExtra("outside", false)
         tiebaLinkFilter()
 
         setSupportActionBar(binding.actionBar)
@@ -41,7 +42,7 @@ class ThreadDetailActivity : SanBaseActivity() {
             onBackClick(it)
         }
         binding.actionBar.setOnClickListener {
-            if (fromSide && binding.viewModel!!.forumName.get()!!.isNotEmpty()) {
+            if (fromSide && binding.viewModel!!.forumName.get()!!.isNotBlank()) {
                 val intent = Intent(this, ForumMainActivity::class.java)
                 intent.putExtra("name", binding.viewModel!!.forumName.get())
                 startActivity(intent)
@@ -71,7 +72,7 @@ class ThreadDetailActivity : SanBaseActivity() {
         }
         val tid = intent.getStringExtra("tid")
         tid?.let {
-            val viewModel = getViewModel(ThreadDetailViewModel::class.java)
+            val viewModel = getViewModel<ThreadDetailViewModel>()
             viewModel.observeForever(this, Observer {
                 when (it) {
                     0 -> {

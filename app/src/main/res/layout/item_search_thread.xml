@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.saniou.santieba.vo.SearchThreadItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?selectableItemBackground"
+        android:padding="@dimen/default_margin_normal">
+
+        <TextView
+            android:id="@+id/thread_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.title,default=title}"
+            android:textColor="@color/majorText"
+            android:textSize="@dimen/majorText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/thread_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_padding"
+            android:text="@{item.content,default=content}"
+            android:textColor="@color/normalText"
+            android:textSize="@dimen/normalText"
+            app:layout_constraintStart_toStartOf="@id/thread_title"
+            app:layout_constraintTop_toBottomOf="@id/thread_title" />
+
+        <TextView
+            android:id="@+id/thread_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_padding"
+            android:text="@{item.author,default=author}"
+            android:textColor="@color/minorText"
+            android:textSize="@dimen/minorText"
+            app:layout_constraintStart_toStartOf="@id/thread_content"
+            app:layout_constraintTop_toBottomOf="@id/thread_content" />
+
+        <TextView
+            android:id="@+id/thread_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin_small"
+            android:text="@{item.time,default=time}"
+            android:textColor="@color/minorText"
+            android:textSize="@dimen/minorText"
+            app:layout_constraintStart_toEndOf="@id/thread_author"
+            app:layout_constraintTop_toTopOf="@id/thread_author" />
+
+        <TextView
+            android:id="@+id/thread_forum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.forum,default=forum}"
+            android:textColor="@color/normalText"
+            android:textSize="@dimen/normalText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/thread_author" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

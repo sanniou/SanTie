@@ -1,13 +1,10 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="CommonAppTheme">
-        <!-- Customize your theme here. -->
-        <item name="android:windowBackground">@color/backgroundColor</item>
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorControlHighlight">@color/minorText</item>
     </style>
     <!--Toolbar的Theme的设置，都是针对popup的设置-->
     <style name="ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">

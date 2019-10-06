@@ -12,6 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/config_white"
+        android:clickable="true"
+        android:focusable="true"
         android:foreground="?selectableItemBackground">
 
         <TextView

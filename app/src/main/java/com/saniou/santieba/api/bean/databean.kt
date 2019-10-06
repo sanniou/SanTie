@@ -5,6 +5,32 @@ sealed class TieResponse {
     abstract fun getErrorMessage(): String
 }
 
+data class SearchForumResponse(
+    val error_code: Int,
+    val error_msg: String,
+    val fname: List<String>
+) : TieResponse() {
+    override fun getErrorMessage() = error_msg
+
+    override fun getErrorCode() = error_code
+}
+
+data class SearchThreadResponse(
+    val ctime: Int,
+    val logid: Int,
+    val page: Page,
+    val error_code: Int,
+    val error_msg: String,
+    val post_list: List<PostS>,
+    val server_time: String,
+    val time: Int
+) : TieResponse() {
+    override fun getErrorMessage() = error_msg
+
+    override fun getErrorCode() = error_code
+}
+
+
 data class StatusResponse(
     val error_code: Int,
     val error_msg: String

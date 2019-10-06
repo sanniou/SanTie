@@ -59,4 +59,8 @@ class MainViewModel : BaseObservableListViewModel() {
     fun toStore() {
         updateUi(3)
     }
+
+    fun toSearch() {
+        updateUi(4)
+    }
 }

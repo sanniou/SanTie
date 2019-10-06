@@ -1,6 +1,7 @@
 package com.saniou.santieba.vo
 
 import android.content.Intent
+import android.text.SpannableStringBuilder
 import android.view.View
 import com.saniou.santieba.R
 import com.saniou.santieba.component.ThreadDetailActivity
@@ -28,7 +29,7 @@ class ThreadItem(
 ) : Item {
     override fun getType() = if (isTop && !showTop) R.layout.item_thread_simple else R.layout.item_thread
 
-    fun getShowTitle() =
+    fun getShowTitle(): SpannableStringBuilder =
         SpanUtils()
             .append(if (isTop) "置顶." else "")
             .setForegroundColor(ColorUtils.getColor(R.color.design_blue))

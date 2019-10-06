@@ -3,20 +3,18 @@ package com.saniou.santieba.component
 import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProviders
-import com.saniou.santieba.viewmodel.MainViewModel
 import com.saniou.santieba.R
 import com.saniou.santieba.databinding.ActivityMainBinding
 import com.saniou.santieba.kts.getViewModel
 import com.saniou.santieba.kts.startActivityEx
+import com.saniou.santieba.viewmodel.MainViewModel
 import com.saniou.santieba.vo.ForumItem
-import com.sanniou.common.databinding.DataBindingArrayList
 import com.sanniou.common.utilcode.util.SPUtils
 
 class MainActivity : SanBaseActivity() {
 
     private val mViewModel by lazy {
-        getViewModel(MainViewModel::class.java)
+        getViewModel<MainViewModel>()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,8 +34,8 @@ class MainActivity : SanBaseActivity() {
                 3 -> {
                     startActivityEx(StoreActivity::class.java, "UID", mViewModel.mID)
                 }
-                else -> {
-
+                4 -> {
+                    startActivityEx(SearchActivity::class.java, "UID", mViewModel.mID)
                 }
             }
         }

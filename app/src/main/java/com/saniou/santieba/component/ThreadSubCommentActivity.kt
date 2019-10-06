@@ -14,7 +14,7 @@ class ThreadSubCommentActivity : SanBaseActivity() {
         super.onCreate(savedInstanceState)
         val binding =
             setDataBindingContentView<ActivityThreadSubCommentBinding>(R.layout.activity_thread_sub_comment)
-        val model = getViewModel(ThreadSubCommentViewModel::class.java)
+        val model = getViewModel<ThreadSubCommentViewModel>()
         binding.viewModel = model
         intent.getStringExtra("pid")?.run {
             model.pid = this

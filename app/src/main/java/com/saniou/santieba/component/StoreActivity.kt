@@ -38,7 +38,7 @@ class StoreActivity : SanBaseActivity() {
                     }
                     true
                 }
-                val viewModel = getViewModel(StoreViewModel::class.java)
+                val viewModel = getViewModel<StoreViewModel>()
                 viewModel.observe {
                     when (it) {
                         EVENT_UI_REFRESH_SUCCESS -> {

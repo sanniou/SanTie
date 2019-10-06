@@ -35,6 +35,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".component.WebLoginActivity" />
+        <activity android:name=".component.SearchActivity" />
         <activity android:name=".component.ThreadDetailActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

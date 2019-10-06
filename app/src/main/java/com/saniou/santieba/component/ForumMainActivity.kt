@@ -35,7 +35,7 @@ class ForumMainActivity : SanBaseActivity() {
         }
         val name = intent.getStringExtra("name")
         name?.run {
-            val viewModel = getViewModel(ForumMainViewModel::class.java)
+            val viewModel = getViewModel<ForumMainViewModel>()
             binding.viewModel = viewModel
             viewModel.observeForever(this@ForumMainActivity, Observer {
                 when (it) {

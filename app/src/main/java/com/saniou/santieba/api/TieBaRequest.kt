@@ -135,6 +135,44 @@ object TiebaRequest : TiebaService, BaseRequest() {
         }
     }
 
+
+    override fun searchForum(params: Map<String, String>) = tiebaService.searchForum(params)
+
+    fun searchForum(key: String): Observable<SearchForumResponse> {
+        val hashMap = HashMap<String, String>()
+        hashMap["_client_id"] = this.clientId
+        hashMap["_client_type"] = this.clientType
+        hashMap["_client_version"] = this.newClientVersion
+        hashMap["_phone_imei"] = this.imei
+        hashMap["from"] = "tieba"
+        hashMap["net_type"] = this.netType
+        hashMap["q"] = key
+        hashMap["timestamp"] = getTimestamp().toString()
+        hashMap["sign"] = calsign(hashMap)
+        return threadTieConfig(searchForum(hashMap))
+    }
+
+
+    override fun searchpost(params: Map<String, String>) = tiebaService.searchpost(params)
+
+    fun searchpost(pageNo: String, key: String): Observable<SearchThreadResponse> {
+        val hashMap = HashMap<String, String>()
+        hashMap["BDUSS"] = this.BDUSS
+        hashMap["_client_id"] = this.clientId
+        hashMap["_client_type"] = this.clientType
+        hashMap["_client_version"] = this.newClientVersion
+        hashMap["_phone_imei"] = this.imei
+        hashMap["from"] = "tieba"
+        hashMap["net_type"] = this.netType
+        hashMap["pn"] = pageNo
+        hashMap["rn"] = "25"
+        hashMap["st_type"] = "search_post"
+        hashMap["timestamp"] = getTimestamp().toString()
+        hashMap["word"] = key
+        hashMap["sign"] = calsign(hashMap)
+        return threadTieConfig(searchpost(hashMap))
+    }
+
     override fun msign(params: Map<String, String>) = tiebaService.msign(params)
 
     fun msing(forumIds: String): Observable<StatusResponse> {
@@ -169,6 +207,12 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["user_id"] = this.uid
         hashMap["sign"] = calsign(hashMap)
         return threadTieConfig(getforumlist(hashMap))
+            .map {
+                if (it.error.errno != 0) {
+                    throw ApiErrorException(it.error.usermsg, it.error.errno)
+                }
+                return@map it
+            }
     }
 
     override fun threadstore(params: Map<String, String>) = tiebaService.threadstore(params)

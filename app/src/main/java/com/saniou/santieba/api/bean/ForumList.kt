@@ -8,7 +8,7 @@ data class Advert(
 
 data class Error(
     val errmsg: String,
-    val errno: String,
+    val errno: Int,
     val usermsg: String
 )
 

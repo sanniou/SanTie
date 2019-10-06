@@ -8,6 +8,14 @@ import retrofit2.http.POST
 import java.util.*
 
 interface TiebaService {
+    @POST("f/forum/sug")
+    @FormUrlEncoded
+    fun searchForum(@FieldMap params: Map<String, String>): Observable<SearchForumResponse>
+
+    @POST("s/searchpost")
+    @FormUrlEncoded
+    fun searchpost(@FieldMap params: Map<String, String>): Observable<SearchThreadResponse>
+
     @POST("c/forum/unlike")
     @FormUrlEncoded
     fun unSubscribe(@FieldMap params: Map<String, String>): Observable<StatusResponse>

@@ -17,27 +17,81 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/backgroundColorPress"
         tools:context=".component.MainActivity">
+
+        <View
+            android:id="@+id/top_bar_back"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/backgroundColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:onClick="@{()->viewModel.toSearch()}"
+            android:padding="@dimen/image_padding"
+            android:src="@drawable/ic_search"
+            app:layout_constraintBottom_toBottomOf="@id/top_bar_back"
+            app:layout_constraintDimensionRatio="H,1:1"
+            app:layout_constraintStart_toStartOf="@id/top_bar_back"
+            app:layout_constraintTop_toTopOf="@id/top_bar_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textColor="@color/majorText"
+            android:textSize="@dimen/majorText"
+            app:layout_constraintBottom_toBottomOf="@id/top_bar_back"
+            app:layout_constraintEnd_toEndOf="@id/top_bar_back"
+            app:layout_constraintStart_toStartOf="@id/top_bar_back"
+            app:layout_constraintTop_toTopOf="@id/top_bar_back" />
+
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="@dimen/image_padding"
+            android:src="@drawable/ic_notification"
+            app:layout_constraintBottom_toBottomOf="@id/top_bar_back"
+            app:layout_constraintDimensionRatio="H,1:1"
+            app:layout_constraintEnd_toStartOf="@id/ic_sign"
+            app:layout_constraintTop_toTopOf="@id/top_bar_back" />
+
+        <ImageView
+            android:id="@+id/ic_sign"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:onClick="@{v->viewModel.signInAll()}"
+            android:padding="@dimen/image_padding"
+            android:src="@drawable/ic_sign"
+            app:layout_constraintBottom_toBottomOf="@id/top_bar_back"
+            app:layout_constraintDimensionRatio="H,1:1"
+            app:layout_constraintEnd_toEndOf="@id/top_bar_back"
+            app:layout_constraintTop_toTopOf="@id/top_bar_back" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/design_white"
+            android:background="@color/backgroundColor"
             app:layout_constraintBottom_toBottomOf="@id/user_avatar"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:background="@color/config_red" />
+            app:layout_constraintTop_toTopOf="@id/user_avatar" />
 
         <ImageView
             android:id="@+id/user_avatar"
             circle="@{true}"
             res="@{viewModel.avatar}"
             android:layout_width="90dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/divider_height"
             android:padding="@dimen/comment_padding"
+            android:src="@drawable/image_emoticon"
             app:layout_constraintDimensionRatio="W,1:1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@mipmap/ic_launcher" />
+            app:layout_constraintTop_toBottomOf="@id/top_bar_back" />
 
         <TextView
             android:id="@+id/user_thread_count_text"
@@ -172,9 +226,9 @@
             app:layout_constraintTop_toTopOf="@id/user_avatar" />
 
         <View
-            android:onClick="@{v->viewModel.toStore()}"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:onClick="@{v->viewModel.toStore()}"
             app:layout_constraintBottom_toBottomOf="@id/user_avatar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/like_line"
@@ -186,21 +240,12 @@
             span="@{2}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_avatar" />
 
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:gravity="center"
-            android:onClick="@{v->viewModel.signInAll()}"
-            android:text="签"
-            android:textSize="100sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -150,6 +150,7 @@ data class FrsStar(
 )
 
 data class Page(
+
     val cur_good_id: String,
     val current_page: String,
     val total_count: String,

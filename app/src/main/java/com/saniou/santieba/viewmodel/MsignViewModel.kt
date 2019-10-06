@@ -1,6 +1,8 @@
 package com.saniou.santieba.viewmodel
 
 import android.annotation.SuppressLint
+import androidx.databinding.ObservableInt
+import com.saniou.santieba.R
 import com.saniou.santieba.api.TiebaRequest
 import com.saniou.santieba.vo.MSignForumItem
 import com.sanniou.common.databinding.BaseObservableListViewModel
@@ -12,6 +14,7 @@ import kotlin.concurrent.fixedRateTimer
 
 class MsignViewModel : BaseObservableListViewModel() {
     private var forumIds = StringBuilder()
+    val signImage = ObservableInt(R.drawable.icon_all_sign)
 
     @SuppressLint("CheckResult")
     fun msign() {
@@ -56,6 +59,7 @@ class MsignViewModel : BaseObservableListViewModel() {
                 if (forumIds.isNotEmpty()) {
                     forumIds.deleteCharAt(forumIds.length - 1)
                 }
+                signImage.set(R.drawable.icon_all_sign_ok)
             }) {
                 ToastUtils.showShort(ExceptionEngine.handleMessage(it))
             }
