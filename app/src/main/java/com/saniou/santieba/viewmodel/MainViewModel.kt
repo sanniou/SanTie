@@ -50,8 +50,9 @@ class MainViewModel : BaseObservableListViewModel() {
                     .forEach {
                         add(ForumItem(it.forum_name, it.avatar, it.is_sign == 1, it.level_id))
                     }
-
+                updateUi(5)
             }) {
+                updateUi(6)
                 ToastUtils.showShort(ExceptionEngine.handleMessage(it))
             }
     }

@@ -1,15 +1,12 @@
 package com.saniou.santieba.component
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.webkit.MimeTypeMap
 import android.widget.ImageView
 import androidx.lifecycle.Observer
-import com.saniou.santieba.R
-import com.saniou.santieba.constant.ORANGE_COLOR
+import com.saniou.santieba.constant.MENU_COLOR
 import com.saniou.santieba.constant.THREAD_SCHEME
 import com.saniou.santieba.constant.THREAD_URL
 import com.saniou.santieba.constant.TIEBA_HOST
@@ -25,6 +22,8 @@ import com.sanniou.common.utilcode.util.IntentUtils
 import com.sanniou.common.utilcode.util.ResourcesUtils
 import com.sanniou.common.utilcode.util.ToastUtils
 import com.sanniou.common.widget.ninegridview.ImagePreviewActivity
+import android.net.Uri
+import com.saniou.santieba.R
 
 
 class ThreadDetailActivity : SanBaseActivity() {
@@ -87,7 +86,7 @@ class ThreadDetailActivity : SanBaseActivity() {
                     3 -> {
                         val menuItem = binding.actionBar.menu.findItem(R.id.menu_star)
                         menuItem.icon = ResourcesUtils.getDrawable(R.drawable.ic_thread_store)
-                            .tintDrawable(ORANGE_COLOR)
+                            .tintDrawable(MENU_COLOR)
                     }
                     4 -> {
                         val menuItem = binding.actionBar.menu.findItem(R.id.menu_star)
@@ -133,7 +132,7 @@ class ThreadDetailActivity : SanBaseActivity() {
                     item.setIcon(
                         if (lzOly)
                             ResourcesUtils.getDrawable(R.drawable.ic_lz_only)
-                            !!.tintDrawable(ORANGE_COLOR)
+                            !!.tintDrawable(MENU_COLOR)
                         else
                             ResourcesUtils.getDrawable(R.drawable.ic_lz_only)
                     )
@@ -147,7 +146,7 @@ class ThreadDetailActivity : SanBaseActivity() {
                     item.setIcon(
                         if (reverse)
                             ResourcesUtils.getDrawable(R.drawable.ic_order)
-                            !!.tintDrawable(ORANGE_COLOR)
+                            !!.tintDrawable(MENU_COLOR)
                         else
                             ResourcesUtils.getDrawable(R.drawable.ic_order)
                     )
@@ -163,7 +162,11 @@ class ThreadDetailActivity : SanBaseActivity() {
                 ClipboardUtils.copyText(TIEBA_HOST + binding.viewModel?.tid)
                 ToastUtils.showShort(R.string.copied_to_clipboard)
             }
-            else -> {
+            R.id.menu_browser -> {
+                val url = TIEBA_HOST + binding.viewModel?.tid
+                val i = Intent(Intent.ACTION_VIEW)
+                i.data = Uri.parse(url)
+                startActivity(i)
             }
         }
         return true

@@ -2,8 +2,9 @@ package com.saniou.santieba.constant
 
 import android.graphics.Color
 import com.saniou.santieba.R
+import com.sanniou.common.utilcode.util.ResourcesUtils
 
-val ORANGE_COLOR = Color.rgb(250, 128, 10)
+val MENU_COLOR =ResourcesUtils.getColor(R.color.colorPrimary)
 
 const val EVENT_UI_REFRESH_SUCCESS = 0
 const val EVENT_UI_REFRESH_FAILED = 1
@@ -18,6 +19,7 @@ const val CODE_SUCCESS = 0
 const val HOST = "c.tieba.baidu.com/c"
 const val PORTRAIT_HOST = "http://tb.himg.baidu.com/sys/portrait/item/"
 const val TIEBA_HOST = "https://tieba.baidu.com/p/"
+const val TIEBA_FORUM_HOST = "https://tieba.baidu.com/f?kw="
 
 const val THREAD_SCHEME = "tbpb"
 const val FORUM_SCHEME = "tbfrs"

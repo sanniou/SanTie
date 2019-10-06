@@ -79,5 +79,6 @@
     <string name="vcode">验证码</string>
     <string name="wait_plz">请稍等…</string>
     <string name="go_forum">进吧</string>
+    <string name="open_in_browser">打开浏览器</string>
 
 </resources>

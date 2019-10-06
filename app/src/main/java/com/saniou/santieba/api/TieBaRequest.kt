@@ -189,7 +189,12 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["user_id"] = this.uid
         hashMap["sign"] = calsign(hashMap)
-        return threadTieConfig(msign(hashMap))
+        return threadTieConfig(msign(hashMap)).map {
+            if (it.error.errno != 0) {
+                throw ApiErrorException(it.error.usermsg, it.error.errno)
+            }
+            return@map it
+        }
     }
 
     override fun getforumlist(params: Map<String, String>) = tiebaService.getforumlist(params)
@@ -207,12 +212,6 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["user_id"] = this.uid
         hashMap["sign"] = calsign(hashMap)
         return threadTieConfig(getforumlist(hashMap))
-            .map {
-                if (it.error.errno != 0) {
-                    throw ApiErrorException(it.error.usermsg, it.error.errno)
-                }
-                return@map it
-            }
     }
 
     override fun threadstore(params: Map<String, String>) = tiebaService.threadstore(params)

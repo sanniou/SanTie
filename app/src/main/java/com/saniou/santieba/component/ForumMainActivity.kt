@@ -1,13 +1,15 @@
 package com.saniou.santieba.component
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.Observer
 import com.saniou.santieba.R
 import com.saniou.santieba.constant.FORUM_SCHEME
-import com.saniou.santieba.constant.ORANGE_COLOR
+import com.saniou.santieba.constant.MENU_COLOR
+import com.saniou.santieba.constant.TIEBA_FORUM_HOST
 import com.saniou.santieba.databinding.ActivityForumMainBinding
 import com.saniou.santieba.kts.getViewModel
 import com.saniou.santieba.kts.setDataBindingContentView
@@ -47,12 +49,12 @@ class ForumMainActivity : SanBaseActivity() {
                     }
                     3 -> {
                         val menuItem = binding.actionBar.menu.findItem(R.id.menu_good)
-                        menuItem?.icon = ResourcesUtils.getDrawable(R.drawable.ic_thread_store)
-                            .tintDrawable(ORANGE_COLOR)
+                        menuItem?.icon = ResourcesUtils.getDrawable(R.drawable.ic_good)
+                            .tintDrawable(MENU_COLOR)
                     }
                     4 -> {
                         val menuItem = binding.actionBar.menu.findItem(R.id.menu_good)
-                        menuItem?.icon = ResourcesUtils.getDrawable(R.drawable.ic_thread_store)
+                        menuItem?.icon = ResourcesUtils.getDrawable(R.drawable.ic_good)
                     }
                 }
 
@@ -98,6 +100,12 @@ class ForumMainActivity : SanBaseActivity() {
             }
             R.id.menu_unsubscribe -> {
                 binding.viewModel?.unSubscribe()
+            }
+            R.id.menu_browser -> {
+                val url = TIEBA_FORUM_HOST + binding.viewModel?.forumName?.get()
+                val i = Intent(Intent.ACTION_VIEW)
+                i.data = Uri.parse(url)
+                startActivity(i)
             }
         }
         return true

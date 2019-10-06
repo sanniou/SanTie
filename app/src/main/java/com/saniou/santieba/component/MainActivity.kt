@@ -10,6 +10,7 @@ import com.saniou.santieba.kts.startActivityEx
 import com.saniou.santieba.viewmodel.MainViewModel
 import com.saniou.santieba.vo.ForumItem
 import com.sanniou.common.utilcode.util.SPUtils
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : SanBaseActivity() {
 
@@ -36,6 +37,12 @@ class MainActivity : SanBaseActivity() {
                 }
                 4 -> {
                     startActivityEx(SearchActivity::class.java, "UID", mViewModel.mID)
+                }
+                5 -> {
+                    refresh.stopRefresh(true)
+                }
+                6 -> {
+                    refresh.stopRefresh(false)
                 }
             }
         }

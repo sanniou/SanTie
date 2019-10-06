@@ -4,11 +4,15 @@
 
     <item
         android:id="@+id/menu_good"
-        android:icon="@drawable/ic_thread_store"
+        android:icon="@drawable/ic_good"
         android:title="@string/thread_good"
         app:showAsAction="always" />
     <item
         android:id="@+id/menu_unsubscribe"
         android:title="@string/unsubscribe"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_browser"
+        android:title="@string/open_in_browser"
         app:showAsAction="never" />
 </menu>

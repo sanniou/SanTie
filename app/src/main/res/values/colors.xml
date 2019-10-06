@@ -101,7 +101,7 @@
 
     <color name="subComment">#f5f5f5</color>
     <color name="minorText">#999999</color>
-    <color name="normalText">#666666</color>
+    <color name="normalText">#333333</color>
     <color name="majorText">#000000</color>
     <color name="backgroundColor">#FFFFFF</color>
     <color name="shadowColor">#F5F5F5</color>

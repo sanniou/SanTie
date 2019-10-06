@@ -27,6 +27,7 @@ class MsignViewModel : BaseObservableListViewModel() {
             .subscribe({
                 ToastUtils.showShort("签到成功")
                 getForumList()
+                signImage.set(R.drawable.icon_all_sign_ok)
             }) {
                 ToastUtils.showShort(ExceptionEngine.handleMessage(it))
             }
@@ -57,9 +58,11 @@ class MsignViewModel : BaseObservableListViewModel() {
                     )
                 }
                 if (forumIds.isNotEmpty()) {
+                    signImage.set(R.drawable.icon_all_sign)
                     forumIds.deleteCharAt(forumIds.length - 1)
+                } else {
+                    signImage.set(R.drawable.icon_all_sign_ok)
                 }
-                signImage.set(R.drawable.icon_all_sign_ok)
             }) {
                 ToastUtils.showShort(ExceptionEngine.handleMessage(it))
             }

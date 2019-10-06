@@ -33,7 +33,8 @@ data class SearchThreadResponse(
 
 data class StatusResponse(
     val error_code: Int,
-    val error_msg: String
+    val error_msg: String,
+    val error: Error
 ) : TieResponse() {
     override fun getErrorMessage() = error_msg
 
