@@ -99,7 +99,7 @@
             android:id="@+id/post_read_icon"
             android:layout_width="25dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_comment"
+            android:src="@drawable/ic_comment"
             app:layout_constraintBottom_toBottomOf="@id/post_read_count"
             app:layout_constraintDimensionRatio="W,1:1"
             app:layout_constraintEnd_toStartOf="@id/post_read_count"
