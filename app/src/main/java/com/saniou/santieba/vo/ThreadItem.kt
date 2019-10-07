@@ -7,7 +7,6 @@ import com.saniou.santieba.R
 import com.saniou.santieba.component.ThreadDetailActivity
 import com.sanniou.common.utilcode.util.ActivityUtils
 import com.sanniou.common.utilcode.util.ColorUtils
-import com.sanniou.common.utilcode.util.SizeUtils
 import com.sanniou.common.utilcode.util.SpanUtils
 import com.sanniou.common.widget.recyclerview.Item
 
@@ -27,7 +26,8 @@ class ThreadItem(
     var avatar: String,
     var postImage: String = ""
 ) : Item {
-    override fun getType() = if (isTop && !showTop) R.layout.item_thread_simple else R.layout.item_thread
+    override fun getType() =
+        if (isTop && !showTop) R.layout.item_thread_simple else R.layout.item_thread
 
     fun getShowTitle(): SpannableStringBuilder =
         SpanUtils()

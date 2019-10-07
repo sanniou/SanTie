@@ -4,7 +4,7 @@ import android.graphics.Color
 import com.saniou.santieba.R
 import com.sanniou.common.utilcode.util.ResourcesUtils
 
-val MENU_COLOR =ResourcesUtils.getColor(R.color.colorPrimary)
+val MENU_COLOR = ResourcesUtils.getColor(R.color.colorPrimary)
 
 const val EVENT_UI_REFRESH_SUCCESS = 0
 const val EVENT_UI_REFRESH_FAILED = 1

@@ -7,7 +7,12 @@ import com.sanniou.common.helper.ImageLoader
 import com.sanniou.common.widget.recyclerview.Item
 
 
-class CommentImageItem(var image: String,var orgImage: String, var first: Boolean = false, var isGif: Boolean = false) :
+class CommentImageItem(
+    var image: String,
+    var orgImage: String,
+    var first: Boolean = false,
+    var isGif: Boolean = false
+) :
     Item {
     override fun getType() = R.layout.item_comment_image
 }

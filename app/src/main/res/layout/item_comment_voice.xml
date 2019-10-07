@@ -11,10 +11,10 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/comment_padding"
-        android:paddingBottom="@dimen/comment_padding"
-        android:paddingStart="@{item.first?@dimen/comment_padding:@dimen/comment_start}"
-        android:paddingEnd="@dimen/comment_padding"
+        android:paddingTop="@dimen/default_margin_normal"
+        android:paddingBottom="@dimen/default_margin_normal"
+        android:paddingStart="@{item.first?@dimen/default_margin_normal:@dimen/comment_start}"
+        android:paddingEnd="@dimen/default_margin_normal"
         android:orientation="vertical">
 
         <ImageView

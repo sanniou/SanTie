@@ -33,8 +33,8 @@ class StoreActivity : SanBaseActivity() {
                         startActivityEx(
                             ThreadDetailActivity::class.java, "tid", tid
                         )
-                    }?:run {
-                       ToastUtils.showShort("帖子被删除")
+                    } ?: run {
+                        ToastUtils.showShort("帖子被删除")
                     }
                     true
                 }

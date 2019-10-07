@@ -26,7 +26,7 @@ class ForumItem(var name: String, var image: String, private var isSign: Boolean
         R.color.design_orange,
         R.color.design_orange,
         R.color.design_orange
-        )
+    )
 
 
     var levelColor: Int

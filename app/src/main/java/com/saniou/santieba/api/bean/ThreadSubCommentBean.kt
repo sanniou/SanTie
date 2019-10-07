@@ -1,7 +1,6 @@
 package com.saniou.santieba.api.bean
 
 
-
 data class Post2(
     val agree: Agree,
     val author: AuthorX,

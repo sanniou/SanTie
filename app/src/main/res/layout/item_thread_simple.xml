@@ -18,7 +18,7 @@
         android:background="@color/config_white"
         android:foreground="?selectableItemBackground"
         android:onClickListener="@{item::onClick}"
-        android:padding="@dimen/comment_padding"
+        android:padding="@dimen/default_margin_normal"
         android:text="@{item.showTitle}"
         android:textColor="@color/majorText"
         android:textSize="@dimen/majorText"

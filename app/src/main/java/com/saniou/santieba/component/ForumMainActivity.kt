@@ -1,7 +1,6 @@
 package com.saniou.santieba.component
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -14,6 +13,7 @@ import com.saniou.santieba.databinding.ActivityForumMainBinding
 import com.saniou.santieba.kts.getViewModel
 import com.saniou.santieba.kts.setDataBindingContentView
 import com.saniou.santieba.kts.tintDrawable
+import com.saniou.santieba.utils.openBrowser
 import com.saniou.santieba.viewmodel.ForumMainViewModel
 import com.sanniou.common.utilcode.util.ResourcesUtils
 import com.sanniou.common.utilcode.util.ToastUtils
@@ -102,10 +102,7 @@ class ForumMainActivity : SanBaseActivity() {
                 binding.viewModel?.unSubscribe()
             }
             R.id.menu_browser -> {
-                val url = TIEBA_FORUM_HOST + binding.viewModel?.forumName?.get()
-                val i = Intent(Intent.ACTION_VIEW)
-                i.data = Uri.parse(url)
-                startActivity(i)
+                openBrowser(TIEBA_FORUM_HOST + binding.viewModel?.forumName?.get())
             }
         }
         return true

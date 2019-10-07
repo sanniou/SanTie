@@ -136,7 +136,7 @@ class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
                         add(ThreadBottomItem(threadDetail.thread.id, threadDetail.thread.reply_num))
                         add(
                             DividerItem(
-                                10,
+                                ResourcesUtils.getDimensionPixelSize(R.dimen.default_margin_small),
                                 ResourcesUtils.getColor(R.color.shadowColor)
                             )
                         )
@@ -145,16 +145,16 @@ class ThreadDetailViewModel : BaseObservableListViewModel(), OnLoadListener {
                     } else {
                         add(
                             DividerItem(
-                                16,
+                                ResourcesUtils.getDimensionPixelSize(R.dimen.default_margin_normal),
                                 ResourcesUtils.getColor(R.color.config_white)
                             )
                         )
                         add(
                             DividerItem(
-                                1,
+                                ResourcesUtils.getDimensionPixelSize(R.dimen.divider_height),
                                 ResourcesUtils.getColor(R.color.shadowColor),
                                 ResourcesUtils.getColor(R.color.config_white),
-                                ResourcesUtils.getDimensionPixelSize(R.dimen.comment_padding)
+                                ResourcesUtils.getDimensionPixelSize(R.dimen.default_margin_normal)
                             )
                         )
                     }

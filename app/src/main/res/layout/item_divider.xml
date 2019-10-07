@@ -11,8 +11,8 @@
     <View xmlns:android="http://schemas.android.com/apk/res/android"
         dividerBackgroundColor="@{item.backgroundColor}"
         dividerColor="@{item.color}"
-        dividerHeightDP="@{item.height}"
-        dividerPaddingDP="@{item.padding}"
+        dividerHeight="@{item.height}"
+        dividerPadding="@{item.padding}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

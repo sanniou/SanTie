@@ -11,16 +11,17 @@
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/config_white"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?selectableItemBackground">
+        android:background="@color/config_white">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/comment_start"
+            android:layout_marginEnd="@dimen/default_margin_normal"
             android:background="@color/subComment"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground"
             android:padding="@dimen/view_padding"
             android:text="@{item.showText}"
             android:textColor="@color/normalText" />

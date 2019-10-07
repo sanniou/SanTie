@@ -22,8 +22,8 @@ import com.sanniou.common.utilcode.util.IntentUtils
 import com.sanniou.common.utilcode.util.ResourcesUtils
 import com.sanniou.common.utilcode.util.ToastUtils
 import com.sanniou.common.widget.ninegridview.ImagePreviewActivity
-import android.net.Uri
 import com.saniou.santieba.R
+import com.saniou.santieba.utils.openBrowser
 
 
 class ThreadDetailActivity : SanBaseActivity() {
@@ -163,10 +163,7 @@ class ThreadDetailActivity : SanBaseActivity() {
                 ToastUtils.showShort(R.string.copied_to_clipboard)
             }
             R.id.menu_browser -> {
-                val url = TIEBA_HOST + binding.viewModel?.tid
-                val i = Intent(Intent.ACTION_VIEW)
-                i.data = Uri.parse(url)
-                startActivity(i)
+                openBrowser(TIEBA_HOST + binding.viewModel?.tid)
             }
         }
         return true

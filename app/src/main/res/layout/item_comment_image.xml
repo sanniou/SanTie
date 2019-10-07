@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/view_padding"
-        android:paddingStart="@{item.first?@dimen/comment_padding:@dimen/comment_start}"
+        android:paddingStart="@{item.first?@dimen/default_margin_normal:@dimen/comment_start}"
         android:paddingTop="@dimen/view_padding"
-        android:paddingEnd="@dimen/comment_padding"
+        android:paddingEnd="@dimen/default_margin_normal"
         tools:src="@drawable/image_emoticon" />
 </layout>
