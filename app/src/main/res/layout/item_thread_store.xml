@@ -30,12 +30,17 @@
 
         <TextView
             android:id="@+id/thread_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/view_padding"
+            android:layout_marginEnd="@dimen/view_padding"
             android:text="@{item.name}"
             android:textColor="@color/majorText"
             android:textSize="@dimen/majorText"
+            app:layout_constraintEnd_toStartOf="@id/thread_forum"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@id/thread_avatar"
             app:layout_constraintTop_toTopOf="@id/thread_avatar"
             tools:text="@string/my_store" />
@@ -56,10 +61,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/view_padding"
-            android:text="@{item.lastTime,default=1111}"
+            android:text="@{item.lastTime,default=111111111111}"
             android:textColor="@color/minorText"
             android:textSize="@dimen/minorText"
-            app:layout_constraintStart_toStartOf="@id/thread_forum"
+            app:layout_constraintEnd_toEndOf="@id/thread_forum"
             app:layout_constraintTop_toBottomOf="@id/thread_forum" />
 
 
@@ -86,6 +91,7 @@
         <ImageView
             android:id="@+id/thread_media"
             res="@{item.media}"
+            visible="@{item.media!=null}"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginTop="@dimen/view_padding"

@@ -1,29 +1,28 @@
 package com.saniou.santieba.api
 
-import com.google.gson.ExclusionStrategy
-import com.google.gson.FieldAttributes
+import android.util.Log
+import com.blankj.utilcode.util.AppUtils
+import com.blankj.utilcode.util.SPUtils
 import com.saniou.santieba.api.bean.*
 import com.saniou.santieba.constant.*
 import com.saniou.santieba.kts.getTimestamp
 import com.saniou.santieba.utils.StringUtil
-import com.sanniou.common.helper.JsonUtils
-import com.sanniou.common.network.BaseRequest
-import com.sanniou.common.network.CommonRetrofit
-import com.sanniou.common.network.exception.ApiErrorException
-import com.sanniou.common.utilcode.util.AppUtils
-import com.sanniou.common.utilcode.util.SPUtils
-import io.reactivex.Observable
-import io.reactivex.ObservableSource
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.Function
-import io.reactivex.schedulers.Schedulers
+import com.sanniou.support.exception.ApiErrorException
+import com.sanniou.support.moshi.EmptyListToNull
+import com.sanniou.support.moshi.IgnoreString2Object
+import com.squareup.moshi.*
+import okhttp3.*
 import org.apache.commons.lang3.StringUtils
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.FieldMap
+import java.io.File
 import java.util.*
 import kotlin.collections.HashMap
 import kotlin.math.floor
 
-object TiebaRequest : TiebaService, BaseRequest() {
+
+object TiebaRequest : TiebaService {
     private var clientId: String
     private var netType: String
     private var littleTail: String
@@ -41,51 +40,47 @@ object TiebaRequest : TiebaService, BaseRequest() {
     private val headers = HashMap<String, String>()
     private val tiebaService: TiebaService
 
+    val moshi: Moshi
+
     init {
         headers["Cookie"] = "ka=open"
         headers["net"] = "3"
         headers["User-Agent"] = "bdtb for Android 6.9.2.1"
         headers["Pragma"] = "no-cache"
 
-        CommonRetrofit.setHttpClientHandler { builder ->
-            builder.addInterceptor { chain ->
-                val newBuilder = chain.request().newBuilder()
-                for (entry in headers) {
-                    newBuilder.addHeader(entry.key, entry.value)
+        moshi = Moshi.Builder()
+            .add(EmptyListToNull())
+            .add(IgnoreString2Object())
+            .add(object : Any() {
+                @ToJson
+                fun toJson(writer: JsonWriter, o: CharSequence?) {
+                    writer.value(o.toString())
                 }
-                chain.proceed(newBuilder.build())
-            }
-        }
+
+                @FromJson
+                fun fromJson(reader: JsonReader): CharSequence? {
+                    return reader.nextString()
+                }
+            })
+            .build()
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://$HOST/")
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .client(
+                OkHttpClient.Builder()
+                    .addInterceptor { chain ->
+                        val newBuilder = chain.request().newBuilder()
+                        for (entry in headers) {
+                            newBuilder.addHeader(entry.key, entry.value)
+                        }
+                        chain.proceed(newBuilder.build())
+                    }
+                    .build()
+            )
+            .build()
 
 
-        CommonRetrofit.setGsonHandler { builder ->
-            builder.registerTypeAdapter(SubPostDetail::class.java, SubPostDetailConverter())
-                .addDeserializationExclusionStrategy(createExclusion("pendant"))
-                .addDeserializationExclusionStrategy(createExclusion("location"))
-                .addDeserializationExclusionStrategy(createExclusion("signature"))
-                .addDeserializationExclusionStrategy(createExclusion("pb_live"))
-                .addDeserializationExclusionStrategy(createExclusion("ala_info"))
-                .addDeserializationExclusionStrategy(createExclusion("add_post_list"))
-                .addDeserializationExclusionStrategy(createExclusion("twzhibo_info"))
-                .addDeserializationExclusionStrategy(createExclusion("spring_virtual_user"))
-                .addDeserializationExclusionStrategy(createExclusion("window"))
-                .addDeserializationExclusionStrategy(createExclusion("logid"))
-                .addDeserializationExclusionStrategy(createExclusion("post_prefix"))
-                .addDeserializationExclusionStrategy(createExclusion("theme_card"))
-                .addDeserializationExclusionStrategy(createExclusion("banner"))
-                .addDeserializationExclusionStrategy(createExclusion("zan"))
-                .addDeserializationExclusionStrategy(createExclusion("iconinfo"))
-                .addDeserializationExclusionStrategy(createExclusion("lbs_info"))
-                .addDeserializationExclusionStrategy(createExclusion("new_user_info"))
-                .addDeserializationExclusionStrategy(createExclusion("tb_vip"))
-                .addDeserializationExclusionStrategy(createExclusion("god_data"))
-                .addDeserializationExclusionStrategy(createExclusion("poll_info"))
-                .addDeserializationExclusionStrategy(createExclusion("star_enter"))
-                .addDeserializationExclusionStrategy(createExclusion("book_chapter"))
-        }
-
-
-        tiebaService = CommonRetrofit.getInstance().create(TiebaService::class.java)
+        tiebaService = retrofit.create(TiebaService::class.java)
 
 
         loginInfo = SPUtils.getInstance("login_info")
@@ -123,22 +118,10 @@ object TiebaRequest : TiebaService, BaseRequest() {
         newClientVersion = "8.2.2"
     }
 
-    private fun createExclusion(str: String): ExclusionStrategy {
-        return object : ExclusionStrategy {
-            override fun shouldSkipClass(cls: Class<*>): Boolean {
-                return false
-            }
 
-            override fun shouldSkipField(fieldAttributes: FieldAttributes): Boolean {
-                return fieldAttributes.name == str
-            }
-        }
-    }
+    override suspend fun searchForum(params: Map<String, String>) = tiebaService.searchForum(params)
 
-
-    override fun searchForum(params: Map<String, String>) = tiebaService.searchForum(params)
-
-    fun searchForum(key: String): Observable<SearchForumResponse> {
+    suspend fun searchForum(key: String): ForumSug {
         val hashMap = HashMap<String, String>()
         hashMap["_client_id"] = this.clientId
         hashMap["_client_type"] = this.clientType
@@ -149,13 +132,13 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["q"] = key
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["sign"] = calsign(hashMap)
-        return threadTieConfig(searchForum(hashMap))
+        return searchForum(hashMap)
     }
 
 
-    override fun searchpost(params: Map<String, String>) = tiebaService.searchpost(params)
+    override suspend fun searchpost(params: Map<String, String>) = tiebaService.searchpost(params)
 
-    fun searchpost(pageNo: String, key: String): Observable<SearchThreadResponse> {
+    suspend fun searchpost(pageNo: String, key: String): SearchPost {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
@@ -170,12 +153,12 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["word"] = key
         hashMap["sign"] = calsign(hashMap)
-        return threadTieConfig(searchpost(hashMap))
+        return searchpost(hashMap)
     }
 
-    override fun msign(params: Map<String, String>) = tiebaService.msign(params)
+    override suspend fun msign(params: Map<String, String>) = tiebaService.msign(params)
 
-    fun msing(forumIds: String): Observable<StatusResponse> {
+    suspend fun msign(forumIds: String): Msign {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
@@ -189,17 +172,18 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["user_id"] = this.uid
         hashMap["sign"] = calsign(hashMap)
-        return threadTieConfig(msign(hashMap)).map {
-            if (it.error.errno != 0) {
-                throw ApiErrorException(it.error.usermsg, it.error.errno)
+        return msign(hashMap)
+            .apply {
+                if (error.errno != ERROR_CODE_SUCCESS) {
+                    throw ApiErrorException("${error.usermsg}\n$signNotice", error.errno.toInt())
+                }
             }
-            return@map it
-        }
     }
 
-    override fun getforumlist(params: Map<String, String>) = tiebaService.getforumlist(params)
+    override suspend fun getforumlist(params: Map<String, String>) =
+        tiebaService.getforumlist(params)
 
-    fun getforumlist(): Observable<ForumListP> {
+    suspend fun getforumlist(): GetForumList {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
@@ -211,12 +195,12 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["user_id"] = this.uid
         hashMap["sign"] = calsign(hashMap)
-        return threadTieConfig(getforumlist(hashMap))
+        return getforumlist(hashMap)
     }
 
-    override fun threadstore(params: Map<String, String>) = tiebaService.threadstore(params)
+    override suspend fun threadstore(params: Map<String, String>) = tiebaService.threadstore(params)
 
-    fun threadstore(pageNum: Int, userID: String): Observable<StoreThreadData> {
+    suspend fun threadstore(pageNum: Int, userID: String): ThreadStore {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
@@ -230,12 +214,12 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["user_id"] = userID
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["sign"] = calsign(hashMap)
-        return threadTieConfig(threadstore(hashMap))
+        return threadstore(hashMap)
     }
 
-    override fun profile(params: Map<String, String>) = tiebaService.profile(params)
+    override suspend fun profile(params: Map<String, String>) = tiebaService.profile(params)
 
-    fun profile(): Observable<UserProfile> {
+    suspend fun profile(): Profile {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
@@ -248,12 +232,50 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["uid"] = this.uid
         hashMap["sign"] = calsign(hashMap)
-        return threadTieConfig(profile(hashMap))
+        return profile(hashMap)
     }
 
-    override fun sign(params: Map<String, String>) = tiebaService.sign(params)
+    override suspend fun friendProfile(params: Map<String, String>) =
+        tiebaService.friendProfile(params)
 
-    fun sign(name: String): Observable<StatusResponse> {
+    suspend fun friendProfile(friendUid: String): Profile {
+        val hashMap = HashMap<String, String>()
+        hashMap["BDUSS"] = BDUSS
+        hashMap["_client_id"] = clientId
+        hashMap["_client_type"] = clientType
+        hashMap["_client_version"] = "6.0.0"
+        hashMap["_phone_imei"] = imei
+        hashMap["from"] = "tieba"
+        hashMap["need_post_count"] = BOOLEAN_TRUE
+        hashMap["net_type"] = netType
+        hashMap["timestamp"] = getTimestamp().toString()
+        hashMap["uid"] = uid
+        hashMap["is_guest"] = BOOLEAN_TRUE
+        hashMap["friend_uid"] = friendUid
+        hashMap["sign"] = calsign(hashMap)
+        return friendProfile(hashMap)
+    }
+
+    override suspend fun msg(params: Map<String, String>) = tiebaService.msg(params)
+
+    suspend fun msg(): StatusResponse {
+        val hashMap = HashMap<String, String>()
+        hashMap["BDUSS"] = BDUSS
+        hashMap["_client_id"] = clientId
+        hashMap["_client_type"] = clientType
+        hashMap["_client_version"] = newClientVersion
+        hashMap["_phone_imei"] = imei
+        hashMap["bookmark"] = BOOLEAN_TRUE
+        hashMap["from"] = "tieba"
+        hashMap["net_type"] = netType
+        hashMap["timestamp"] = getTimestamp().toString()
+        hashMap["sign"] = calsign(hashMap)
+        return msg(hashMap)
+    }
+
+    override suspend fun sign(params: Map<String, String>) = tiebaService.sign(params)
+
+    suspend fun sign(name: String): Sign {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
@@ -266,12 +288,17 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["tbs"] = this.tbs
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["sign"] = calsign(hashMap)
-        return threadTieConfig(sign(hashMap))
+        return sign(hashMap)
+            .apply {
+                if (errorCode != ERROR_CODE_SUCCESS) {
+                    throw ApiErrorException(errorMsg, errorCode.toInt())
+                }
+            }
     }
 
-    override fun subscribe(params: Map<String, String>) = tiebaService.subscribe(params)
+    override suspend fun likeForum(params: Map<String, String>) = tiebaService.likeForum(params)
 
-    fun subscribe(fid: String, kw: String): Observable<StatusResponse> {
+    suspend fun likeForum(fid: String, kw: String): StatusResponse {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
@@ -285,13 +312,13 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["tbs"] = this.tbs
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["sign"] = calsign(hashMap)
-        return threadTieConfig(subscribe(hashMap))
+        return likeForum(hashMap)
     }
 
-    override fun unSubscribe(params: Map<String, String>) = tiebaService.unSubscribe(params)
+    override suspend fun unlikeForum(params: Map<String, String>) = tiebaService.unlikeForum(params)
 
 
-    fun unSubscribe(fid: String, kw: String): Observable<StatusResponse> {
+    suspend fun unlikeForum(fid: String, kw: String): StatusResponse {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
@@ -305,12 +332,12 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["tbs"] = this.tbs
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["sign"] = calsign(hashMap)
-        return threadTieConfig(unSubscribe(hashMap))
+        return unlikeForum(hashMap)
     }
 
-    override fun postPage(params: Map<String, String>) = tiebaService.postPage(params)
+    override suspend fun forumPage(params: Map<String, String>) = tiebaService.forumPage(params)
 
-    fun postPage(name: String, page: Int = 1, isGood: Boolean = false): Observable<ThreadProfile> {
+    suspend fun forumPage(name: String, page: Int = 1, isGood: Boolean = false): ForumPage {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
@@ -326,21 +353,26 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["pn"] = page.toString()
         hashMap["q_type"] = "2"
         hashMap["rn"] = RANGE_NUMBER.toString()
-        hashMap["scr_dip"] = NO_VALUE
-        hashMap["scr_h"] = NO_VALUE
-        hashMap["scr_w"] = NO_VALUE
+        hashMap["scr_dip"] = BOOLEAN_FALSE
+        hashMap["scr_h"] = BOOLEAN_FALSE
+        hashMap["scr_w"] = BOOLEAN_FALSE
         hashMap["st_type"] = "tb_forumlist"
         hashMap["timestamp"] = getTimestamp().toString()
-        hashMap["with_group"] = NO_VALUE
+        hashMap["with_group"] = BOOLEAN_FALSE
         hashMap["sign"] = calsign(hashMap)
-        return threadTieConfig(postPage(hashMap))
+        return forumPage(hashMap)
+            .apply {
+                if (errorCode != ERROR_CODE_SUCCESS) {
+                    throw throw ApiErrorException(errorMsg, errorCode.toInt())
+                }
+            }
     }
 
-    override fun getFavorite(@FieldMap params: Map<String, String>) =
-        tiebaService.getFavorite(params)
+    override suspend fun forumRecommend(@FieldMap params: Map<String, String>) =
+        tiebaService.forumRecommend(params)
 
 
-    fun getFavorite(): Observable<Forum2> {
+    suspend fun forumRecommend(): ForumRecommend {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = BDUSS
         hashMap["_client_id"] = clientId
@@ -350,28 +382,29 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["from"] = "tieba"
         hashMap["like_forum"] = BOOLEAN_TRUE
         hashMap["net_type"] = netType
-        hashMap["recommend"] = NO_VALUE
+        hashMap["recommend"] = BOOLEAN_FALSE
         hashMap["timestamp"] = getTimestamp().toString()
-        hashMap["topic"] = NO_VALUE
+        hashMap["topic"] = BOOLEAN_FALSE
         hashMap["sign"] = calsign(hashMap)
-        return threadTieConfig(getFavorite(hashMap))
+        return forumRecommend(hashMap)
     }
 
-    override fun threadDetail(params: Map<String, String>) = tiebaService.threadDetail(params)
+    override suspend fun threadPage(params: Map<String, String>) =
+        tiebaService.threadPage(params)
 
-    fun threadDetail(
+    suspend fun threadPage(
         threadId: String,
         pid: String = "",
         lzOnly: Boolean = false,
         reverse: Boolean = false
-    ): Observable<ThreadDetail> {
+    ): ThreadPage {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
         hashMap["_client_type"] = this.clientType
         hashMap["_client_version"] = this.newClientVersion
         hashMap["_phone_imei"] = this.imei
-        hashMap["back"] = NO_VALUE
+        hashMap["back"] = BOOLEAN_FALSE
         hashMap["floor_rn"] = "3"
         hashMap["from"] = "tieba"
         hashMap["kz"] = threadId
@@ -382,31 +415,37 @@ object TiebaRequest : TiebaService, BaseRequest() {
             hashMap["last"] = BOOLEAN_TRUE
             hashMap["r"] = BOOLEAN_TRUE
         }
-        hashMap["mark"] = NO_VALUE
+        hashMap["mark"] = BOOLEAN_FALSE
         hashMap["net_type"] = netType
         if (pid.isNotEmpty()) {
             hashMap["pid"] = pid
         }
         hashMap["rn"] = RANGE_NUMBER.toString()
-        hashMap["scr_dip"] = NO_VALUE
-        hashMap["scr_h"] = NO_VALUE
-        hashMap["scr_w"] = NO_VALUE
+        hashMap["scr_dip"] = BOOLEAN_FALSE
+        hashMap["scr_h"] = BOOLEAN_FALSE
+        hashMap["scr_w"] = BOOLEAN_FALSE
         hashMap["st_type"] = "tb_frslist"
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["with_floor"] = BOOLEAN_TRUE
         hashMap["sign"] = calsign(hashMap)
-        return threadTieConfig(threadDetail(hashMap))
+        return threadPage(hashMap)
+            .apply {
+                if (errorCode != ERROR_CODE_SUCCESS) {
+                    throw throw ApiErrorException(errorMsg, errorCode.toInt())
+                }
+            }
 
     }
 
-    override fun getSubFloor(params: Map<String, String>) = tiebaService.getSubFloor(params)
 
-    fun getSubFloor(
+    override suspend fun subFloor(params: Map<String, String>) = tiebaService.subFloor(params)
+
+    suspend fun subFloor(
         threadId: String,
         pid: String = "",
         spid: String = "",
         pageNum: String = "1"
-    ): Observable<ThreadSubComment> {
+    ): FloorPage {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
@@ -426,14 +465,15 @@ object TiebaRequest : TiebaService, BaseRequest() {
         }
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["sign"] = calsign(hashMap)
-        return threadTieConfig(getSubFloor(hashMap))
+        return subFloor(hashMap)
 
     }
 
-    override fun addStore(@FieldMap params: Map<String, String>) = tiebaService.addStore(params)
+    override suspend fun addStore(@FieldMap params: Map<String, String>) =
+        tiebaService.addStore(params)
 
 
-    fun rmStore(tid: String): Observable<StatusResponse> {
+    suspend fun rmStore(tid: String): StatusResponse {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
@@ -446,31 +486,261 @@ object TiebaRequest : TiebaService, BaseRequest() {
         hashMap["tid"] = tid
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["sign"] = calsign(hashMap)
-        return threadTieConfig(rmStore(hashMap))
+        return rmStore(hashMap)
 
     }
 
-    override fun rmStore(@FieldMap params: Map<String, String>) = tiebaService.rmStore(params)
+    override suspend fun rmStore(@FieldMap params: Map<String, String>) =
+        tiebaService.rmStore(params)
 
 
-    fun addStore(tid: String, pid: String): Observable<StatusResponse> {
-        val dataBeanX = DataDTO(pid, NO_VALUE, tid, NO_VALUE)
+    suspend fun addStore(tid: String, pid: String): StatusResponse {
+        val dataBeanX = DataDTO(
+            pid,
+            BOOLEAN_FALSE, tid,
+            BOOLEAN_FALSE
+        )
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
         hashMap["_client_type"] = this.clientType
         hashMap["_client_version"] = this.newClientVersion
         hashMap["_phone_imei"] = this.imei
-        hashMap["data"] = JsonUtils.toJson(listOf(dataBeanX))
+
+
+        hashMap["data"] = moshi.adapter<List<DataDTO>>(
+            Types.newParameterizedType(
+                List::class.java,
+                DataDTO::class.java
+            )
+        ).toJson(listOf(dataBeanX))
         hashMap["from"] = "tieba"
         hashMap["net_type"] = this.netType
         hashMap["tbs"] = this.tbs
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["sign"] = calsign(hashMap)
-        return threadTieConfig(addStore(hashMap))
+        return addStore(hashMap)
 
     }
 
+    override suspend fun addThread(@FieldMap params: Map<String, String>) =
+        tiebaService.addThread(params)
+
+    suspend fun addThread(
+        str: String,
+        str2: String,
+        str3: String,
+        str4: String,
+        str5: String,
+        str6: String
+    ): StatusResponse {
+        var str2 = str2
+        if (littleTail.isNotEmpty()) {
+            str2 = str2 + StringUtils.LF + littleTail
+        }
+        val hashMap = HashMap<String, String>()
+        hashMap["BDUSS"] = BDUSS
+        hashMap["_client_id"] = clientId
+        hashMap["_client_type"] = clientType
+        hashMap["_client_version"] = addClientVersion
+        hashMap["_phone_imei"] = imei
+        hashMap["anonymous"] = BOOLEAN_TRUE
+        hashMap["content"] = str2
+        hashMap["fid"] = str4
+        hashMap["from"] = "mini_baidu_appstore"
+        hashMap["kw"] = str3
+        hashMap["subapp_type"] = "mini"
+        hashMap["tbs"] = tbs
+        hashMap["timestamp"] = getTimestamp().toString()
+        hashMap["title"] = str
+        Log.e("vcode_md5", str6)
+        if (str6.isNotEmpty()) {
+            hashMap["vcode"] = str5
+            hashMap["vcode_md5"] = str6
+        }
+        hashMap["versioncode"] = "101253632"
+        hashMap["sign"] = calsign(hashMap)
+        return addThread(hashMap)
+
+    }
+
+    override suspend fun addReply(@FieldMap params: Map<String, String>) =
+        tiebaService.addReply(params)
+
+    suspend fun addReply(
+        str: String,
+        str2: String,
+        str3: String,
+        str4: String,
+        str5: String,
+        str6: String
+    ): StatusResponse {
+        var str = str
+        if (littleTail.length > 0) {
+            str = str + StringUtils.LF + littleTail
+        }
+        val hashMap = HashMap<String, String>()
+
+        hashMap["BDUSS"] = BDUSS
+        hashMap["_client_id"] = clientId
+        hashMap["_client_type"] = clientType
+        hashMap["_client_version"] = addClientVersion
+        hashMap["_phone_imei"] = imei
+        hashMap["anonymous"] = BOOLEAN_TRUE
+        hashMap["content"] = str
+        hashMap["fid"] = str3
+        hashMap["from"] = "tieba"
+        hashMap["kw"] = str2
+        hashMap["net_type"] = netType
+        hashMap["tbs"] = tbs
+        hashMap["tid"] = str4
+        hashMap["timestamp"] = getTimestamp().toString()
+        Log.e("vcode_md5", str6)
+        if (!str6.isEmpty()) {
+            Log.e("vcode_md5", "come in")
+            hashMap["vcode"] = str5
+            hashMap["vcode_md5"] = str6
+        }
+        hashMap["sign"] = calsign(hashMap)
+
+        return addReply(hashMap)
+
+    }
+
+    override suspend fun addReply2Someone(@FieldMap params: Map<String, String>) =
+        tiebaService.addReply2Someone(params)
+
+    suspend fun addReply2Someone(
+        str: String,
+        str2: String,
+        str3: String,
+        str4: String,
+        str5: String,
+        str6: String,
+        str7: String,
+        str8: String
+    ): StatusResponse {
+        var str = str
+        if (littleTail.length > 0) {
+            str = str + StringUtils.LF + littleTail
+        }
+        val hashMap = HashMap<String, String>()
+        hashMap["BDUSS"] = BDUSS
+        hashMap["_client_id"] = clientId
+        hashMap["_client_type"] = clientType
+        hashMap["_client_version"] = addClientVersion
+        hashMap["_phone_imei"] = imei
+        hashMap["anonymous"] = BOOLEAN_TRUE
+        hashMap["content"] = str
+        hashMap["fid"] = str3
+        hashMap["floor_num"] = str4
+        hashMap["from"] = "tieba"
+        hashMap["kw"] = str2
+        hashMap["net_type"] = netType
+        hashMap["quote_id"] = str5
+        hashMap["tbs"] = tbs
+        hashMap["tid"] = str6
+        hashMap["timestamp"] = getTimestamp().toString()
+        Log.e("vcode_md5", str8)
+        if (!str8.isEmpty()) {
+            Log.e("vcode_md5", "come in")
+            hashMap["vcode"] = str7
+            hashMap["vcode_md5"] = str8
+        }
+        hashMap["sign"] = calsign(hashMap)
+
+        return addReply2Someone(hashMap)
+    }
+
+    suspend fun upload(file: File, i: Int): String {
+        val create: RequestBody =
+            RequestBody.create(MediaType.parse("application/octet-stream"), file)
+        return OkHttpClient()
+            .newCall(
+                Request.Builder()
+                    .post(
+                        MultipartBody.Builder().setType(MultipartBody.FORM).addPart(
+                            Headers.of("Content-Disposition", "form-data; name=BDUSS"),
+                            RequestBody.create(null as MediaType?, BDUSS)
+                        )
+                            .addPart(
+                                Headers.of(
+                                    "Content-Disposition",
+                                    "form-data; name=pic; filename=pic; filename*=utf-8''pic"
+                                ), create
+                            )
+                            .build()
+                    )
+                    .url("http://c.tieba.baidu.com/c/c/img/upload").headers(Headers.of(headers))
+                    .build()
+            )
+            .execute()
+            .body()
+            ?.string() + "`" + i
+    }
+
+    override suspend fun replyme(@FieldMap params: Map<String, String>) =
+        tiebaService.replyme(params)
+
+    suspend fun replyme(str: String): StatusResponse {
+        val hashMap = HashMap<String, String>()
+        hashMap["BDUSS"] = BDUSS
+        hashMap["_client_id"] = clientId
+        hashMap["_client_type"] = clientType
+        hashMap["_client_version"] = "7.7.2"
+        hashMap["_phone_imei"] = imei
+        hashMap["from"] = "tieba"
+        hashMap["net_type"] = netType
+        hashMap["pn"] = str
+        hashMap["timestamp"] = getTimestamp().toString()
+        hashMap["sign"] = calsign(hashMap)
+        return replyme(hashMap)
+    }
+
+    override suspend fun atme(@FieldMap params: Map<String, String>) =
+        tiebaService.atme(params)
+
+    suspend fun atme(str: String): StatusResponse {
+        val hashMap = HashMap<String, String>()
+        hashMap["BDUSS"] = BDUSS
+        hashMap["_client_id"] = clientId
+        hashMap["_client_type"] = clientType
+        hashMap["_client_version"] = "7.7.2"
+        hashMap["_phone_imei"] = imei
+        hashMap["from"] = "tieba"
+        hashMap["net_type"] = netType
+        hashMap["pn"] = str
+        hashMap["timestamp"] = getTimestamp().toString()
+        hashMap["sign"] = calsign(hashMap)
+        return atme(hashMap)
+
+    }
+
+    override suspend fun userPost(@FieldMap params: Map<String, String>) =
+        tiebaService.userPost(params)
+
+    suspend fun userPost(
+        str: String,
+        str2: String
+    ): StatusResponse {
+        val hashMap = HashMap<String, String>()
+        hashMap["BDUSS"] = BDUSS
+        hashMap["_client_id"] = clientId
+        hashMap["_client_type"] = clientType
+        hashMap["_client_version"] = newClientVersion
+        hashMap["_phone_imei"] = imei
+        hashMap["from"] = "tieba"
+        hashMap["is_thread"] = BOOLEAN_TRUE
+        hashMap["need_content"] = BOOLEAN_TRUE
+        hashMap["net_type"] = netType
+        hashMap["pn"] = str
+        hashMap["rn"] = "20"
+        hashMap["timestamp"] = getTimestamp().toString()
+        hashMap["uid"] = str2
+        hashMap["sign"] = calsign(hashMap)
+        return userPost(hashMap)
+
+    }
 
     private fun calsign(map: Map<String, String>): String {
         val sb = StringBuilder()
@@ -484,35 +754,6 @@ object TiebaRequest : TiebaService, BaseRequest() {
     fun reset() {
         val loginInfo = SPUtils.getInstance("login_info")
         tbs = loginInfo.getString("tbs")
-    }
-
-
-    private fun <T : TieResponse> threadTieConfig(request: Observable<T>): Observable<T> {
-        return request.observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .concatMap(TieResponseMapper())
-    }
-
-
-    class TieResponseMapper<T : TieResponse> : Function<T, ObservableSource<T>> {
-
-        override fun apply(t: T): ObservableSource<T> {
-            //error code 不为0 ，将 error message 作为异常信息抛出
-            val resultCode = t.getErrorCode()
-            if (!mAllowedCode.contains(resultCode)) {
-                return Observable
-                    .error(ApiErrorException(resultCode, t.getErrorMessage()))
-            }
-            return Observable.just(t)
-        }
-
-
-        private val mAllowedCode = ArrayList<Int>()
-
-        init {
-            mAllowedCode.add(CODE_SUCCESS)
-        }
-
     }
 
 

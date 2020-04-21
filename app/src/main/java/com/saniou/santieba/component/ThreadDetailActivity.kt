@@ -1,44 +1,45 @@
 package com.saniou.santieba.component
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
+import com.blankj.utilcode.util.IntentUtils
+import com.blankj.utilcode.util.ToastUtils
+import com.saniou.santieba.R
 import com.saniou.santieba.constant.MENU_COLOR
 import com.saniou.santieba.constant.THREAD_SCHEME
 import com.saniou.santieba.constant.THREAD_URL
 import com.saniou.santieba.constant.TIEBA_HOST
 import com.saniou.santieba.databinding.ActivityThreadDatailBinding
-import com.saniou.santieba.kts.getViewModel
-import com.saniou.santieba.kts.setDataBindingContentView
 import com.saniou.santieba.kts.tintDrawable
+import com.saniou.santieba.utils.ClipboardUtils
+import com.saniou.santieba.utils.openBrowser
 import com.saniou.santieba.viewmodel.ThreadDetailViewModel
 import com.saniou.santieba.vo.CommentImageItem
 import com.saniou.santieba.vo.SubCommentItem
-import com.sanniou.common.utilcode.subutil.ClipboardUtils
-import com.sanniou.common.utilcode.util.IntentUtils
-import com.sanniou.common.utilcode.util.ResourcesUtils
-import com.sanniou.common.utilcode.util.ToastUtils
-import com.sanniou.common.widget.ninegridview.ImagePreviewActivity
-import com.saniou.santieba.R
-import com.saniou.santieba.utils.openBrowser
+import com.sanniou.support.extensions.getViewModel
+import com.sanniou.support.utils.ResourcesUtils
 
 
-class ThreadDetailActivity : SanBaseActivity() {
-    private val binding: ActivityThreadDatailBinding by lazy {
-        setDataBindingContentView<ActivityThreadDatailBinding>(R.layout.activity_thread_datail)
-    }
+class ThreadDetailActivity : SanBaseActivity<ThreadDetailViewModel>() {
     private var fromSide = false
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+    override fun createViewModel() = getViewModel<ThreadDetailViewModel>()
+
+    override fun getLayoutRes() = R.layout.activity_thread_datail
+
+    override fun onBindingCreated(binding: ViewDataBinding) {
+        binding as ActivityThreadDatailBinding
+
         fromSide = intent.getBooleanExtra("outside", false)
         tiebaLinkFilter()
 
         setSupportActionBar(binding.actionBar)
         binding.actionBar.setNavigationOnClickListener {
-            onBackClick(it)
+            onBackPressed()
         }
         binding.actionBar.setOnClickListener {
             if (fromSide && binding.viewModel!!.forumName.get()!!.isNotBlank()) {
@@ -46,7 +47,7 @@ class ThreadDetailActivity : SanBaseActivity() {
                 intent.putExtra("name", binding.viewModel!!.forumName.get())
                 startActivity(intent)
             } else {
-                onBackClick(it)
+                onBackPressed()
             }
         }
 
@@ -67,12 +68,11 @@ class ThreadDetailActivity : SanBaseActivity() {
                 }
             }
 
-            true
+            false
         }
         val tid = intent.getStringExtra("tid")
         tid?.let {
-            val viewModel = getViewModel<ThreadDetailViewModel>()
-            viewModel.observeForever(this, Observer {
+            viewModel.observeEventInt(this, Observer {
                 when (it) {
                     0 -> {
                         binding.refresh.stopRefresh(true)
@@ -125,7 +125,7 @@ class ThreadDetailActivity : SanBaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_single -> {
-                binding.viewModel?.run {
+                viewModel.run {
                     lzOly = !lzOly
                     init()
 
@@ -140,7 +140,7 @@ class ThreadDetailActivity : SanBaseActivity() {
                 }
             }
             R.id.menu_reverse -> {
-                binding.viewModel?.run {
+                viewModel.run {
                     reverse = !reverse
                     init()
                     item.setIcon(
@@ -153,17 +153,17 @@ class ThreadDetailActivity : SanBaseActivity() {
                 }
             }
             R.id.menu_star -> {
-                binding.viewModel?.changeStore()
+                viewModel.changeStore()
             }
             R.id.menu_share -> {
-                startActivity(IntentUtils.getShareTextIntent(TIEBA_HOST + binding.viewModel?.tid))
+                startActivity(IntentUtils.getShareTextIntent(TIEBA_HOST + viewModel.tid))
             }
             R.id.menu_link -> {
-                ClipboardUtils.copyText(TIEBA_HOST + binding.viewModel?.tid)
+                ClipboardUtils.copyText(TIEBA_HOST + viewModel.tid)
                 ToastUtils.showShort(R.string.copied_to_clipboard)
             }
             R.id.menu_browser -> {
-                openBrowser(TIEBA_HOST + binding.viewModel?.tid)
+                openBrowser(this, TIEBA_HOST + viewModel.tid)
             }
         }
         return true

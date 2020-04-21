@@ -1,18 +1,12 @@
 package com.saniou.santieba.utils;
 
-import com.alibaba.android.arouter.utils.TextUtils;
+
+import android.text.TextUtils;
 
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.apache.commons.lang3.CharUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.StringEscapeUtils;
-
-import java.security.MessageDigest;
-import java.text.DecimalFormat;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class StringUtil {
 

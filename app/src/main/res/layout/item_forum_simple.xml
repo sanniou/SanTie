@@ -10,22 +10,26 @@
     </data>
 
     <LinearLayout
+        toForum="@{item.name}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/divider_height"
         android:layout_marginEnd="@dimen/divider_height"
         android:layout_marginBottom="1dp"
         android:background="@color/design_white"
-        android:clickable="true"
-        android:focusable="true"
         android:foreground="?selectableItemBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="10dp">
 
         <TextView
+            backgroundStroke="@{item.getSignBoardColor}"
+            backgroundStrokeWidthDP="@{1}"
+            isRadiusAdjustBounds="@{true}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="2dp"
             android:text="@string/sign_in_single"
             android:textColor="@{item.signColor}" />
 
@@ -34,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:textColor="@color/normalText"
             android:text="@{item.name}"
             tools:text="name" />
 
@@ -42,8 +47,10 @@
             backgroundRadius="@{item.radius}"
             paddingHorizontalDp="@{3}"
             paddingVerticalDp="@{2}"
+            android:textColor="@color/design_white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="12sp"
             android:text="@{item.level}"
             tools:text="lv21" />
     </LinearLayout>

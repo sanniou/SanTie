@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">@color/white</item>
     </style>
     <!--Toolbar的Theme的设置，都是针对popup的设置-->
     <style name="ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">

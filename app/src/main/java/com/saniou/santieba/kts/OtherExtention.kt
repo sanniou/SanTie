@@ -4,6 +4,7 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
+fun String?.toBool() = (!this.isNullOrEmpty()) && "0" != this
 
 fun getTimestamp() = System.currentTimeMillis()
 
@@ -32,7 +33,9 @@ fun getDateToInt(j: Long, i: Int): Int =
 
     }
 
-fun getDisplayTime(j: Long): CharSequence {
+fun getDisplayTime(j: String) = getDisplayTime(j.toLong())
+
+fun getDisplayTime(j: Long): String {
     val dateToInt = getDateToInt(getStringToDate(getCurrentDate()) / 1000 - j, 1)
     val dateToInt2 = getDateToInt(getStringToDate(getCurrentDate()) / 1000 - j, 2)
     val dateToInt3 = getDateToInt(getStringToDate(getCurrentDate()) / 1000 - j, 3)

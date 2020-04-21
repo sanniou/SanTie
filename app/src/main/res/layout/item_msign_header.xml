@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.saniou.santieba.vo.MSignHeaderItem" />
+    </data>
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:background="@color/config_white"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@{item.header}" />
+</layout>

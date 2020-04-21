@@ -10,19 +10,16 @@
     </data>
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        linkMovementMethod="@{true}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/config_white"
-        android:clickable="true"
-        android:focusable="true"
         android:paddingStart="@{item.first?@dimen/default_margin_normal:@dimen/comment_start}"
         android:paddingTop="@dimen/default_margin_small"
         android:paddingEnd="@dimen/default_margin_normal"
         android:paddingBottom="@dimen/default_margin_small"
         android:text="@{item.content,default=dddddddddd}"
         android:textColor="@color/majorText"
-        android:textIsSelectable="true"
+        android:textIsSelectable="@{true}"
         android:textSize="@dimen/majorText">
 
     </TextView>

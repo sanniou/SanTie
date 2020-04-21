@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.saniou.santieba.viewmodel.UserMainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".component.UserMainActivity">
+
+        <View
+            android:background="@color/config_white"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/forum_hint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/avatar"
+            circle="@{true}"
+            res="@{viewModel.avatar}"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:layout_marginStart="@dimen/view_padding"
+            android:text="@{viewModel.userName}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintTop_toTopOf="@id/avatar"
+            tools:text="@string/app_name" />
+
+        <TextView
+            android:id="@+id/forums"
+            android:layout_marginTop="@dimen/view_padding"
+            android:layout_width="0dp"
+            android:text="@{viewModel.likeCount}"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/avatar"
+            app:layout_constraintWidth_percent="0.25"
+            tools:text="{viewModel.likeCount}" />
+
+        <TextView
+            android:id="@+id/forum_hint"
+            android:layout_marginTop="@dimen/view_inside_padding"
+            android:text="贴吧"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/forums"
+            app:layout_constraintStart_toStartOf="@id/forums"
+            app:layout_constraintTop_toBottomOf="@id/forums" />
+
+        <TextView
+            android:id="@+id/thread"
+            android:text="@{viewModel.threadCount}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintStart_toEndOf="@id/forums"
+            app:layout_constraintTop_toTopOf="@id/forums"
+            app:layout_constraintWidth_percent="0.25"
+            tools:text="{viewModel.threadCount}" />
+
+        <TextView
+            android:id="@+id/thread_hint"
+            android:layout_marginTop="@dimen/view_inside_padding"
+            android:text="帖子"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/thread"
+            app:layout_constraintStart_toStartOf="@id/thread"
+            app:layout_constraintTop_toBottomOf="@id/thread" />
+
+        <TextView
+            android:id="@+id/fans"
+            android:text="@{viewModel.fansCount}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintStart_toEndOf="@id/thread"
+            app:layout_constraintTop_toTopOf="@id/forums"
+            app:layout_constraintWidth_percent="0.25"
+            tools:text="{viewModel.threadCount}" />
+
+        <TextView
+            android:id="@+id/fans_hint"
+            android:layout_marginTop="@dimen/view_inside_padding"
+            android:text="粉丝"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/fans"
+            app:layout_constraintStart_toStartOf="@id/fans"
+            app:layout_constraintTop_toBottomOf="@id/fans" />
+
+        <TextView
+            android:id="@+id/friends"
+            android:text="@{viewModel.concernCount}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintStart_toEndOf="@id/fans"
+            app:layout_constraintTop_toTopOf="@id/forums"
+            app:layout_constraintWidth_percent="0.25"
+            tools:text="{viewModel.threadCount}" />
+
+        <TextView
+            android:id="@+id/friends_hint"
+            android:layout_marginTop="@dimen/view_inside_padding"
+            android:text="关注"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/friends"
+            app:layout_constraintStart_toStartOf="@id/friends"
+            app:layout_constraintTop_toBottomOf="@id/friends" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            data="@{viewModel.list}"
+            dividerHeightDp="@{2}"
+            dividerColor="@{@color/shadowColor}"
+            android:layout_marginTop="@dimen/view_inside_padding"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/forum_hint" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

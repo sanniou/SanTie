@@ -1,7 +1,7 @@
 package com.saniou.santieba.vo
 
 import com.saniou.santieba.R
-import com.sanniou.common.widget.recyclerview.Item
+import com.sanniou.multiitem.DataItem
 
 class ThreadStoreItem(
     var name: String,
@@ -10,11 +10,11 @@ class ThreadStoreItem(
     var firstTime: CharSequence,
     var lastTime: CharSequence,
     var title: String,
-    var media: String,
+    var media: String?,
     var replayCount: String,
     var tid: String,
-    var isDeleted: Int,
+    var isDeleted: Boolean,
     var lzid: String
-) : Item {
-    override fun getType() = R.layout.item_thread_store
+) : DataItem {
+    override fun getItemType() = R.layout.item_thread_store
 }

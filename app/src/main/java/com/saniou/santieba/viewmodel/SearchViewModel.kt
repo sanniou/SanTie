@@ -1,32 +1,29 @@
 package com.saniou.santieba.viewmodel
 
-import android.annotation.SuppressLint
 import android.text.Html
-import com.saniou.santieba.NoNullLiveData
+import com.blankj.utilcode.util.ToastUtils
 import com.saniou.santieba.api.TiebaRequest
-import com.saniou.santieba.constant.BOOLEAN_TRUE
 import com.saniou.santieba.kts.getDisplayTime
-import com.saniou.santieba.kts.removeLast
-import com.saniou.santieba.utils.StringUtil
+import com.saniou.santieba.kts.toBool
 import com.saniou.santieba.vo.OnLoadListener
 import com.saniou.santieba.vo.SanLoadMoreItem
 import com.saniou.santieba.vo.SearchForumItem
 import com.saniou.santieba.vo.SearchThreadItem
-import com.sanniou.common.component.NetWorkViewModel
-import com.sanniou.common.databinding.DataBindingArrayList
-import com.sanniou.common.helper.ListUtil
-import com.sanniou.common.network.exception.ExceptionEngine
-import com.sanniou.common.utilcode.util.ToastUtils
-import com.sanniou.common.vo.LoadCallBack
-import com.sanniou.common.widget.recyclerview.Item
+import com.sanniou.multiitem.DataItem
+import com.sanniou.multiitem.MultiItemArrayList
+import com.sanniou.multiitemkit.vo.LoadCallBack
+import com.sanniou.support.components.BaseViewModel
+import com.sanniou.support.exception.ExceptionEngine
+import com.sanniou.support.extensions.deleteLast
+import com.sanniou.support.lifecycle.NonNullLiveData
 
-@SuppressLint("CheckResult")
-class SearchViewModel : NetWorkViewModel() {
 
-    val threadList = DataBindingArrayList<Item>()
-    val forumList = DataBindingArrayList<Item>()
+class SearchViewModel : BaseViewModel() {
 
-    val searchText = NoNullLiveData("")
+    val threadList = MultiItemArrayList<DataItem>()
+    val forumList = MultiItemArrayList<DataItem>()
+
+    val searchText = NonNullLiveData("")
     var currentTab = 0
     private var lastForumKey = ""
     private var lastThreadKey = ""
@@ -80,53 +77,60 @@ class SearchViewModel : NetWorkViewModel() {
         }
     }
 
+
     private fun searchThread(pageNo: String) {
-        TiebaRequest.searchpost(pageNo, searchText.value)
-            .`as`(bindLifeEvent())
-            .subscribe({ threadData ->
-                ListUtil.removeLast(threadList)
-                lastThreadKey = searchText.value
-                threadData.post_list.forEach {
-                    threadList.add(
-                        SearchThreadItem(
-                            Html.fromHtml(it.title),
-                            Html.fromHtml(it.content),
-                            getDisplayTime(it.time),
-                            it.author.name_show,
-                            0,
-                            it.is_floor == BOOLEAN_TRUE,
-                            it.is_replay == BOOLEAN_TRUE,
-                            it.pid,
-                            it.tid,
-                            it.fname
-                        )
-                    )
-                }
-                threadList.add(threadLoadMoreItem)
-                threadLoadMoreItem.loadSuccess(threadData.page.has_more == 1)
-            }) {
-                ToastUtils.showShort(ExceptionEngine.handleMessage(it))
+        launch {
+            try {
+                TiebaRequest.searchpost(pageNo, searchText.value)
+                    .let { threadData ->
+                        threadList.deleteLast()
+                        lastThreadKey = searchText.value
+                        threadData.postList.forEach {
+                            threadList.add(
+                                SearchThreadItem(
+                                    Html.fromHtml(it.title),
+                                    Html.fromHtml(it.content),
+                                    getDisplayTime(it.time),
+                                    it.author.nameShow,
+                                    0,
+                                    it.isFloor.toBool(),
+                                    it.isReplay.toBool(),
+                                    it.pid,
+                                    it.tid,
+                                    it.fname
+                                )
+                            )
+                        }
+                        threadList.add(threadLoadMoreItem)
+                        threadLoadMoreItem.loadSuccess(threadData.page.hasMore.toBool())
+                    }
+            } catch (e: Exception) {
+                ToastUtils.showShort(ExceptionEngine.handleMessage(e))
                 threadLoadMoreItem.loadFailed()
             }
-
+        }
     }
 
+
     private fun searchForum(pageNo: String) {
-        TiebaRequest.searchForum(searchText.value)
-            .`as`(bindLifeEvent())
-            .subscribe({ forumData ->
-                ListUtil.removeLast(forumList)
-                lastForumKey = searchText.value
-                forumData.fname.forEach {
-                    forumList.add(
-                        SearchForumItem(it)
-                    )
-                }
-                forumList.add(forumLoadMoreItem)
-                forumLoadMoreItem.loadSuccess(false)
-            }) {
-                ToastUtils.showShort(ExceptionEngine.handleMessage(it))
+        launch {
+            try {
+                TiebaRequest.searchForum(searchText.value)
+                    .let { forumData ->
+                        forumList.deleteLast()
+                        lastForumKey = searchText.value
+                        forumData.fname.forEach {
+                            forumList.add(
+                                SearchForumItem(it)
+                            )
+                        }
+                        forumList.add(forumLoadMoreItem)
+                        forumLoadMoreItem.loadSuccess(false)
+                    }
+            } catch (e: Exception) {
+                ToastUtils.showShort(ExceptionEngine.handleMessage(e))
                 forumLoadMoreItem.loadFailed()
             }
+        }
     }
 }

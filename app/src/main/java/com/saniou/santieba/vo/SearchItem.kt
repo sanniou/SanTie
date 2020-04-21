@@ -1,10 +1,10 @@
 package com.saniou.santieba.vo
 
 import com.saniou.santieba.R
-import com.sanniou.common.widget.recyclerview.Item
+import com.sanniou.multiitem.DataItem
 
-class SearchForumItem(var fname: CharSequence) : Item {
-    override fun getType() = R.layout.item_search_forum
+class SearchForumItem(var fname: CharSequence) : DataItem {
+    override fun getItemType() = R.layout.item_search_forum
 }
 
 class SearchThreadItem(
@@ -18,6 +18,6 @@ class SearchThreadItem(
     var pid: String,
     var tid: String,
     var forum: CharSequence
-) : Item {
-    override fun getType() = R.layout.item_search_thread
+) : DataItem {
+    override fun getItemType() = R.layout.item_search_thread
 }

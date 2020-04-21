@@ -26,7 +26,7 @@
             app:popupTheme="@style/ToolbarTheme"
             app:title="@{viewModel.forumName,default=title}" />
 
-        <com.sanniou.common.widget.swiper.LSwipeRefreshLayout
+        <com.sanniou.support.widget.swiper.LSwipeRefreshLayout
             android:id="@+id/refresh"
             onRefresh="@{viewModel::init}"
             android:layout_width="match_parent"
@@ -36,8 +36,9 @@
                 android:id="@+id/recycler"
                 data="@{viewModel.list}"
                 dividerHeightDp="@{4}"
+                dividerColor="@{@color/shadowColor}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-        </com.sanniou.common.widget.swiper.LSwipeRefreshLayout>
+        </com.sanniou.support.widget.swiper.LSwipeRefreshLayout>
     </LinearLayout>
 </layout>

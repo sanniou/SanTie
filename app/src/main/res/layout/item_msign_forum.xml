@@ -2,7 +2,16 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="item"
+            type="com.saniou.santieba.vo.MSignForumItem" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        toForum="@{item.forumName}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -56,7 +65,7 @@
 
         <TextView
             android:id="@+id/forumState"
-            visible="@{item.forumState}"
+            visible="@{item.forumSignIn}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{item.forumStateText}"
@@ -66,12 +75,5 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <data>
-
-        <variable
-            name="item"
-            type="com.saniou.santieba.vo.MSignForumItem" />
-
-    </data>
 
 </layout>

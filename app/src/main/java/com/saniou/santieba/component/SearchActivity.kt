@@ -1,42 +1,43 @@
 package com.saniou.santieba.component
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.blankj.utilcode.util.KeyboardUtils
 import com.saniou.santieba.R
-import com.saniou.santieba.databinding.ActivitySearchBinding
-import com.saniou.santieba.kts.getViewModel
-import com.saniou.santieba.kts.setDataBindingContentView
 import com.saniou.santieba.viewmodel.SearchViewModel
-import com.saniou.santieba.vo.ForumItem
 import com.saniou.santieba.vo.SearchForumItem
 import com.saniou.santieba.vo.SearchThreadItem
-import com.sanniou.common.utilcode.util.ActivityUtils
-import com.sanniou.common.utilcode.util.ResourcesUtils
-import com.sanniou.common.widget.DividerDrawable
-import com.sanniou.common.widget.recyclerview.ObservableListAdapter
-import com.sanniou.common.widget.recyclerview.VerticalItemDecoration
+import com.sanniou.multiitemkit.MultiClickAdapter
+import com.sanniou.multiitemkit.OnItemClickListener
+import com.sanniou.multiitemkit.decoration.VerticalItemDecoration
+import com.sanniou.multiitemkit.drawable.DividerDrawable
+import com.sanniou.support.extensions.getColor
+import com.sanniou.support.extensions.getViewModel
+import com.sanniou.support.extensions.getdimension
 import kotlinx.android.synthetic.main.activity_search.*
 
-class SearchActivity : SanBaseActivity() {
+class SearchActivity : SanBaseActivity<SearchViewModel>() {
 
-    lateinit var viewModel: SearchViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val binding = setDataBindingContentView<ActivitySearchBinding>(R.layout.activity_search)
-        viewModel = getViewModel()
-        binding.viewModel = viewModel
+    override fun createViewModel() = getViewModel<SearchViewModel>()
+
+    override fun getLayoutRes() = R.layout.activity_search
+
+    override fun onBindingCreated(binding: ViewDataBinding) {
+
+
+        save.setOnClickListener { onBackPressed() }
         search_text.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 viewModel.startSearch()
+                KeyboardUtils.hideSoftInput(search_text)
                 return@setOnEditorActionListener true
             }
             false
@@ -62,13 +63,23 @@ class SearchActivity : SanBaseActivity() {
         })
     }
 
+    override fun onBackPressed() {
+        KeyboardUtils.hideSoftInput(search_text)
+        super.onBackPressed()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        KeyboardUtils.showSoftInput(search_text)
+    }
+
     inner class ListPagerAdapter : PagerAdapter() {
 
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
             return RecyclerView(this@SearchActivity).apply {
                 val listAdapter =
-                    ObservableListAdapter(if (position == 0) viewModel.forumList else viewModel.threadList)
-                listAdapter.setOnItemClickListener {
+                    MultiClickAdapter(if (position == 0) viewModel.forumList else viewModel.threadList)
+                listAdapter.itemClickListener = OnItemClickListener {
                     if (position == 0) {
                         (it.item as SearchForumItem).run {
                             val intent = Intent(this@SearchActivity, ForumMainActivity::class.java)
@@ -90,8 +101,8 @@ class SearchActivity : SanBaseActivity() {
                 adapter = listAdapter
                 layoutManager = LinearLayoutManager(this@SearchActivity)
                 val drawable = DividerDrawable(
-                    ResourcesUtils.getDimension(R.dimen.divider_height),
-                    ResourcesUtils.getColor(R.color.backgroundColorPress)
+                    getdimension(R.dimen.divider_height).toInt(),
+                    getColor(R.color.backgroundColorPress)
                 )
                 addItemDecoration(
                     VerticalItemDecoration.Builder(context)

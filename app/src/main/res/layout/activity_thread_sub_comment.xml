@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         tools:context=".component.ThreadSubCommentActivity">
 
-        <com.sanniou.common.widget.swiper.LSwipeRefreshLayout
+        <com.sanniou.support.widget.swiper.LSwipeRefreshLayout
             android:id="@+id/refresh"
             onRefresh="@{viewModel::init}"
             android:layout_width="match_parent"
@@ -24,6 +24,6 @@
                 data="@{viewModel.list}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-        </com.sanniou.common.widget.swiper.LSwipeRefreshLayout>
+        </com.sanniou.support.widget.swiper.LSwipeRefreshLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

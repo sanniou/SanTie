@@ -1,1 +1,2 @@
-include ':app'
+include ':app', ':support'
+project(':support').projectDir = new File('SanSupport/support')

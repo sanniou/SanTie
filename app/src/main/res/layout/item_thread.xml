@@ -11,13 +11,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        toThread="@{item.tid}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/config_white"
-        android:clickable="true"
-        android:focusable="true"
         android:foreground="?selectableItemBackground"
-        android:onClickListener="@{item::onClick}"
         android:padding="@dimen/default_margin_normal">
 
         <ImageView
@@ -111,12 +109,39 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:padding="@dimen/view_inside_padding"
-            android:text="@{item.readCount}"
+            android:text="@{item.replayCount}"
             android:textColor="@color/minorText"
             android:textSize="@dimen/minorText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/post_image"
             tools:text="432" />
 
+
+        <ImageView
+            android:id="@+id/post_zan_icon"
+            visible="@{!item.zanCount.empty}"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_comment"
+            app:layout_constraintBottom_toBottomOf="@id/post_zan_count"
+            app:layout_constraintDimensionRatio="W,1:1"
+            app:layout_constraintEnd_toStartOf="@id/post_zan_count"
+            app:layout_constraintTop_toTopOf="@id/post_zan_count" />
+
+        <TextView
+            android:id="@+id/post_zan_count"
+            visible="@{!item.zanCount.empty}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:padding="@dimen/view_inside_padding"
+            android:text="@{item.zanCount}"
+            android:textColor="@color/minorText"
+            android:textSize="@dimen/minorText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/post_read_icon"
+            app:layout_constraintTop_toBottomOf="@id/post_image"
+            tools:text="432" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

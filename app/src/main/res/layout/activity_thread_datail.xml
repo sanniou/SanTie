@@ -6,7 +6,7 @@
 
         <variable
             name="clickListener"
-            type="com.sanniou.common.widget.recyclerview.OnItemClickListener" />
+            type="com.sanniou.multiitemkit.OnItemClickListener" />
 
         <variable
             name="viewModel"
@@ -29,20 +29,21 @@
             app:title="@{viewModel.forumName,default=title}" />
 
 
-        <com.sanniou.common.widget.swiper.LSwipeRefreshLayout
+        <com.sanniou.support.widget.swiper.LSwipeRefreshLayout
             android:id="@+id/refresh"
             onRefresh="@{viewModel::init}"
             android:layout_width="match_parent"
+            android:descendantFocusability="beforeDescendants"
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                data="@{viewModel.list}"
-                itemClick="@{clickListener}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/config_white"
+                app:data="@{viewModel.list}"
+                app:itemClickListener="@{clickListener}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/forumImage" />
-        </com.sanniou.common.widget.swiper.LSwipeRefreshLayout>
+        </com.sanniou.support.widget.swiper.LSwipeRefreshLayout>
     </LinearLayout>
 </layout>

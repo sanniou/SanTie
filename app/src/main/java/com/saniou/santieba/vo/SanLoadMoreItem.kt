@@ -3,10 +3,10 @@ package com.saniou.santieba.vo
 import androidx.databinding.ObservableField
 import com.saniou.santieba.R
 
-import com.sanniou.common.vo.LoadCallBack
-import com.sanniou.common.widget.recyclerview.Item
+import com.sanniou.multiitem.DataItem
+import com.sanniou.multiitemkit.vo.LoadCallBack
 
-class SanLoadMoreItem(private val mListener: OnLoadListener) : Item, LoadCallBack {
+class SanLoadMoreItem(private val mListener: OnLoadListener) : DataItem, LoadCallBack {
 
 
     companion object {
@@ -79,7 +79,7 @@ class SanLoadMoreItem(private val mListener: OnLoadListener) : Item, LoadCallBac
     }
 
 
-    override fun getType(): Int {
+    override fun getItemType(): Int {
         return R.layout.item_sanloadmore
     }
 

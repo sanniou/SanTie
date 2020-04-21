@@ -1,8 +1,7 @@
 package com.saniou.santieba.constant
 
-import android.graphics.Color
 import com.saniou.santieba.R
-import com.sanniou.common.utilcode.util.ResourcesUtils
+import com.sanniou.support.utils.ResourcesUtils
 
 val MENU_COLOR = ResourcesUtils.getColor(R.color.colorPrimary)
 
@@ -10,8 +9,7 @@ const val EVENT_UI_REFRESH_SUCCESS = 0
 const val EVENT_UI_REFRESH_FAILED = 1
 
 const val BOOLEAN_TRUE = "1"
-const val BOOLEAN_TRUE_INT = 1
-const val NO_VALUE = "0"
+const val BOOLEAN_FALSE = "0"
 
 const val RANGE_NUMBER = 20
 const val CODE_SUCCESS = 0
@@ -21,9 +19,18 @@ const val PORTRAIT_HOST = "http://tb.himg.baidu.com/sys/portrait/item/"
 const val TIEBA_HOST = "https://tieba.baidu.com/p/"
 const val TIEBA_FORUM_HOST = "https://tieba.baidu.com/f?kw="
 
+const val TIEBA_USER_HOST = "http://tieba.baidu.com/main/"
+const val TIEBA_HOST_2 = "http://tieba.baidu.com/p/"
+const val TIEBA_FORUM_HOST_2 = "http://tieba.baidu.com/f?kw="
+
+//https://tieba.baidu.com/mo/q/voice?md5=a516df8cca0d5f4f7aa4fcad13901ba1
+const val TIEBA_VOICE_HOST = "https://tieba.baidu.com/mo/q/voice?md5="
+
 const val THREAD_SCHEME = "tbpb"
 const val FORUM_SCHEME = "tbfrs"
 const val THREAD_URL = "tbpb://tieba.baidu.com/"
+
+const val ERROR_CODE_SUCCESS = "0"
 
 const val TEXT = "0"
 const val LINK = "1"
@@ -31,6 +38,7 @@ const val EMOJI = "2"
 const val IMAGE = "3"
 const val ATME = "4"
 const val VIDEO = "5"
+const val MUSIC = "6"
 const val PHONE = "9"
 const val VOICE = "10"
 

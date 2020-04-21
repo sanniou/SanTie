@@ -1,40 +1,41 @@
 package com.saniou.santieba.component
 
-import android.os.Bundle
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import com.saniou.santieba.R
-import com.saniou.santieba.databinding.ActivityThreadSubCommentBinding
-import com.saniou.santieba.kts.getViewModel
-import com.saniou.santieba.kts.setDataBindingContentView
 import com.saniou.santieba.viewmodel.ThreadSubCommentViewModel
+import com.sanniou.support.extensions.getViewModel
+import kotlinx.android.synthetic.main.activity_thread_sub_comment.*
 
-class ThreadSubCommentActivity : SanBaseActivity() {
+class ThreadSubCommentActivity : SanBaseActivity<ThreadSubCommentViewModel>() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val binding =
-            setDataBindingContentView<ActivityThreadSubCommentBinding>(R.layout.activity_thread_sub_comment)
-        val model = getViewModel<ThreadSubCommentViewModel>()
-        binding.viewModel = model
+
+    override fun createViewModel() = getViewModel<ThreadSubCommentViewModel>()
+
+    override fun getLayoutRes() = R.layout.activity_thread_sub_comment
+
+    override fun onBindingCreated(binding: ViewDataBinding) {
+
+
         intent.getStringExtra("pid")?.run {
-            model.pid = this
+            viewModel.pid = this
         }
         intent.getStringExtra("tid")?.run {
-            model.threadId = this
+            viewModel.threadId = this
         }
-        model.observeForever(this, Observer {
+        viewModel.observeEventInt(this, Observer {
             when (it) {
                 0 -> {
-                    binding.refresh.stopRefresh(true)
+                    refresh.stopRefresh(true)
                 }
                 else -> {
-                    binding.refresh.stopRefresh(false)
+                    refresh.stopRefresh(false)
                 }
             }
         })
 
-        binding.refresh.post {
-            binding.refresh.startRefresh()
+        refresh.post {
+            refresh.startRefresh()
         }
     }
 }

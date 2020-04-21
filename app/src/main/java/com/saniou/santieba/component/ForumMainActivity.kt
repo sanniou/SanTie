@@ -1,31 +1,34 @@
 package com.saniou.santieba.component
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
+import com.blankj.utilcode.util.ToastUtils
 import com.saniou.santieba.R
 import com.saniou.santieba.constant.FORUM_SCHEME
 import com.saniou.santieba.constant.MENU_COLOR
 import com.saniou.santieba.constant.TIEBA_FORUM_HOST
 import com.saniou.santieba.databinding.ActivityForumMainBinding
-import com.saniou.santieba.kts.getViewModel
-import com.saniou.santieba.kts.setDataBindingContentView
 import com.saniou.santieba.kts.tintDrawable
 import com.saniou.santieba.utils.openBrowser
 import com.saniou.santieba.viewmodel.ForumMainViewModel
-import com.sanniou.common.utilcode.util.ResourcesUtils
-import com.sanniou.common.utilcode.util.ToastUtils
+import com.sanniou.support.extensions.getViewModel
+import com.sanniou.support.utils.ResourcesUtils
 import java.net.URLDecoder
 
-class ForumMainActivity : SanBaseActivity() {
-    private val binding: ActivityForumMainBinding by lazy {
-        setDataBindingContentView<ActivityForumMainBinding>(R.layout.activity_forum_main)
-    }
+class ForumMainActivity : SanBaseActivity<ForumMainViewModel>() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+    override fun createViewModel() = getViewModel<ForumMainViewModel>()
+
+    override fun getLayoutRes() = R.layout.activity_forum_main
+
+    override fun onBindingCreated(binding: ViewDataBinding) {
+
+        binding as ActivityForumMainBinding
+
         tiebaLinkFilter()
 
         setSupportActionBar(binding.actionBar)
@@ -33,13 +36,12 @@ class ForumMainActivity : SanBaseActivity() {
             binding.recycler.smoothScrollToPosition(0)
         }
         binding.actionBar.setNavigationOnClickListener {
-            onBackClick(it)
+            onBackPressed()
         }
         val name = intent.getStringExtra("name")
         name?.run {
-            val viewModel = getViewModel<ForumMainViewModel>()
             binding.viewModel = viewModel
-            viewModel.observeForever(this@ForumMainActivity, Observer {
+            viewModel.observeEventInt(this@ForumMainActivity, Observer {
                 when (it) {
                     0 -> {
                         binding.refresh.stopRefresh(true)
@@ -93,16 +95,16 @@ class ForumMainActivity : SanBaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_good -> {
-                binding.viewModel?.run {
+                viewModel.run {
                     isGood = !isGood
                     init()
                 }
             }
             R.id.menu_unsubscribe -> {
-                binding.viewModel?.unSubscribe()
+                viewModel.unSubscribe()
             }
             R.id.menu_browser -> {
-                openBrowser(TIEBA_FORUM_HOST + binding.viewModel?.forumName?.get())
+                openBrowser(this, TIEBA_FORUM_HOST + viewModel.forumName.get())
             }
         }
         return true

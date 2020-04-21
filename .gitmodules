@@ -1,0 +1,3 @@
+[submodule "SanSupport"]
+	path = SanSupport
+	url = git@github.com:sanniou/SanSupport.git

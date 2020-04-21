@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?><!--定义基础色值-->
+<resources>
+
+  <color name="app_color">@color/config_black</color>
+  <color name="config_bg">@color/config_white_2</color>
+
+
+  <color name="config_white">#FFFFFF</color>
+  <color name="config_white_2">#F0F0F0</color>
+  <color name="config_white_3">#EFF1FF</color>
+
+  <color name="config_blue">#3396EF</color>
+  <color name="config_blue_2">#00ADE9</color>
+  <color name="config_violet">#B572D6</color>
+  <color name="config_green">#0CBBC8</color>
+  <color name="config_orange">#ED5E0A</color>
+  <color name="config_red">#E92100</color>
+  <color name="config_yellow">#F39800</color>
+  <color name="config_gold">#D7CD29</color>
+  <color name="config_gray">#666666</color>
+  <color name="config_gray_2">#cccccc</color>
+  <color name="config_black">#000000</color>
+  <color name="config_black_2">#28323B</color>
+  <color name="config_indigo">#47BAFC</color>
+  <color name="config_transparent">#00000000</color>
+  <color name="config_translucent">#66000000</color>
+  <color name="config_dialog_cancel">#666666</color>
+
+  <!--标注色值 都是 design 开头的-->
+  <color name="design_major">#333333</color>
+  <color name="design_normal">#666666</color>
+  <color name="design_minor">#999999</color>
+  <color name="design_stroke">#eeeeee</color>
+  <color name="design_weak">#f1f1f1</color>
+  <color name="design_unable">#dddddd</color>
+  <color name="design_touch">#ffe100</color>
+  <color name="design_red">#FC6666</color>
+  <color name="design_white">#FFFFFF</color>
+  <color name="design_yellow">#ffe100</color>
+  <color name="design_blue">#4589F6</color>
+  <color name="design_orange">#FF9939</color>
+
+  <color name="design_background">#FFFFFF</color>
+</resources>

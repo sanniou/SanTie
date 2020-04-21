@@ -1,25 +1,27 @@
 package com.saniou.santieba.component
 
-import android.os.Bundle
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Observer
+import com.blankj.utilcode.util.ToastUtils
 import com.saniou.santieba.R
-import com.saniou.santieba.constant.BOOLEAN_TRUE_INT
 import com.saniou.santieba.constant.EVENT_UI_REFRESH_FAILED
 import com.saniou.santieba.constant.EVENT_UI_REFRESH_SUCCESS
 import com.saniou.santieba.databinding.ActivityStoreBinding
-import com.saniou.santieba.kts.getViewModel
-import com.saniou.santieba.kts.setDataBindingContentView
 import com.saniou.santieba.kts.startActivityEx
 import com.saniou.santieba.viewmodel.StoreViewModel
 import com.saniou.santieba.vo.ThreadStoreItem
-import com.sanniou.common.utilcode.util.ToastUtils
+import com.sanniou.support.extensions.getViewModel
 
-class StoreActivity : SanBaseActivity() {
-    val binding: ActivityStoreBinding by lazy {
-        setDataBindingContentView<ActivityStoreBinding>(R.layout.activity_store)
-    }
+class StoreActivity : SanBaseActivity<StoreViewModel>() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun createViewModel() = getViewModel<StoreViewModel>()
+
+    override fun getLayoutRes() = R.layout.activity_store
+
+    override fun onBindingCreated(binding: ViewDataBinding) {
+
+        binding as ActivityStoreBinding
+
         setSupportActionBar(binding.actionBar)
         binding.actionBar.setNavigationOnClickListener {
             onBackPressed()
@@ -27,19 +29,17 @@ class StoreActivity : SanBaseActivity() {
         intent?.run {
             getStringExtra("UID")?.run {
                 binding.setItemClick { holder ->
-                    (holder.item as ThreadStoreItem).takeIf {
-                        it.isDeleted != BOOLEAN_TRUE_INT
-                    }?.run {
-                        startActivityEx(
-                            ThreadDetailActivity::class.java, "tid", tid
-                        )
-                    } ?: run {
-                        ToastUtils.showShort("帖子被删除")
-                    }
+                    (holder.item as ThreadStoreItem)
+                        .takeIf { !it.isDeleted }
+                        ?.run { startActivityEx(ThreadDetailActivity::class.java, "tid", tid) }
+                        ?: run { ToastUtils.showShort("帖子被删除") }
                     true
                 }
-                val viewModel = getViewModel<StoreViewModel>()
-                viewModel.observe {
+                binding.setLongPressListener {
+                    viewModel.rmStore(it.item as ThreadStoreItem)
+                }
+
+                viewModel.observeEventInt(this@StoreActivity, Observer {
                     when (it) {
                         EVENT_UI_REFRESH_SUCCESS -> {
                             binding.refresh.stopRefresh(true)
@@ -50,7 +50,7 @@ class StoreActivity : SanBaseActivity() {
                         else -> {
                         }
                     }
-                }
+                })
                 viewModel.uId = this
                 binding.viewModel = viewModel
                 viewModel.init()

@@ -1,30 +1,26 @@
 package com.saniou.santieba.viewmodel
 
-import android.annotation.SuppressLint
+import com.blankj.utilcode.util.ToastUtils
 import com.saniou.santieba.api.TiebaRequest
+import com.saniou.santieba.api.bean.MEDIA_TYPE_FLASH
+import com.saniou.santieba.api.bean.MEDIA_TYPE_PIC
 import com.saniou.santieba.constant.EVENT_UI_REFRESH_FAILED
 import com.saniou.santieba.constant.EVENT_UI_REFRESH_SUCCESS
 import com.saniou.santieba.constant.PORTRAIT_HOST
 import com.saniou.santieba.constant.RANGE_NUMBER
 import com.saniou.santieba.kts.getDisplayTime
+import com.saniou.santieba.kts.toBool
 import com.saniou.santieba.vo.ThreadStoreItem
-import com.sanniou.common.databinding.BaseObservableListViewModel
-import com.sanniou.common.helper.ListUtil
-import com.sanniou.common.network.exception.ExceptionEngine
-import com.sanniou.common.utilcode.util.ToastUtils
-import com.sanniou.common.vo.LoadCallBack
-import com.sanniou.common.vo.LoadMoreItem
-import com.sanniou.common.vo.OnLoadListener
+import com.sanniou.multiitemkit.vo.LoadMoreItem
+import com.sanniou.support.components.BaseListViewModel
+import com.sanniou.support.exception.ExceptionEngine
+import com.sanniou.support.extensions.deleteLast
 
-@SuppressLint("CheckResult")
-class StoreViewModel : BaseObservableListViewModel(), OnLoadListener {
 
-    override fun onLoad(callBack: LoadCallBack): Boolean {
-        threadStore(mPageNum)
-        return true
-    }
+class StoreViewModel : BaseListViewModel() {
 
-    private val loadMoreItem = LoadMoreItem(this)
+
+    private val loadMoreItem = LoadMoreItem { threadStore(mPageNum) }
     var uId: String = ""
     private var mPageNum = 1
 
@@ -36,37 +32,69 @@ class StoreViewModel : BaseObservableListViewModel(), OnLoadListener {
     }
 
     private fun threadStore(pageNumber: Int) {
-        TiebaRequest.threadstore(pageNumber, uId)
-            .`as`(bindLifeEvent())
-            .subscribe({ threadData ->
-                mPageNum++
-                ListUtil.removeLast(items)
+        launch {
+            try {
+                TiebaRequest.threadstore(pageNumber, uId)
+                    .let { threadData ->
+                        mPageNum++
+                        list.deleteLast()
 
-                threadData.store_thread.forEach {
-                    add(
-                        ThreadStoreItem(
-                            "${it.author.name_show}(${it.author.name})",
-                            it.forum_name,
-                            "$PORTRAIT_HOST${it.author.user_portrait}",
-                            getDisplayTime(it.create_time),
-                            getDisplayTime(it.last_time),
-                            it.title, it.media[0].small_pic,
-                            it.reply_num,
-                            it.thread_id,
-                            it.is_deleted,
-                            it.author.lz_uid
-                        )
-                    )
-                }
+                        threadData.storeThread
+                            .forEach { thread ->
+                                add(
+                                    ThreadStoreItem(
+                                        "${thread.author.nameShow}(${thread.author.name})",
+                                        thread.forumName,
+                                        "$PORTRAIT_HOST${thread.author.userPortrait}",
+                                        getDisplayTime(thread.createTime),
+                                        getDisplayTime(thread.lastTime),
+                                        thread.title,
+                                        thread.media
+                                            .getOrNull(0)
+                                            ?.let {
+                                                when (it.type) {
+                                                    MEDIA_TYPE_FLASH -> {
+                                                        it.vpic
+                                                    }
+                                                    MEDIA_TYPE_PIC -> {
+                                                        it.smallPic
+                                                    }
+                                                    else -> {
+                                                        null
+                                                    }
+                                                }
 
-                add(loadMoreItem)
-                loadMoreItem.loadSuccess(threadData.store_thread.size == RANGE_NUMBER)
-                updateUi(EVENT_UI_REFRESH_SUCCESS)
-            }) {
-                ToastUtils.showShort(ExceptionEngine.handleMessage(it))
+                                            },
+                                        thread.replyNum,
+                                        thread.threadId,
+                                        thread.isDeleted.toBool(),
+                                        thread.author.lzUid
+                                    )
+                                )
+                            }
+
+                        add(loadMoreItem)
+                        loadMoreItem.loadSuccess(threadData.storeThread.size == RANGE_NUMBER)
+                        sendEvent(EVENT_UI_REFRESH_SUCCESS)
+                    }
+            } catch (e: Exception) {
+                ToastUtils.showShort(ExceptionEngine.handleMessage(e))
                 loadMoreItem.loadFailed()
-                updateUi(EVENT_UI_REFRESH_FAILED)
+                sendEvent(EVENT_UI_REFRESH_FAILED)
             }
+        }
     }
 
+    fun rmStore(threadStoreItem: ThreadStoreItem) {
+        launch {
+            try {
+                TiebaRequest.rmStore(threadStoreItem.tid)
+                remove(threadStoreItem)
+                ToastUtils.showShort("取消收藏成功")
+            } catch (e: Exception) {
+                ToastUtils.showShort(ExceptionEngine.handleMessage(e))
+            }
+
+        }
+    }
 }

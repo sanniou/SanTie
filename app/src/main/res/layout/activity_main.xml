@@ -4,10 +4,6 @@
     <data>
 
         <variable
-            name="itemClick"
-            type="com.sanniou.common.widget.recyclerview.OnItemClickListener" />
-
-        <variable
             name="viewModel"
             type="com.saniou.santieba.viewmodel.MainViewModel" />
     </data>
@@ -243,7 +239,7 @@
             app:layout_constraintStart_toEndOf="@id/like_line"
             app:layout_constraintTop_toTopOf="@id/user_avatar" />
 
-        <com.sanniou.common.widget.swiper.LSwipeRefreshLayout
+        <com.sanniou.support.widget.swiper.LSwipeRefreshLayout
             android:id="@+id/refresh"
             onRefresh="@{viewModel::getFavorite}"
             android:layout_width="match_parent"
@@ -257,10 +253,9 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 data="@{viewModel.list}"
-                itemClick="@{itemClick}"
                 span="@{2}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-        </com.sanniou.common.widget.swiper.LSwipeRefreshLayout>
+        </com.sanniou.support.widget.swiper.LSwipeRefreshLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

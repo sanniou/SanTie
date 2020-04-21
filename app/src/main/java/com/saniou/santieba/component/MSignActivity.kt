@@ -1,24 +1,33 @@
 package com.saniou.santieba.component
 
-import android.os.Bundle
+import androidx.databinding.ViewDataBinding
 import com.saniou.santieba.R
 import com.saniou.santieba.databinding.ActivityMsignBinding
-import com.saniou.santieba.kts.getViewModel
-import com.saniou.santieba.kts.setDataBindingContentView
 import com.saniou.santieba.viewmodel.MsignViewModel
+import com.sanniou.support.extensions.getViewModel
+import com.sanniou.support.widget.recyclerview.PinnedHeaderItemDecoration
 import kotlinx.android.synthetic.main.activity_msign.*
 
-class MSignActivity : SanBaseActivity() {
+class MSignActivity : SanBaseActivity<MsignViewModel>() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val binding = setDataBindingContentView<ActivityMsignBinding>(R.layout.activity_msign)
-        val viewModel = getViewModel<MsignViewModel>()
-        binding.viewModel = viewModel
-        viewModel.bindLifecycleOwner(this)
+
+    override fun createViewModel() = getViewModel<MsignViewModel>()
+
+    override fun getLayoutRes() = R.layout.activity_msign
+
+    override fun onBindingCreated(binding: ViewDataBinding) {
+        binding as ActivityMsignBinding
+        binding.forumList
+            .addItemDecoration(
+                PinnedHeaderItemDecoration
+                    .Builder(R.layout.item_msign_header)
+                    .enableDivider(false)
+                    .create()
+            )
+
         viewModel.getForumList()
         msign_top.setNavigationOnClickListener {
-            onBackClick(it)
+            onBackPressed()
         }
     }
 

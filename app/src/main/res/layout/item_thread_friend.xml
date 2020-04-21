@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.saniou.santieba.vo.FriendThreadItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        toThread="@{item.tid}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/config_white"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?selectableItemBackground"
+        android:padding="@dimen/default_margin_normal">
+
+        <TextView
+            android:id="@+id/thread_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_padding"
+            android:text="@{item.title,default=dsfsdfsdf}"
+            android:textColor="@color/majorText"
+            android:textSize="@dimen/majorText"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/thread_media"
+            res="@{item.media}"
+            visible="@{item.media!=null}"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="@dimen/view_padding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/thread_title"
+            tools:src="@drawable/ali_003" />
+
+
+        <TextView
+            android:id="@+id/thread_first_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_padding"
+            android:text="@{item.firstTime,default=1111}"
+            android:textColor="@color/minorText"
+            android:textSize="@dimen/minorText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/thread_media" />
+
+
+        <TextView
+            android:id="@+id/thread_forum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.forum,default=dsafds}"
+            android:layout_marginTop="@dimen/view_padding"
+            android:textColor="@color/design_orange"
+            android:textSize="@dimen/majorText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/thread_first_time" />
+
+        <TextView
+            android:id="@+id/replay_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_padding"
+            android:text="@{item.replayCount,default=ddddd}"
+            android:textColor="@color/minorText"
+            android:textSize="@dimen/minorText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/thread_first_time" />
+
+        <ImageView
+            android:id="@+id/repay_icon"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/view_padding"
+            android:src="@drawable/ic_comment"
+            app:layout_constraintBottom_toBottomOf="@id/replay_count"
+            app:layout_constraintDimensionRatio="W,1:1"
+            app:layout_constraintEnd_toStartOf="@id/replay_count"
+            app:layout_constraintTop_toTopOf="@id/replay_count" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,40 +1,45 @@
 package com.saniou.santieba.component
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.os.Build
-import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ProgressBar
+import androidx.databinding.ViewDataBinding
+import com.blankj.utilcode.constant.PermissionConstants
+import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.PermissionUtils
+import com.blankj.utilcode.util.SPUtils
 import com.google.android.material.snackbar.Snackbar
 import com.saniou.santieba.R
 import com.saniou.santieba.kts.startActivityEx
 import com.saniou.santieba.utils.SQLiteUtil
-import com.sanniou.common.network.rxpermission.RxPermissions
-import com.sanniou.common.utilcode.util.LogUtils
-import com.sanniou.common.utilcode.util.SPUtils
+import com.saniou.santieba.viewmodel.WebLoginViewModel
+import com.sanniou.support.extensions.getViewModel
 import org.apache.commons.text.lookup.StringLookupFactory
 import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
 import java.util.*
 
-class WebLoginActivity : SanBaseActivity() {
+class WebLoginActivity : SanBaseActivity<WebLoginViewModel>() {
+
 
     private val REQUEST_CODE = 10086
     private val createAccountTableSql =
         "create table if not exists account(id integer primary key autoincrement,userId text,userName text,userBDUSS text,userPortrait text,tail text)"
+
     /* access modifiers changed from: private */
     var mBDUSS: String = ""
     private val mLayout by lazy {
         findViewById<View>(R.id.activity_web_login)
     }
     private var mParam = "clientfrom=native&tpl=tb&login_share_strategy=silent&client=ios&adapter=3"
+
     /* access modifiers changed from: private */
     var mPortrait: String = ""
+
     /* access modifiers changed from: private */
     val mProgressBar: ProgressBar by lazy {
         findViewById<ProgressBar>(R.id.progress)
@@ -46,41 +51,44 @@ class WebLoginActivity : SanBaseActivity() {
             .append(mParam)
             .toString()
     }
+
     /* access modifiers changed from: private */
     var mUid: String = ""
     private var mUrl = "https://wappass.baidu.com/passport/login"
+
     /* access modifiers changed from: private */
     var mUserName: String = ""
+
     /* access modifiers changed from: private */
     val mWebView by lazy {
         findViewById<WebView>(R.id.web_login);
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_web_login)
+    override fun createViewModel() = getViewModel<WebLoginViewModel>()
+
+    override fun getLayoutRes() = R.layout.activity_web_login
+
+    override fun onBindingCreated(binding: ViewDataBinding) {
         webViewInit()
         requestPermission()
     }
 
 
-    @SuppressLint("CheckResult")
     private fun requestPermission() {
-        RxPermissions(this)
-            .request(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
-            .subscribe { bool: Boolean ->
-                if (bool) {
-                    Snackbar.make(this.mLayout, R.string.permission_granted, Snackbar.LENGTH_SHORT)
+        PermissionUtils.permission(PermissionConstants.STORAGE)
+            .callback(object : PermissionUtils.SimpleCallback {
+                override fun onGranted() {
+                    Snackbar.make(mLayout, R.string.permission_granted, Snackbar.LENGTH_SHORT)
                         .show()
                     getImei()
-                } else {
-                    Snackbar.make(this.mLayout, R.string.permission_deny, Snackbar.LENGTH_LONG)
+                }
+
+                override fun onDenied() {
+                    Snackbar.make(mLayout, R.string.permission_deny, Snackbar.LENGTH_LONG)
                         .show()
                 }
-            }
+
+            })
 
     }
 
@@ -96,7 +104,6 @@ class WebLoginActivity : SanBaseActivity() {
         phoneEditor.apply()
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
     private fun webViewInit() {
         mWebView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(webView: WebView, str: String): Boolean {

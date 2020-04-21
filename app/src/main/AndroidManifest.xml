@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".component.UserMainActivity"></activity>
         <activity android:name=".component.StoreActivity" />
         <activity android:name=".component.MSignActivity" />
         <activity android:name=".component.ThreadSubCommentActivity" />
@@ -36,6 +37,7 @@
         </activity>
         <activity android:name=".component.WebLoginActivity" />
         <activity android:name=".component.SearchActivity" />
+        <activity android:name=".component.ImagePreviewActivity" />
         <activity android:name=".component.ThreadDetailActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

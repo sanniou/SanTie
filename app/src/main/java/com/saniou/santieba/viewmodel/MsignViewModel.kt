@@ -1,70 +1,114 @@
 package com.saniou.santieba.viewmodel
 
-import android.annotation.SuppressLint
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableInt
+import com.blankj.utilcode.util.ToastUtils
 import com.saniou.santieba.R
 import com.saniou.santieba.api.TiebaRequest
+import com.saniou.santieba.kts.getDisplayTime
+import com.saniou.santieba.kts.toBool
 import com.saniou.santieba.vo.MSignForumItem
-import com.sanniou.common.databinding.BaseObservableListViewModel
-import com.sanniou.common.network.exception.ExceptionEngine
-import com.sanniou.common.utilcode.util.ToastUtils
-import org.json.JSONObject
-import java.util.HashMap
-import kotlin.concurrent.fixedRateTimer
+import com.saniou.santieba.vo.MSignHeaderItem
+import com.sanniou.support.components.BaseListViewModel
+import com.sanniou.support.exception.ExceptionEngine
 
-class MsignViewModel : BaseObservableListViewModel() {
+class MsignViewModel : BaseListViewModel() {
     private var forumIds = StringBuilder()
+    private var manualSigns = mutableListOf<String>()
     val signImage = ObservableInt(R.drawable.icon_all_sign)
 
-    @SuppressLint("CheckResult")
+    val signed = ObservableBoolean(false);
+
     fun msign() {
-        if (forumIds.isEmpty()) {
-            ToastUtils.showShort("已签到")
-            return
-        }
-        TiebaRequest.msing(forumIds.toString())
-            .`as`(bindLifeEvent())
-            .subscribe({
+
+        launch {
+            try {
+                if (signed.get()) {
+                    ToastUtils.showShort("已签到")
+                    return@launch
+                }
+
+                if (forumIds.isNotEmpty()) {
+                    TiebaRequest.msign(forumIds.toString())
+                }
+
+                manualSigns.forEach {
+                    TiebaRequest.sign(it)
+                }
+
                 ToastUtils.showShort("签到成功")
                 getForumList()
                 signImage.set(R.drawable.icon_all_sign_ok)
-            }) {
-                ToastUtils.showShort(ExceptionEngine.handleMessage(it))
+            } catch (e: Exception) {
+                ToastUtils.showShort(ExceptionEngine.handleMessage(e))
             }
+        }
     }
 
-    @SuppressLint("CheckResult")
+
     fun getForumList() {
         clear()
-        TiebaRequest.getforumlist()
-            .`as`(bindLifeEvent())
-            .subscribe({ forumListP ->
-                forumIds.clear()
-                forumListP.forum_info.forEach {
-                    if (it.is_sign_in != 1) {
-                        forumIds.append(it.forum_id)
-                        forumIds.append(",")
+        launch {
+            try {
+                TiebaRequest.getforumlist()
+                    .let { forumListP ->
+                        forumIds.clear()
+                        add(MSignHeaderItem("7级以上的吧"))
+                        forumListP.forumInfo.forEach {
+                            if (!it.isSignIn.toBool()) {
+                                forumIds.append(it.forumId)
+                                forumIds.append(",")
+                            }
+
+                            add(
+                                MSignForumItem(
+                                    it.avatar,
+                                    it.forumName,
+                                    "LV${it.userLevel}",
+                                    "${it.userExp}/${it.needExp}",
+                                    it.isSignIn.toBool(),
+                                    "已签到${it.contSignNum}天"
+                                )
+                            )
+                        }
+                        if (forumIds.isNotEmpty()) {
+                            signImage.set(R.drawable.icon_all_sign)
+                            forumIds.deleteCharAt(forumIds.length - 1)
+                        } else {
+                            signImage.set(R.drawable.icon_all_sign_ok)
+                        }
+                    }
+                TiebaRequest.forumRecommend()
+                    .let {
+                        add(MSignHeaderItem("7级以下的吧"))
+
+                        it.likeForum
+                            .filter {
+                                it.levelId.toInt() < 7
+                            }
+                            .forEach { forum ->
+                                if (!forum.isSign.toBool()) {
+                                    manualSigns.add(forum.forumName)
+                                }
+                                add(
+                                    MSignForumItem(
+                                        forum.avatar,
+                                        forum.forumName,
+                                        "LV${forum.levelId}",
+                                        getDisplayTime(forum.inTime),
+                                        forum.isSign.toBool(),
+                                        if (forum.isSign.toBool()) "已签到" else "未签到"
+                                    )
+                                )
+                            }
                     }
 
-                    add(
-                        MSignForumItem(
-                            it.avatar,
-                            it.forum_name,
-                            "LV${it.user_level}",
-                            it.need_exp,
-                            it.is_sign_in == 1,
-                            "已签到${it.cont_sign_num}天"
-                        )
-                    )
-                }
-                if (forumIds.isNotEmpty()) {
-                    signImage.set(R.drawable.icon_all_sign)
-                    forumIds.deleteCharAt(forumIds.length - 1)
-                } else {
-                    signImage.set(R.drawable.icon_all_sign_ok)
-                }
-            }) {
-                ToastUtils.showShort(ExceptionEngine.handleMessage(it))
+                signed.set(forumIds.isEmpty() && manualSigns.isEmpty())
+            } catch (e: Exception) {
+                ToastUtils.showShort(ExceptionEngine.handleMessage(e))
             }
+
+        }
     }
+
 }

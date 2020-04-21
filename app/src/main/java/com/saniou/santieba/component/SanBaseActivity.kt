@@ -1,19 +1,20 @@
 package com.saniou.santieba.component
 
-import com.saniou.santieba.R
-import com.sanniou.common.component.BaseActivity
-import com.sanniou.common.utilcode.util.BarUtils
+import android.os.Bundle
+import android.view.View
+import androidx.lifecycle.ViewModel
+import com.saniou.santieba.BR
+import com.sanniou.support.components.BaseScopedActivity
 
-open class SanBaseActivity : BaseActivity() {
 
-    override fun setStatusBar() {
-        super.setStatusBar()
-        BarUtils.setStatusBarColor(this, resources.getColor(R.color.backgroundColor))
-    }
+abstract class SanBaseActivity<T : ViewModel> : BaseScopedActivity<T>() {
+    override fun getModelId() = BR.viewModel
 
-    override fun setStatusBarLightMode() {
-        super.setStatusBarLightMode()
-        BarUtils.setStatusBarLightMode(this, true)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        this.getWindow()
+            .getDecorView()
+            .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
 
 }

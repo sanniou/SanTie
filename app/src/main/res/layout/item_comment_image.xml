@@ -10,6 +10,7 @@
 
     <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
         res="@{item.image}"
+        placeholder="@{item.placeholder}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/view_padding"

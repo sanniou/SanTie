@@ -1,20 +1,19 @@
 package com.saniou.santieba.viewmodel
 
-import android.annotation.SuppressLint
-import android.view.View
 import androidx.databinding.ObservableField
+import com.blankj.utilcode.util.ActivityUtils
+import com.blankj.utilcode.util.SPUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.saniou.santieba.R
 import com.saniou.santieba.api.TiebaRequest
 import com.saniou.santieba.component.MSignActivity
 import com.saniou.santieba.constant.PORTRAIT_HOST
+import com.saniou.santieba.kts.toBool
 import com.saniou.santieba.vo.ForumItem
-import com.sanniou.common.databinding.BaseObservableListViewModel
-import com.sanniou.common.network.exception.ExceptionEngine
-import com.sanniou.common.utilcode.util.ActivityUtils
-import com.sanniou.common.utilcode.util.SPUtils
-import com.sanniou.common.utilcode.util.ToastUtils
+import com.sanniou.support.components.BaseListViewModel
+import com.sanniou.support.exception.ExceptionEngine
 
-class MainViewModel : BaseObservableListViewModel() {
+class MainViewModel : BaseListViewModel() {
     val avatar = ObservableField<Any>(R.drawable.image_emoticon)
     val threadCount = ObservableField("")
     val fansCount = ObservableField("")
@@ -26,42 +25,53 @@ class MainViewModel : BaseObservableListViewModel() {
         ActivityUtils.startActivity(MSignActivity::class.java)
     }
 
-    @SuppressLint("CheckResult")
+
     fun getFavorite() {
         clear()
-        TiebaRequest.profile()
-            .flatMap {
-                it.user.run {
-                    avatar.set("$PORTRAIT_HOST$portrait")
-                    threadCount.set(thread_num)
-                    fansCount.set(fans_num)
-                    likeCount.set(concern_num)
-                    storeCount.set(like_forum_num)
-                    mID = id
-                }
-                val loginInfo = SPUtils.getInstance("login_info")
-                loginInfo.put("tbs", it.anti.tbs)
-                TiebaRequest.reset()
-                TiebaRequest.getFavorite()
-            }
-            .`as`(bindLifeEvent())
-            .subscribe({ forum ->
-                forum.like_forum
-                    .forEach {
-                        add(ForumItem(it.forum_name, it.avatar, it.is_sign == 1, it.level_id))
+        launch {
+            try {
+                TiebaRequest.profile()
+                    .let {
+                        it.user.run {
+                            avatar.set("$PORTRAIT_HOST$portrait")
+                            threadCount.set(threadNum)
+                            fansCount.set(fansNum)
+                            likeCount.set(concernNum)
+                            storeCount.set(likeForumNum)
+                            mID = id
+                        }
+                        val loginInfo = SPUtils.getInstance("login_info")
+                        loginInfo.put("tbs", it.anti.tbs)
+                        TiebaRequest.reset()
+                        TiebaRequest.forumRecommend()
                     }
-                updateUi(5)
-            }) {
-                updateUi(6)
-                ToastUtils.showShort(ExceptionEngine.handleMessage(it))
+                    .let { forum ->
+                        forum.likeForum
+                            .forEach {
+                                add(
+                                    ForumItem(
+                                        it.forumName,
+                                        it.avatar,
+                                        it.isSign.toBool(),
+                                        it.levelId.toInt()
+                                    )
+                                )
+                            }
+                        sendEvent(5)
+                    }
+            } catch (e: Exception) {
+                sendEvent(6)
+                ToastUtils.showShort(ExceptionEngine.handleMessage(e))
             }
+        }
+
     }
 
     fun toStore() {
-        updateUi(3)
+        sendEvent(3)
     }
 
     fun toSearch() {
-        updateUi(4)
+        sendEvent(4)
     }
 }

@@ -1,18 +1,23 @@
 package com.saniou.santieba.utils
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.text.TextPaint
 import android.text.style.ClickableSpan
 import android.view.View
-import android.widget.TextView
+import androidx.core.content.ContextCompat
+import com.blankj.utilcode.util.ActivityUtils
+import com.blankj.utilcode.util.SpanUtils
+import com.blankj.utilcode.util.Utils
 import com.saniou.santieba.R
 import com.saniou.santieba.api.bean.Content
 import com.saniou.santieba.component.ForumMainActivity
 import com.saniou.santieba.component.ThreadDetailActivity
+import com.saniou.santieba.component.UserMainActivity
 import com.saniou.santieba.constant.*
-import com.sanniou.common.utilcode.util.*
+import com.sanniou.support.utils.ResourcesUtils
+import com.sanniou.support.utils.openUrl
 
 
 fun analyzeText(contents: List<Content>): MutableList<Content> {
@@ -38,29 +43,27 @@ fun analyzeText(contents: List<Content>): MutableList<Content> {
                 charSpan ?: run {
                     charSpan = SpanUtils()
                 }
-                charSpan?.appendImage(getDrawable(it.text.toString()))
+                getDrawable(it.text.toString())?.run {
+                    charSpan?.appendImage(this)
+                } ?: run {
+                    charSpan?.append("[${it.c}]")
+                }
             }
             ATME -> {
+                charSpan ?: run {
+                    charSpan = SpanUtils()
+                }
                 charSpan?.append(it.text)
                     ?.setForegroundColor(ResourcesUtils.getColor(R.color.design_blue))
-                    ?.setClickSpan(LinkClickSpan(it.text.toString()))
+                    ?.setClickSpan(LinkClickSpan(TIEBA_USER_HOST + it.uid))
             }
+
             else -> {
                 charSpan?.run {
                     list.add(
                         Content(
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            0,
-                            "",
-                            "",
-                            charSpan!!.create(),
-                            TEXT
+                            text = charSpan!!.create(),
+                            type = TEXT
                         )
                     )
                     charSpan = null
@@ -72,18 +75,8 @@ fun analyzeText(contents: List<Content>): MutableList<Content> {
     charSpan?.run {
         list.add(
             Content(
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                0,
-                "",
-                "",
-                charSpan!!.create(),
-                TEXT
+                text = charSpan!!.create(),
+                type = TEXT
             )
         )
         charSpan = null
@@ -91,13 +84,13 @@ fun analyzeText(contents: List<Content>): MutableList<Content> {
     return list
 }
 
-fun getDrawable(name: String): Drawable {
+fun getDrawable(name: String): Drawable? {
     val resources = Utils.getApp().resources
     val resourceId = resources.getIdentifier(
         name, "drawable",
         Utils.getApp().packageName
     )
-    return resources.getDrawable(resourceId)
+    return if (resourceId == 0) null else resources.getDrawable(resourceId)
 }
 
 private class LinkClickSpan(val url: String) : ClickableSpan() {
@@ -106,27 +99,32 @@ private class LinkClickSpan(val url: String) : ClickableSpan() {
     }
 
     override fun onClick(view: View) {
-        if (url.startsWith(TIEBA_HOST)) {
+
+
+        if (url.startsWith(TIEBA_HOST) || url.startsWith(TIEBA_HOST_2)) {
             val intent = Intent(ActivityUtils.getTopActivity(), ThreadDetailActivity::class.java)
             intent.putExtra("tid", url.replace(TIEBA_HOST, ""))
             ActivityUtils.startActivity(intent)
             return
         }
 
-        if (url.startsWith(TIEBA_FORUM_HOST)) {
+        if (url.startsWith(TIEBA_FORUM_HOST) || url.startsWith(TIEBA_FORUM_HOST_2)) {
             val intent = Intent(ActivityUtils.getTopActivity(), ForumMainActivity::class.java)
             intent.putExtra("name", url.replace(TIEBA_HOST, ""))
             ActivityUtils.startActivity(intent)
             return
         }
 
-        openBrowser(url)
+        if (url.startsWith(TIEBA_USER_HOST)) {
+            val intent = Intent(ActivityUtils.getTopActivity(), UserMainActivity::class.java)
+            intent.putExtra("uid", url.replace(TIEBA_USER_HOST, ""))
+            ActivityUtils.startActivity(intent)
+            return
+        }
+        openBrowser(view.context, url)
     }
 }
 
-fun openBrowser(url: String) {
-
-    val i = Intent(Intent.ACTION_VIEW)
-    i.data = Uri.parse(url)
-    ActivityUtils.startActivity(i)
+fun openBrowser(context: Context, url: String) {
+    openUrl(context, url, ContextCompat.getColor(context, R.color.colorPrimary))
 }

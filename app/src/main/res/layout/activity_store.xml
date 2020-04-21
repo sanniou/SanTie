@@ -6,7 +6,11 @@
 
         <variable
             name="itemClick"
-            type="com.sanniou.common.widget.recyclerview.OnItemClickListener" />
+            type="com.sanniou.multiitemkit.OnItemClickListener" />
+
+        <variable
+            name="longPressListener"
+            type="com.sanniou.multiitemkit.OnLongPressListener" />
 
         <variable
             name="viewModel"
@@ -28,7 +32,7 @@
             app:popupTheme="@style/ToolbarTheme"
             app:title="@string/my_store" />
 
-        <com.sanniou.common.widget.swiper.LSwipeRefreshLayout
+        <com.sanniou.support.widget.swiper.LSwipeRefreshLayout
             android:id="@+id/refresh"
             onRefresh="@{viewModel::init}"
             android:layout_width="match_parent"
@@ -36,11 +40,13 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler"
-                data="@{viewModel.items}"
+                data="@{viewModel.list}"
+                dividerColor="@{@color/shadowColor}"
                 dividerHeightDp="@{2}"
-                itemClick="@{itemClick}"
+                itemClickListener="@{itemClick}"
+                longPressListener="@{longPressListener}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-        </com.sanniou.common.widget.swiper.LSwipeRefreshLayout>
+        </com.sanniou.support.widget.swiper.LSwipeRefreshLayout>
     </LinearLayout>
 </layout>
