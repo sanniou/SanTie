@@ -4,7 +4,13 @@ import androidx.databinding.ObservableField
 import com.blankj.utilcode.util.ToastUtils
 import com.saniou.santieba.R
 import com.saniou.santieba.api.TiebaRequest
-import com.saniou.santieba.constant.*
+import com.saniou.santieba.constant.EVENT_UI_REFRESH_FAILED
+import com.saniou.santieba.constant.EVENT_UI_REFRESH_SUCCESS
+import com.saniou.santieba.constant.IMAGE
+import com.saniou.santieba.constant.PORTRAIT_HOST
+import com.saniou.santieba.constant.TEXT
+import com.saniou.santieba.constant.VIDEO
+import com.saniou.santieba.constant.VOICE
 import com.saniou.santieba.kts.getDisplayTime
 import com.saniou.santieba.kts.toBool
 import com.saniou.santieba.vo.ForumTopItem
@@ -15,7 +21,6 @@ import com.sanniou.support.exception.ExceptionEngine
 import com.sanniou.support.extensions.deleteLast
 
 class ForumMainViewModel : BaseListViewModel() {
-
 
     private val loadMoreItem = LoadMoreItem { requestPosts(mPage) }
     var name = ""
@@ -143,7 +148,5 @@ class ForumMainViewModel : BaseListViewModel() {
             }
         }
     }
-
-
 }
 

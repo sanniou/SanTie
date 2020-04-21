@@ -29,7 +29,7 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="slide_margin">16dp</dimen>
 
-    <dimen name="divider_height">1px</dimen>
+    <dimen name="divider_height">1dp</dimen>
 
     <!--Popup-->
     <dimen name="popup_arrow_up_margin_top">13dp</dimen>

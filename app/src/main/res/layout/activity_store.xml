@@ -42,7 +42,7 @@
                 android:id="@+id/recycler"
                 data="@{viewModel.list}"
                 dividerColor="@{@color/shadowColor}"
-                dividerHeightDp="@{2}"
+                dividerHeightDp="@{1}"
                 itemClickListener="@{itemClick}"
                 longPressListener="@{longPressListener}"
                 android:layout_width="match_parent"

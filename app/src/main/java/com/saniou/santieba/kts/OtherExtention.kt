@@ -2,7 +2,8 @@ package com.saniou.santieba.kts
 
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 fun String?.toBool() = (!this.isNullOrEmpty()) && "0" != this
 
@@ -12,7 +13,6 @@ fun getCurrentDate() = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault
 
 fun getDateToString(j: Long) =
     SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(Date(j * 1000))
-
 
 fun getStringToDate(str: String) =
     try {

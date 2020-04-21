@@ -9,13 +9,11 @@ import kotlinx.android.synthetic.main.activity_thread_sub_comment.*
 
 class ThreadSubCommentActivity : SanBaseActivity<ThreadSubCommentViewModel>() {
 
-
     override fun createViewModel() = getViewModel<ThreadSubCommentViewModel>()
 
     override fun getLayoutRes() = R.layout.activity_thread_sub_comment
 
     override fun onBindingCreated(binding: ViewDataBinding) {
-
 
         intent.getStringExtra("pid")?.run {
             viewModel.pid = this

@@ -1,6 +1,17 @@
 package com.saniou.santieba.api
 
-import com.saniou.santieba.api.bean.*
+import com.saniou.santieba.api.bean.FloorPage
+import com.saniou.santieba.api.bean.ForumPage
+import com.saniou.santieba.api.bean.ForumRecommend
+import com.saniou.santieba.api.bean.ForumSug
+import com.saniou.santieba.api.bean.GetForumList
+import com.saniou.santieba.api.bean.Msign
+import com.saniou.santieba.api.bean.Profile
+import com.saniou.santieba.api.bean.SearchPost
+import com.saniou.santieba.api.bean.Sign
+import com.saniou.santieba.api.bean.StatusResponse
+import com.saniou.santieba.api.bean.ThreadPage
+import com.saniou.santieba.api.bean.ThreadStore
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST

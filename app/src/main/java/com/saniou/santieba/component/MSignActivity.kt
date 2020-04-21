@@ -10,7 +10,6 @@ import kotlinx.android.synthetic.main.activity_msign.*
 
 class MSignActivity : SanBaseActivity<MsignViewModel>() {
 
-
     override fun createViewModel() = getViewModel<MsignViewModel>()
 
     override fun getLayoutRes() = R.layout.activity_msign
@@ -30,5 +29,4 @@ class MSignActivity : SanBaseActivity<MsignViewModel>() {
             onBackPressed()
         }
     }
-
 }

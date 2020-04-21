@@ -16,9 +16,7 @@ import com.sanniou.support.components.BaseListViewModel
 import com.sanniou.support.exception.ExceptionEngine
 import com.sanniou.support.extensions.deleteLast
 
-
 class StoreViewModel : BaseListViewModel() {
-
 
     private val loadMoreItem = LoadMoreItem { threadStore(mPageNum) }
     var uId: String = ""

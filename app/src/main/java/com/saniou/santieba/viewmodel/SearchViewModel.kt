@@ -17,7 +17,6 @@ import com.sanniou.support.exception.ExceptionEngine
 import com.sanniou.support.extensions.deleteLast
 import com.sanniou.support.lifecycle.NonNullLiveData
 
-
 class SearchViewModel : BaseViewModel() {
 
     val threadList = MultiItemArrayList<DataItem>()
@@ -77,7 +76,6 @@ class SearchViewModel : BaseViewModel() {
         }
     }
 
-
     private fun searchThread(pageNo: String) {
         launch {
             try {
@@ -110,7 +108,6 @@ class SearchViewModel : BaseViewModel() {
             }
         }
     }
-
 
     private fun searchForum(pageNo: String) {
         launch {

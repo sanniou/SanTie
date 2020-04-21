@@ -20,7 +20,6 @@ import java.net.URLDecoder
 
 class ForumMainActivity : SanBaseActivity<ForumMainViewModel>() {
 
-
     override fun createViewModel() = getViewModel<ForumMainViewModel>()
 
     override fun getLayoutRes() = R.layout.activity_forum_main
@@ -81,8 +80,6 @@ class ForumMainActivity : SanBaseActivity<ForumMainViewModel>() {
                     "name",
                     decode.substring(decode.indexOf("kw=") + 3, decode.length)
                 )
-
-
             }
         }
     }

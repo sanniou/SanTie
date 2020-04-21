@@ -7,18 +7,31 @@ import com.blankj.utilcode.util.ToastUtils
 import com.saniou.santieba.R
 import com.saniou.santieba.api.TiebaRequest
 import com.saniou.santieba.api.bean.ThreadPage
-import com.saniou.santieba.constant.*
+import com.saniou.santieba.constant.ATME
+import com.saniou.santieba.constant.IMAGE
+import com.saniou.santieba.constant.PORTRAIT_HOST
+import com.saniou.santieba.constant.TEXT
+import com.saniou.santieba.constant.TIEBA_VOICE_HOST
+import com.saniou.santieba.constant.VIDEO
+import com.saniou.santieba.constant.VOICE
 import com.saniou.santieba.kts.getDisplayTime
 import com.saniou.santieba.kts.toBool
 import com.saniou.santieba.utils.analyzeText
-import com.saniou.santieba.vo.*
+import com.saniou.santieba.vo.CommentImageItem
+import com.saniou.santieba.vo.CommentTextItem
+import com.saniou.santieba.vo.CommentVideoItem
+import com.saniou.santieba.vo.CommentVoiceItem
+import com.saniou.santieba.vo.DividerItem
+import com.saniou.santieba.vo.SubCommentItem
+import com.saniou.santieba.vo.ThreadBottomItem
+import com.saniou.santieba.vo.ThreadCommentItem
+import com.saniou.santieba.vo.ThreadTitleItem
 import com.sanniou.multiitemkit.vo.LoadMoreItem
 import com.sanniou.support.components.BaseListViewModel
 import com.sanniou.support.exception.ExceptionEngine
 import com.sanniou.support.extensions.deleteLast
 import com.sanniou.support.extensions.orEmpty
 import com.sanniou.support.utils.ResourcesUtils
-
 
 class ThreadDetailViewModel : BaseListViewModel() {
     val imageList = mutableListOf<String>()
@@ -171,8 +184,6 @@ class ThreadDetailViewModel : BaseListViewModel() {
                                         ResourcesUtils.getColor(R.color.shadowColor)
                                     )
                                 )
-
-
                             } else {
                                 add(
                                     DividerItem(
@@ -206,7 +217,6 @@ class ThreadDetailViewModel : BaseListViewModel() {
                 sendEvent(1)
             }
         }
-
     }
 
     private fun addStore() {
@@ -218,14 +228,12 @@ class ThreadDetailViewModel : BaseListViewModel() {
                         sendEvent(3)
                         store = !store
                     }
-
             } catch (e: Exception) {
                 ToastUtils.showShort(ExceptionEngine.handleMessage(e))
                 sendEvent(4)
             }
         }
     }
-
 
     private fun rmStore() {
         launch {
@@ -241,7 +249,6 @@ class ThreadDetailViewModel : BaseListViewModel() {
                 sendEvent(3)
             }
         }
-
     }
 
     fun changeStore() {

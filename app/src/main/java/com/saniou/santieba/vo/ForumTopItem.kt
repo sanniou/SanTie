@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
  * 贴吧头
  */
 
-
 class ForumTopItem(
     var fid: String,
     var forumImage: String,
@@ -32,7 +31,6 @@ class ForumTopItem(
     val signInStr = ObservableField(if (isSignIn) "已签${forumSignCount}天" else "未签到")
     override fun getItemType() = R.layout.item_forum_top
 
-
     fun signIn(v: View) {
         if (isSignIn) return
         launch {
@@ -43,7 +41,6 @@ class ForumTopItem(
                 }
 
         }
-
     }
 
     fun subscribe(v: View) {

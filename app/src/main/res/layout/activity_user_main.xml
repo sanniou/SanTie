@@ -134,7 +134,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             data="@{viewModel.list}"
-            dividerHeightDp="@{2}"
+            dividerHeightDp="@{1}"
             dividerColor="@{@color/shadowColor}"
             android:layout_marginTop="@dimen/view_inside_padding"
             android:layout_width="match_parent"

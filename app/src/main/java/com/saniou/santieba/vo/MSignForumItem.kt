@@ -14,7 +14,6 @@ class MSignForumItem(
     override fun getItemType() = R.layout.item_msign_forum
 }
 
-
 class MSignHeaderItem(
     var header: String
 ) : DataItem {

@@ -10,7 +10,6 @@ import com.saniou.santieba.viewmodel.MainViewModel
 import com.sanniou.support.extensions.getViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
-
 class MainActivity : SanBaseActivity<MainViewModel>() {
 
     override fun createViewModel() = getViewModel<MainViewModel>()
@@ -38,7 +37,6 @@ class MainActivity : SanBaseActivity<MainViewModel>() {
         checkLogin()
     }
 
-
     private fun checkLogin() {
         if (SPUtils.getInstance("login_info").getString("BDUSS").isEmpty()) {
             startActivityEx(WebLoginActivity::class.java)
@@ -52,5 +50,4 @@ class MainActivity : SanBaseActivity<MainViewModel>() {
         super.onNewIntent(intent)
         checkLogin()
     }
-
 }

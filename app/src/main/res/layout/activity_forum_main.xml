@@ -35,7 +35,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler"
                 data="@{viewModel.list}"
-                dividerHeightDp="@{4}"
+                dividerHeightDp="@{2}"
                 dividerColor="@{@color/shadowColor}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

@@ -10,7 +10,6 @@ class UserMainActivity : SanBaseActivity<UserMainViewModel>() {
 
     override fun getLayoutRes() = R.layout.activity_user_main
 
-
     override fun createViewModel() = getViewModel<UserMainViewModel>()
 
     override fun onBindingCreated(binding: ViewDataBinding) {
@@ -22,6 +21,5 @@ class UserMainActivity : SanBaseActivity<UserMainViewModel>() {
             ToastUtils.showShort("no uid")
             finish()
         }
-
     }
 }

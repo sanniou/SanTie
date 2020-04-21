@@ -82,7 +82,6 @@ data class ThreadPage(
         val voiceMessage: String = ""
     )
 
-
     @JsonClass(generateAdapter = true)
     data class BusinessPromotInfo(
         @Json(name = "is_headlinepost")

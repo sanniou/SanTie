@@ -516,7 +516,6 @@ data class FloorPage(
                 val levelName: String = ""
             )
         }
-
     }
 
     @JsonClass(generateAdapter = true)
@@ -663,7 +662,6 @@ data class FloorPage(
                 )
             }
         }
-
     }
 
     @JsonClass(generateAdapter = true)

@@ -8,7 +8,6 @@ import com.sanniou.multiitemkit.vo.LoadCallBack
 
 class SanLoadMoreItem(private val mListener: OnLoadListener) : DataItem, LoadCallBack {
 
-
     companion object {
         private const val STATE_READY = 0
         private const val STATE_NO_MORE = 1
@@ -78,11 +77,9 @@ class SanLoadMoreItem(private val mListener: OnLoadListener) : DataItem, LoadCal
         mText.set(string)
     }
 
-
     override fun getItemType(): Int {
         return R.layout.item_sanloadmore
     }
-
 }
 
 interface OnLoadListener {

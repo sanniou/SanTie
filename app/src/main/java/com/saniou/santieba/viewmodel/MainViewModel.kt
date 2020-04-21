@@ -25,7 +25,6 @@ class MainViewModel : BaseListViewModel() {
         ActivityUtils.startActivity(MSignActivity::class.java)
     }
 
-
     fun getFavorite() {
         clear()
         launch {
@@ -64,7 +63,6 @@ class MainViewModel : BaseListViewModel() {
                 ToastUtils.showShort(ExceptionEngine.handleMessage(e))
             }
         }
-
     }
 
     fun toStore() {

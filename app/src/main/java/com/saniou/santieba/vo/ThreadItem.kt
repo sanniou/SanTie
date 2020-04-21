@@ -6,7 +6,6 @@ import com.blankj.utilcode.util.SpanUtils
 import com.saniou.santieba.R
 import com.sanniou.multiitem.DataItem
 
-
 //  暂定一个字段表示 top 的展示
 const val showTop = false
 

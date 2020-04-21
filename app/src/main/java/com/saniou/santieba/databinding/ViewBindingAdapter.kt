@@ -9,7 +9,6 @@ import com.saniou.santieba.component.ThreadDetailActivity
 import com.saniou.santieba.component.UserMainActivity
 import com.sanniou.support.utils.openUrl
 
-
 @BindingAdapter("toUrl")
 fun toUrl(view: View, url: CharSequence) {
     view.setOnClickListener {

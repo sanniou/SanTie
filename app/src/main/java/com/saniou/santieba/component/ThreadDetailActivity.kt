@@ -23,7 +23,6 @@ import com.saniou.santieba.vo.SubCommentItem
 import com.sanniou.support.extensions.getViewModel
 import com.sanniou.support.utils.ResourcesUtils
 
-
 class ThreadDetailActivity : SanBaseActivity<ThreadDetailViewModel>() {
     private var fromSide = false
 
@@ -91,7 +90,6 @@ class ThreadDetailActivity : SanBaseActivity<ThreadDetailViewModel>() {
                     4 -> {
                         val menuItem = binding.actionBar.menu.findItem(R.id.menu_star)
                         menuItem.icon = ResourcesUtils.getDrawable(R.drawable.ic_thread_store)
-
                     }
                 }
             })
@@ -115,12 +113,10 @@ class ThreadDetailActivity : SanBaseActivity<ThreadDetailViewModel>() {
         }
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.thread_detail, menu)
         return true
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -168,6 +164,5 @@ class ThreadDetailActivity : SanBaseActivity<ThreadDetailViewModel>() {
         }
         return true
     }
-
 }
 

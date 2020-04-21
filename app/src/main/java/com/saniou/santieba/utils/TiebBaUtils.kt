@@ -15,10 +15,17 @@ import com.saniou.santieba.api.bean.Content
 import com.saniou.santieba.component.ForumMainActivity
 import com.saniou.santieba.component.ThreadDetailActivity
 import com.saniou.santieba.component.UserMainActivity
-import com.saniou.santieba.constant.*
+import com.saniou.santieba.constant.ATME
+import com.saniou.santieba.constant.EMOJI
+import com.saniou.santieba.constant.LINK
+import com.saniou.santieba.constant.TEXT
+import com.saniou.santieba.constant.TIEBA_FORUM_HOST
+import com.saniou.santieba.constant.TIEBA_FORUM_HOST_2
+import com.saniou.santieba.constant.TIEBA_HOST
+import com.saniou.santieba.constant.TIEBA_HOST_2
+import com.saniou.santieba.constant.TIEBA_USER_HOST
 import com.sanniou.support.utils.ResourcesUtils
 import com.sanniou.support.utils.openUrl
-
 
 fun analyzeText(contents: List<Content>): MutableList<Content> {
     val list = mutableListOf<Content>()
@@ -99,7 +106,6 @@ private class LinkClickSpan(val url: String) : ClickableSpan() {
     }
 
     override fun onClick(view: View) {
-
 
         if (url.startsWith(TIEBA_HOST) || url.startsWith(TIEBA_HOST_2)) {
             val intent = Intent(ActivityUtils.getTopActivity(), ThreadDetailActivity::class.java)

@@ -28,7 +28,6 @@ class ForumItem(var name: String, var image: String, private var isSign: Boolean
         R.color.design_orange
     )
 
-
     var levelColor: Int
     var radius = 0
     var level = "LV$levelInt"

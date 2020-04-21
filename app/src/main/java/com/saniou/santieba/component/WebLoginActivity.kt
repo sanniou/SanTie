@@ -21,10 +21,9 @@ import com.sanniou.support.extensions.getViewModel
 import org.apache.commons.text.lookup.StringLookupFactory
 import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
-import java.util.*
+import java.util.TreeMap
 
 class WebLoginActivity : SanBaseActivity<WebLoginViewModel>() {
-
 
     private val REQUEST_CODE = 10086
     private val createAccountTableSql =
@@ -73,7 +72,6 @@ class WebLoginActivity : SanBaseActivity<WebLoginViewModel>() {
         requestPermission()
     }
 
-
     private fun requestPermission() {
         PermissionUtils.permission(PermissionConstants.STORAGE)
             .callback(object : PermissionUtils.SimpleCallback {
@@ -87,9 +85,7 @@ class WebLoginActivity : SanBaseActivity<WebLoginViewModel>() {
                     Snackbar.make(mLayout, R.string.permission_deny, Snackbar.LENGTH_LONG)
                         .show()
                 }
-
             })
-
     }
 
     private fun getImei() {
@@ -161,7 +157,6 @@ class WebLoginActivity : SanBaseActivity<WebLoginViewModel>() {
         SPUtils.getInstance("login_info").clear()
         SPUtils.getInstance("phone_info").clear()
 
-
         var z = false
         val edit = getSharedPreferences("login_info", 0).edit()
         edit.putBoolean("autologin", true)
@@ -196,7 +191,6 @@ class WebLoginActivity : SanBaseActivity<WebLoginViewModel>() {
         }
         startActivityEx(MainActivity::class.java)
         finish()
-
     }
 
     override fun onKeyDown(i: Int, keyEvent: KeyEvent): Boolean {

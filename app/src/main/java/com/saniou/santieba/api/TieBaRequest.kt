@@ -3,24 +3,51 @@ package com.saniou.santieba.api
 import android.util.Log
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.SPUtils
-import com.saniou.santieba.api.bean.*
-import com.saniou.santieba.constant.*
+import com.saniou.santieba.api.bean.DataDTO
+import com.saniou.santieba.api.bean.FloorPage
+import com.saniou.santieba.api.bean.ForumPage
+import com.saniou.santieba.api.bean.ForumRecommend
+import com.saniou.santieba.api.bean.ForumSug
+import com.saniou.santieba.api.bean.GetForumList
+import com.saniou.santieba.api.bean.Msign
+import com.saniou.santieba.api.bean.Profile
+import com.saniou.santieba.api.bean.SearchPost
+import com.saniou.santieba.api.bean.Sign
+import com.saniou.santieba.api.bean.StatusResponse
+import com.saniou.santieba.api.bean.ThreadPage
+import com.saniou.santieba.api.bean.ThreadStore
+import com.saniou.santieba.constant.BOOLEAN_FALSE
+import com.saniou.santieba.constant.BOOLEAN_TRUE
+import com.saniou.santieba.constant.EMOJI
+import com.saniou.santieba.constant.ERROR_CODE_SUCCESS
+import com.saniou.santieba.constant.HOST
+import com.saniou.santieba.constant.LINK
+import com.saniou.santieba.constant.RANGE_NUMBER
 import com.saniou.santieba.kts.getTimestamp
 import com.saniou.santieba.utils.StringUtil
 import com.sanniou.support.exception.ApiErrorException
 import com.sanniou.support.moshi.EmptyListToNull
 import com.sanniou.support.moshi.IgnoreString2Object
-import com.squareup.moshi.*
-import okhttp3.*
+import com.squareup.moshi.FromJson
+import com.squareup.moshi.JsonReader
+import com.squareup.moshi.JsonWriter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.ToJson
+import com.squareup.moshi.Types
+import okhttp3.Headers
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
 import org.apache.commons.lang3.StringUtils
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.FieldMap
 import java.io.File
-import java.util.*
-import kotlin.collections.HashMap
+import java.util.TreeMap
+import java.util.UUID
 import kotlin.math.floor
-
 
 object TiebaRequest : TiebaService {
     private var clientId: String
@@ -118,7 +145,6 @@ object TiebaRequest : TiebaService {
         newClientVersion = "8.2.2"
     }
 
-
     override suspend fun searchForum(params: Map<String, String>) = tiebaService.searchForum(params)
 
     suspend fun searchForum(key: String): ForumSug {
@@ -134,7 +160,6 @@ object TiebaRequest : TiebaService {
         hashMap["sign"] = calsign(hashMap)
         return searchForum(hashMap)
     }
-
 
     override suspend fun searchpost(params: Map<String, String>) = tiebaService.searchpost(params)
 
@@ -317,7 +342,6 @@ object TiebaRequest : TiebaService {
 
     override suspend fun unlikeForum(params: Map<String, String>) = tiebaService.unlikeForum(params)
 
-
     suspend fun unlikeForum(fid: String, kw: String): StatusResponse {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
@@ -370,7 +394,6 @@ object TiebaRequest : TiebaService {
 
     override suspend fun forumRecommend(@FieldMap params: Map<String, String>) =
         tiebaService.forumRecommend(params)
-
 
     suspend fun forumRecommend(): ForumRecommend {
         val hashMap = HashMap<String, String>()
@@ -434,9 +457,7 @@ object TiebaRequest : TiebaService {
                     throw throw ApiErrorException(errorMsg, errorCode.toInt())
                 }
             }
-
     }
-
 
     override suspend fun subFloor(params: Map<String, String>) = tiebaService.subFloor(params)
 
@@ -466,12 +487,10 @@ object TiebaRequest : TiebaService {
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["sign"] = calsign(hashMap)
         return subFloor(hashMap)
-
     }
 
     override suspend fun addStore(@FieldMap params: Map<String, String>) =
         tiebaService.addStore(params)
-
 
     suspend fun rmStore(tid: String): StatusResponse {
         val hashMap = HashMap<String, String>()
@@ -487,17 +506,16 @@ object TiebaRequest : TiebaService {
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["sign"] = calsign(hashMap)
         return rmStore(hashMap)
-
     }
 
     override suspend fun rmStore(@FieldMap params: Map<String, String>) =
         tiebaService.rmStore(params)
 
-
     suspend fun addStore(tid: String, pid: String): StatusResponse {
         val dataBeanX = DataDTO(
             pid,
-            BOOLEAN_FALSE, tid,
+            BOOLEAN_FALSE,
+            tid,
             BOOLEAN_FALSE
         )
         val hashMap = HashMap<String, String>()
@@ -520,7 +538,6 @@ object TiebaRequest : TiebaService {
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["sign"] = calsign(hashMap)
         return addStore(hashMap)
-
     }
 
     override suspend fun addThread(@FieldMap params: Map<String, String>) =
@@ -561,7 +578,6 @@ object TiebaRequest : TiebaService {
         hashMap["versioncode"] = "101253632"
         hashMap["sign"] = calsign(hashMap)
         return addThread(hashMap)
-
     }
 
     override suspend fun addReply(@FieldMap params: Map<String, String>) =
@@ -604,7 +620,6 @@ object TiebaRequest : TiebaService {
         hashMap["sign"] = calsign(hashMap)
 
         return addReply(hashMap)
-
     }
 
     override suspend fun addReply2Someone(@FieldMap params: Map<String, String>) =
@@ -713,7 +728,6 @@ object TiebaRequest : TiebaService {
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["sign"] = calsign(hashMap)
         return atme(hashMap)
-
     }
 
     override suspend fun userPost(@FieldMap params: Map<String, String>) =
@@ -739,7 +753,6 @@ object TiebaRequest : TiebaService {
         hashMap["uid"] = str2
         hashMap["sign"] = calsign(hashMap)
         return userPost(hashMap)
-
     }
 
     private fun calsign(map: Map<String, String>): String {
@@ -755,8 +768,6 @@ object TiebaRequest : TiebaService {
         val loginInfo = SPUtils.getInstance("login_info")
         tbs = loginInfo.getString("tbs")
     }
-
-
 }
 
 

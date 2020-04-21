@@ -25,13 +25,11 @@ import kotlinx.android.synthetic.main.activity_search.*
 
 class SearchActivity : SanBaseActivity<SearchViewModel>() {
 
-
     override fun createViewModel() = getViewModel<SearchViewModel>()
 
     override fun getLayoutRes() = R.layout.activity_search
 
     override fun onBindingCreated(binding: ViewDataBinding) {
-
 
         save.setOnClickListener { onBackPressed() }
         search_text.setOnEditorActionListener { _, actionId, _ ->
@@ -46,7 +44,6 @@ class SearchActivity : SanBaseActivity<SearchViewModel>() {
         search_pager.adapter = ListPagerAdapter()
         search_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
-
             }
 
             override fun onPageScrolled(
@@ -86,7 +83,6 @@ class SearchActivity : SanBaseActivity<SearchViewModel>() {
                             intent.putExtra("name", fname)
                             startActivity(intent)
                         }
-
                     } else {
                         (it.item as SearchThreadItem).run {
                             val intent =
@@ -102,7 +98,7 @@ class SearchActivity : SanBaseActivity<SearchViewModel>() {
                 layoutManager = LinearLayoutManager(this@SearchActivity)
                 val drawable = DividerDrawable(
                     getdimension(R.dimen.divider_height).toInt(),
-                    getColor(R.color.backgroundColorPress)
+                    getColor(R.color.shadowColor)
                 )
                 addItemDecoration(
                     VerticalItemDecoration.Builder(context)

@@ -6,7 +6,6 @@ import com.sanniou.multiitem.AdapterViewHolder
 import com.sanniou.multiitem.DataItem
 import com.sanniou.support.utils.BetterLinkMovementMethod
 
-
 class CommentImageItem(
     var image: String,
     var orgImage: String,

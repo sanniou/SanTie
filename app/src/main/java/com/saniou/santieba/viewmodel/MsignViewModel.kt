@@ -45,7 +45,6 @@ class MsignViewModel : BaseListViewModel() {
         }
     }
 
-
     fun getForumList() {
         clear()
         launch {
@@ -110,5 +109,4 @@ class MsignViewModel : BaseListViewModel() {
 
         }
     }
-
 }
