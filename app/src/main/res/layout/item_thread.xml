@@ -22,11 +22,27 @@
             android:id="@+id/poster_avatar"
             circle="@{true}"
             res="@{item.avatar}"
+            toUser="@{item.uid}"
             android:layout_width="50dp"
             android:layout_height="50dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/poster_name"
+            android:layout_width="0dp"
+            toUser="@{item.uid}"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/view_padding"
+            android:text="@{item.posterName}"
+            android:textColor="@color/majorText"
+            android:textSize="@dimen/majorText"
+            app:layout_constraintBottom_toTopOf="@id/poster_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/poster_avatar"
+            app:layout_constraintTop_toTopOf="@+id/poster_avatar"
+            tools:text="poster_name" />
 
         <TextView
             android:id="@+id/poster_time"
@@ -37,20 +53,8 @@
             android:textSize="@dimen/minorText"
             app:layout_constraintBottom_toBottomOf="@+id/poster_avatar"
             app:layout_constraintStart_toStartOf="@+id/poster_name"
-            tools:text="10:33" />
-
-        <TextView
-            android:id="@+id/poster_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/view_padding"
-            android:text="@{item.posterName}"
-            android:textColor="@color/majorText"
-            android:textSize="@dimen/majorText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/poster_avatar"
-            app:layout_constraintTop_toTopOf="@+id/poster_avatar"
-            tools:text="name" />
+            app:layout_constraintTop_toBottomOf="@id/poster_name"
+            tools:text="poster_time" />
 
         <TextView
             android:id="@+id/post_title"
@@ -63,7 +67,7 @@
             app:layout_constraintEnd_toEndOf="@+id/poster_name"
             app:layout_constraintStart_toStartOf="@+id/poster_avatar"
             app:layout_constraintTop_toBottomOf="@+id/poster_avatar"
-            tools:text="titletitletitletitletitletitletitletitletitle" />
+            tools:text="post_title" />
 
         <TextView
             android:id="@+id/post_content"
@@ -78,7 +82,7 @@
             app:layout_constraintEnd_toEndOf="@+id/post_title"
             app:layout_constraintStart_toStartOf="@+id/post_title"
             app:layout_constraintTop_toBottomOf="@id/post_title"
-            tools:text="contentcontentcontentcontentcontent" />
+            tools:text="post_content" />
 
         <ImageView
             android:id="@+id/post_image"
@@ -114,7 +118,7 @@
             android:textSize="@dimen/minorText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/post_image"
-            tools:text="432" />
+            tools:text="post_read_count" />
 
 
         <ImageView
@@ -142,6 +146,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@id/post_read_icon"
             app:layout_constraintTop_toBottomOf="@id/post_image"
-            tools:text="432" />
+            tools:text="post_zan_count" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -3,7 +3,7 @@ package com.saniou.santieba.vo
 import com.saniou.santieba.R
 import com.sanniou.multiitem.DataItem
 
-class ThreadStoreItem(
+class StoreThreadItem(
     var name: String,
     var forum: String,
     var avatar: String,
@@ -14,7 +14,7 @@ class ThreadStoreItem(
     var replayCount: String,
     var tid: String,
     var isDeleted: Boolean,
-    var lzid: String
+    var uid: String
 ) : DataItem {
     override fun getItemType() = R.layout.item_thread_store
 }

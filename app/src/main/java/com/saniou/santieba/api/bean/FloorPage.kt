@@ -412,7 +412,7 @@ data class FloorPage(
             @Json(name = "is_mem")
             val isMem: String = "",
             @Json(name = "level_id")
-            val levelId: String = "",
+            val levelId: Int = 0,
             @Json(name = "name")
             val name: String = "",
             @Json(name = "name_show")
@@ -578,7 +578,7 @@ data class FloorPage(
             @Json(name = "is_mem")
             val isMem: String = "",
             @Json(name = "level_id")
-            val levelId: String = "",
+            val levelId: Int = 0,
             @Json(name = "name")
             val name: String = "",
             @Json(name = "name_show")

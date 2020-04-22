@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.saniou.santieba.vo.ThreadCommentItem" />
+            type="com.saniou.santieba.vo.FloorTopItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,10 +17,10 @@
 
         <ImageView
             android:id="@+id/comment_avatar"
+            toUser="@{item.uid}"
             android:layout_width="50dp"
             android:layout_height="50dp"
             app:circle="@{true}"
-            toUser="@{item.uid}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:res="@{item.avatar}"
@@ -28,31 +28,59 @@
 
         <TextView
             android:id="@+id/comment_name"
+            toUser="@{item.uid}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/comment_start_sub_padding"
-            android:text="@{item.name,default=用户}"
+            android:text="@{item.name,default=comment_name}"
             android:textColor="@color/normalText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/comment_avatar" />
 
         <TextView
-            android:id="@+id/comment_level"
+            android:id="@+id/comment_up"
+            backgroundColor="@{@color/colorPrimary}"
+            paddingHorizontalDp="@{4}"
+            visible="@{item.isPoster}"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="@dimen/view_padding"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
             android:gravity="center"
-            android:text="@{item.levle+@string/level,default=11}"
-            android:textColor="@color/design_blue"
+            android:text="@string/poster"
+            android:textColor="@color/design_white"
+            android:textSize="@dimen/minor2Text"
             app:layout_constraintBottom_toBottomOf="@id/comment_name"
             app:layout_constraintStart_toEndOf="@id/comment_name"
-            app:layout_constraintTop_toTopOf="@id/comment_name" />
+            app:layout_constraintTop_toTopOf="@id/comment_name"
+            tools:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/comment_level"
+            backgroundColorRes="@{item.levelColor}"
+            backgroundRadius="@{item.radius}"
+            paddingHorizontalDp="@{4}"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/view_padding"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:gravity="center"
+            android:text="@{@string/level+item.levle,default=comment_level}"
+            android:textColor="@color/design_white"
+            android:textSize="@dimen/minor2Text"
+            app:layout_constraintBottom_toBottomOf="@id/comment_name"
+            app:layout_constraintStart_toEndOf="@id/comment_up"
+            app:layout_constraintTop_toTopOf="@id/comment_name"
+            tools:textColor="@color/black" />
+
 
         <TextView
             android:id="@+id/comment_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.time,default=1100}"
+            android:text="@{item.time,default=comment_time}"
             android:textColor="@color/minorText"
             app:layout_constraintBottom_toBottomOf="@id/comment_avatar"
             app:layout_constraintStart_toStartOf="@+id/comment_name" />
@@ -63,7 +91,7 @@
             visible="@{item.floor!=0}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.floor+@string/floor,default=123}"
+            android:text="@{item.floor+@string/floor,default=comment_floor}"
             android:textColor="@color/minorText"
             android:textSize="@dimen/minorText"
             app:layout_constraintEnd_toEndOf="parent"

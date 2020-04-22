@@ -2,7 +2,8 @@
     <string name="app_name">SanTieba</string>
     <string name="about">帮助</string>
     <string name="floor">楼</string>
-    <string name="level">级</string>
+    <string name="poster">楼主</string>
+    <string name="level">lv</string>
     <string name="action_settings">设置</string>
     <string name="action_sign_in">登录</string>
     <string name="add_fail">发送失败</string>

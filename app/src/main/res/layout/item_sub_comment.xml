@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,22 +10,79 @@
             type="com.saniou.santieba.vo.SubCommentItem" />
     </data>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/config_white">
+        android:background="@color/config_white"
+        android:paddingStart="@dimen/comment_start"
+        android:paddingEnd="@dimen/default_margin_normal">
+
 
         <TextView
+            android:id="@+id/comment_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/comment_start"
-            android:layout_marginEnd="@dimen/default_margin_normal"
             android:background="@color/subComment"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?selectableItemBackground"
             android:padding="@dimen/view_padding"
-            android:text="@{item.showText}"
-            android:textColor="@color/normalText" />
-    </FrameLayout>
+            android:text="@{item.showText,default=showText}"
+            android:textColor="@color/normalText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/comment_content_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:paddingTop="@dimen/view_padding"
+            android:text="@{item.showText,default=showText}"
+            android:textColor="@color/normalText"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@id/comment_content"
+            app:layout_constraintTop_toTopOf="@id/comment_content" />
+
+        <Space
+            android:id="@+id/comment_content_bottom"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="@id/comment_content"
+            app:layout_constraintTop_toBottomOf="@id/comment_content" />
+
+        <Space
+            android:id="@+id/comment_content_back_bottom"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="@id/comment_content_back"
+            app:layout_constraintTop_toBottomOf="@id/comment_content_back" />
+
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="top"
+            app:constraint_referenced_ids="comment_content_bottom,comment_content_back_bottom" />
+
+
+        <TextView
+            android:id="@+id/comment_up"
+            backgroundColor="@{@color/colorPrimary}"
+            paddingHorizontalDp="@{4}"
+            visible="@{item.isPoster}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/view_padding"
+            android:layout_marginBottom="2dp"
+            android:gravity="center"
+            android:text="@string/poster"
+            android:textColor="@color/design_white"
+            android:textSize="@dimen/minor2Text"
+            app:layout_constraintBottom_toBottomOf="@id/barrier"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="comment_up"
+            tools:textColor="@color/black" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

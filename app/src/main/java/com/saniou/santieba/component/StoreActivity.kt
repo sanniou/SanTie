@@ -9,7 +9,7 @@ import com.saniou.santieba.constant.EVENT_UI_REFRESH_SUCCESS
 import com.saniou.santieba.databinding.ActivityStoreBinding
 import com.saniou.santieba.kts.startActivityEx
 import com.saniou.santieba.viewmodel.StoreViewModel
-import com.saniou.santieba.vo.ThreadStoreItem
+import com.saniou.santieba.vo.StoreThreadItem
 import com.sanniou.support.extensions.getViewModel
 
 class StoreActivity : SanBaseActivity<StoreViewModel>() {
@@ -29,14 +29,14 @@ class StoreActivity : SanBaseActivity<StoreViewModel>() {
         intent?.run {
             getStringExtra("UID")?.run {
                 binding.setItemClick { holder ->
-                    (holder.item as ThreadStoreItem)
+                    (holder.item as StoreThreadItem)
                         .takeIf { !it.isDeleted }
                         ?.run { startActivityEx(ThreadDetailActivity::class.java, "tid", tid) }
                         ?: run { ToastUtils.showShort("帖子被删除") }
-                    true
+                    false
                 }
                 binding.setLongPressListener {
-                    viewModel.rmStore(it.item as ThreadStoreItem)
+                    viewModel.rmStore(it.item as StoreThreadItem)
                 }
 
                 viewModel.observeEventInt(this@StoreActivity, Observer {

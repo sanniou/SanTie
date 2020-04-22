@@ -54,10 +54,13 @@ class ForumMainViewModel : BaseListViewModel() {
                     add(0, ForumTopItem(
                         forum.id,
                         forum.avatar, forum.name,
-                        "关注 ${forum.memberNum} 帖子 ${forum.postNum}",
+                        "关注 ${forum.memberNum}",
+                        "帖子 ${forum.postNum}",
                         forum.slogan,
                         forum.isLike.toBool(),
-                        "LV${forum.levelId}${forum.levelName}\r\n${forum.curScore}/${forum.levelupScore}",
+                        "LV${forum.levelId} ${forum.levelName}",
+                        forum.curScore.toInt(),
+                        forum.levelupScore.toInt(),
                         forum.signInInfo.userInfo.isSignIn.toBool(),
                         forum.signInInfo.userInfo.cSignNum
                     ) { subscribe() }
@@ -98,6 +101,7 @@ class ForumMainViewModel : BaseListViewModel() {
                             thread.abstract[0].text,
                             getDisplayTime(thread.createTime.toLong()),
                             "$PORTRAIT_HOST${thread.author.portrait}",
+                            thread.author.id,
                             postImage
                         )
                     )

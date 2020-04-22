@@ -21,6 +21,7 @@ class ThreadItem(
     var content: CharSequence,
     var time: CharSequence,
     var avatar: String,
+    var uid: String,
     var postImage: String = ""
 ) : DataItem {
     override fun getItemType() =

@@ -9,6 +9,7 @@
 
     <dimen name="default_margin_normal">14dp</dimen>
     <dimen name="default_margin_small">6dp</dimen>
+    <dimen name="minor2Text">10sp</dimen>
     <dimen name="minorText">13sp</dimen>
     <dimen name="normalText">15sp</dimen>
     <dimen name="majorText">16sp</dimen>

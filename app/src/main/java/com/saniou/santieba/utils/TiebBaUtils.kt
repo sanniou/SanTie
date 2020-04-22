@@ -109,14 +109,14 @@ private class LinkClickSpan(val url: String) : ClickableSpan() {
 
         if (url.startsWith(TIEBA_HOST) || url.startsWith(TIEBA_HOST_2)) {
             val intent = Intent(ActivityUtils.getTopActivity(), ThreadDetailActivity::class.java)
-            intent.putExtra("tid", url.replace(TIEBA_HOST, ""))
+            intent.putExtra("tid", url.substring(url.indexOf("/p/") + 3, url.indexOf("?")))
             ActivityUtils.startActivity(intent)
             return
         }
 
         if (url.startsWith(TIEBA_FORUM_HOST) || url.startsWith(TIEBA_FORUM_HOST_2)) {
             val intent = Intent(ActivityUtils.getTopActivity(), ForumMainActivity::class.java)
-            intent.putExtra("name", url.replace(TIEBA_HOST, ""))
+            intent.putExtra("name", url.substring(url.indexOf("kw=") + 3))
             ActivityUtils.startActivity(intent)
             return
         }

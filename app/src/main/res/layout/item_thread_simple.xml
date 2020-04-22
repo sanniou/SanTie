@@ -25,5 +25,5 @@
         app:layout_constraintEnd_toEndOf="@+id/poster_name"
         app:layout_constraintStart_toStartOf="@+id/poster_avatar"
         app:layout_constraintTop_toBottomOf="@+id/poster_avatar"
-        tools:text="titletitletitletitletitletitletitletitletitle" />
+        tools:text="post_title" />
 </layout>

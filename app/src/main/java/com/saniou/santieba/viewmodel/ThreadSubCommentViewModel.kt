@@ -12,7 +12,7 @@ import com.saniou.santieba.constant.VOICE
 import com.saniou.santieba.kts.getDisplayTime
 import com.saniou.santieba.utils.analyzeText
 import com.saniou.santieba.vo.CommentTextItem
-import com.saniou.santieba.vo.ThreadCommentItem
+import com.saniou.santieba.vo.FloorTopItem
 import com.sanniou.multiitemkit.vo.LoadMoreItem
 import com.sanniou.support.components.BaseListViewModel
 import com.sanniou.support.exception.ExceptionEngine
@@ -44,7 +44,7 @@ class ThreadSubCommentViewModel : BaseListViewModel() {
                             subComment.post.run {
 
                                 add(
-                                    ThreadCommentItem(
+                                    FloorTopItem(
                                         floor.toInt(),
                                         "$PORTRAIT_HOST${author.portrait}",
                                         "${author.nameShow}(${author.name})"
@@ -80,7 +80,7 @@ class ThreadSubCommentViewModel : BaseListViewModel() {
                         subComment.subpostList.forEach { subPost ->
                             val subAuthor = subPost.author
                             add(
-                                ThreadCommentItem(
+                                FloorTopItem(
                                     subPost.floor.toInt(),
                                     "$PORTRAIT_HOST${subAuthor.portrait}",
                                     "${subAuthor.nameShow}(${subAuthor.name})"

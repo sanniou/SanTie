@@ -734,8 +734,8 @@ object TiebaRequest : TiebaService {
         tiebaService.userPost(params)
 
     suspend fun userPost(
-        str: String,
-        str2: String
+        pn: String,
+        uid: String
     ): StatusResponse {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = BDUSS
@@ -747,10 +747,10 @@ object TiebaRequest : TiebaService {
         hashMap["is_thread"] = BOOLEAN_TRUE
         hashMap["need_content"] = BOOLEAN_TRUE
         hashMap["net_type"] = netType
-        hashMap["pn"] = str
+        hashMap["pn"] = pn
         hashMap["rn"] = "20"
         hashMap["timestamp"] = getTimestamp().toString()
-        hashMap["uid"] = str2
+        hashMap["uid"] = uid
         hashMap["sign"] = calsign(hashMap)
         return userPost(hashMap)
     }

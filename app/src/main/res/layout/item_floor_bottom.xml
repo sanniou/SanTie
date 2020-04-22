@@ -5,7 +5,7 @@
 
         <variable
             name="item"
-            type="com.saniou.santieba.vo.ThreadBottomItem" />
+            type="com.saniou.santieba.vo.FloorBottomItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,7 +28,7 @@
             android:id="@+id/thread_replay_counts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{String.valueOf(item.replayCounts), default=my_default}"
+            android:text="@{String.valueOf(item.replayCounts), default=thread_replay_counts}"
             android:textColor="@color/normalText"
             app:layout_constraintBottom_toBottomOf="@id/thread_replay"
             app:layout_constraintEnd_toEndOf="parent"

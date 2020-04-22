@@ -38,8 +38,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/normalText"
             android:text="@{item.name}"
+            android:textColor="@color/normalText"
             tools:text="name" />
 
         <TextView
@@ -47,11 +47,12 @@
             backgroundRadius="@{item.radius}"
             paddingHorizontalDp="@{3}"
             paddingVerticalDp="@{2}"
-            android:textColor="@color/design_white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
             android:text="@{item.level}"
-            tools:text="lv21" />
+            android:textColor="@color/design_white"
+            android:textSize="12sp"
+            tools:text="lv21"
+            tools:textColor="@color/black" />
     </LinearLayout>
 </layout>

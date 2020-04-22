@@ -39,7 +39,12 @@ class CommentVideoItem(var thumbnail: CharSequence, var video: CharSequence) : D
     override fun getItemType() = R.layout.item_comment_video
 }
 
-class SubCommentItem(var content: CharSequence, var pid: String, var threadId: String) : DataItem {
+class SubCommentItem(
+    var content: CharSequence,
+    var pid: String,
+    var threadId: String,
+    val isPoster: Boolean = false
+) : DataItem {
     fun getShowText() = content
     override fun getItemType() = R.layout.item_sub_comment
 }

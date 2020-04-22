@@ -17,7 +17,7 @@
         android:focusable="true"
         android:foreground="?selectableItemBackground"
         android:padding="@dimen/default_margin_normal"
-        android:text="@{item.content}"
+        android:text="@{item.content,default=thread_title}"
         android:textColor="@color/majorText"
         android:textSize="@dimen/majorText"
         android:textStyle="bold">

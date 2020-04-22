@@ -10,7 +10,7 @@ import com.saniou.santieba.constant.PORTRAIT_HOST
 import com.saniou.santieba.constant.RANGE_NUMBER
 import com.saniou.santieba.kts.getDisplayTime
 import com.saniou.santieba.kts.toBool
-import com.saniou.santieba.vo.ThreadStoreItem
+import com.saniou.santieba.vo.StoreThreadItem
 import com.sanniou.multiitemkit.vo.LoadMoreItem
 import com.sanniou.support.components.BaseListViewModel
 import com.sanniou.support.exception.ExceptionEngine
@@ -40,7 +40,7 @@ class StoreViewModel : BaseListViewModel() {
                         threadData.storeThread
                             .forEach { thread ->
                                 add(
-                                    ThreadStoreItem(
+                                    StoreThreadItem(
                                         "${thread.author.nameShow}(${thread.author.name})",
                                         thread.forumName,
                                         "$PORTRAIT_HOST${thread.author.userPortrait}",
@@ -83,11 +83,11 @@ class StoreViewModel : BaseListViewModel() {
         }
     }
 
-    fun rmStore(threadStoreItem: ThreadStoreItem) {
+    fun rmStore(storeThreadItem: StoreThreadItem) {
         launch {
             try {
-                TiebaRequest.rmStore(threadStoreItem.tid)
-                remove(threadStoreItem)
+                TiebaRequest.rmStore(storeThreadItem.tid)
+                remove(storeThreadItem)
                 ToastUtils.showShort("取消收藏成功")
             } catch (e: Exception) {
                 ToastUtils.showShort(ExceptionEngine.handleMessage(e))

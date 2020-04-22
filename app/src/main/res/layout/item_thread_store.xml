@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.saniou.santieba.vo.ThreadStoreItem" />
+            type="com.saniou.santieba.vo.StoreThreadItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,6 +21,7 @@
         <ImageView
             android:id="@+id/thread_avatar"
             res="@{item.avatar}"
+            toUser="@{item.uid}"
             android:layout_width="50dp"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="W,1:1"
@@ -30,12 +31,13 @@
 
         <TextView
             android:id="@+id/thread_name"
+            toUser="@{item.uid}"
             android:layout_width="0dp"
-            android:singleLine="true"
-            android:ellipsize="end"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/view_padding"
             android:layout_marginEnd="@dimen/view_padding"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:text="@{item.name}"
             android:textColor="@color/majorText"
             android:textSize="@dimen/majorText"
@@ -43,14 +45,14 @@
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@id/thread_avatar"
             app:layout_constraintTop_toTopOf="@id/thread_avatar"
-            tools:text="@string/my_store" />
+            tools:text="thread_name" />
 
         <TextView
             android:id="@+id/thread_first_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/view_padding"
-            android:text="@{item.firstTime,default=1111}"
+            android:text="@{item.firstTime,default=thread_first_time}"
             android:textColor="@color/minorText"
             android:textSize="@dimen/minorText"
             app:layout_constraintStart_toStartOf="@id/thread_name"
@@ -61,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/view_padding"
-            android:text="@{item.lastTime,default=111111111111}"
+            android:text="@{item.lastTime,default=thread_last_time}"
             android:textColor="@color/minorText"
             android:textSize="@dimen/minorText"
             app:layout_constraintEnd_toEndOf="@id/thread_forum"
@@ -72,7 +74,7 @@
             android:id="@+id/thread_forum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.forum,default=dsafds}"
+            android:text="@{item.forum,default=thread_forum}"
             android:textColor="@color/design_orange"
             android:textSize="@dimen/majorText"
             app:layout_constraintEnd_toEndOf="parent"
@@ -83,7 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/view_padding"
-            android:text="@{item.title,default=dsfsdfsdf}"
+            android:text="@{item.title,default=thread_title}"
             android:textColor="@color/majorText"
             android:textSize="@dimen/majorText"
             app:layout_constraintTop_toBottomOf="@id/thread_avatar" />
@@ -104,7 +106,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/view_padding"
-            android:text="@{item.replayCount,default=ddddd}"
+            android:text="@{item.replayCount,default=replay_count}"
             android:textColor="@color/minorText"
             android:textSize="@dimen/minorText"
             app:layout_constraintEnd_toEndOf="parent"

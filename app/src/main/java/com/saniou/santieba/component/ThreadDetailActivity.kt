@@ -24,7 +24,7 @@ import com.sanniou.support.extensions.getViewModel
 import com.sanniou.support.utils.ResourcesUtils
 
 class ThreadDetailActivity : SanBaseActivity<ThreadDetailViewModel>() {
-    private var fromSide = false
+    private var outside = false
 
     override fun createViewModel() = getViewModel<ThreadDetailViewModel>()
 
@@ -33,7 +33,7 @@ class ThreadDetailActivity : SanBaseActivity<ThreadDetailViewModel>() {
     override fun onBindingCreated(binding: ViewDataBinding) {
         binding as ActivityThreadDatailBinding
 
-        fromSide = intent.getBooleanExtra("outside", false)
+        outside = intent.getBooleanExtra("outside", false)
         tiebaLinkFilter()
 
         setSupportActionBar(binding.actionBar)
@@ -41,7 +41,7 @@ class ThreadDetailActivity : SanBaseActivity<ThreadDetailViewModel>() {
             onBackPressed()
         }
         binding.actionBar.setOnClickListener {
-            if (fromSide && binding.viewModel!!.forumName.get()!!.isNotBlank()) {
+            if (outside && binding.viewModel!!.forumName.get()!!.isNotBlank()) {
                 val intent = Intent(this, ForumMainActivity::class.java)
                 intent.putExtra("name", binding.viewModel!!.forumName.get())
                 startActivity(intent)
@@ -104,7 +104,7 @@ class ThreadDetailActivity : SanBaseActivity<ThreadDetailViewModel>() {
     private fun tiebaLinkFilter() {
         if (Intent.ACTION_DEFAULT == intent.action) {
             if (THREAD_SCHEME == intent.scheme) {
-                fromSide = true
+                outside = true
                 val uri = intent.data!!.toString()
                 if (uri.startsWith(THREAD_URL)) {
                     intent.putExtra("tid", uri.replace(".*tid=(\\d*)".toRegex(), "$1"))

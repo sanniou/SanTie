@@ -23,8 +23,8 @@ import com.saniou.santieba.vo.CommentVideoItem
 import com.saniou.santieba.vo.CommentVoiceItem
 import com.saniou.santieba.vo.DividerItem
 import com.saniou.santieba.vo.SubCommentItem
-import com.saniou.santieba.vo.ThreadBottomItem
-import com.saniou.santieba.vo.ThreadCommentItem
+import com.saniou.santieba.vo.FloorBottomItem
+import com.saniou.santieba.vo.FloorTopItem
 import com.saniou.santieba.vo.ThreadTitleItem
 import com.sanniou.multiitemkit.vo.LoadMoreItem
 import com.sanniou.support.components.BaseListViewModel
@@ -65,19 +65,20 @@ class ThreadDetailViewModel : BaseListViewModel() {
                         }
 
                         // 用户列表
-                        val treadId = threadDetail.thread.id
                         val userMap = mutableMapOf<String, ThreadPage.UserX>()
                         threadDetail.userList.forEach {
                             userMap[it.id] = it
                         }
+                        // 第一页
                         if (pid.isEmpty()) {
                             add(ThreadTitleItem(threadDetail.thread.title))
                         }
 
+                        var posterId: String? = null
                         //帖子列表
                         threadDetail.postList.forEach { post ->
                             val first = post.floor == "1"
-
+                            posterId = posterId ?: post.authorId
                             if (mPid == post.id) {
                                 return@forEach
                             }
@@ -85,95 +86,103 @@ class ThreadDetailViewModel : BaseListViewModel() {
                             val currentUser = userMap[post.authorId]!!
                             // 帖头
                             add(
-                                ThreadCommentItem(
+                                FloorTopItem(
                                     post.floor.toInt(),
                                     "$PORTRAIT_HOST${currentUser.portrait}",
                                     "${currentUser.nameShow}(${currentUser.name})",
-                                    currentUser.levelId ?: "0",
+                                    currentUser.levelId.toInt(),
                                     getDisplayTime(post.time.toLong()),
-                                    currentUser.id
+                                    currentUser.id,
+                                    posterId == currentUser.id
                                 )
                             )
                             // 帖子内容
                             post.content.takeIf { it.isNotEmpty() }
                                 ?.apply {
-                                    analyzeText(this).forEach {
-                                        when (it.type) {
-                                            TEXT -> {
-                                                add(CommentTextItem(it.text, first))
-                                            }
-                                            VIDEO -> {
-                                                add(
-                                                    CommentVideoItem(
-                                                        it.src,
-                                                        it.link.orEmpty(it.text.toString())
-                                                    )
-                                                )
-                                            }
-                                            VOICE -> {
-                                                add(CommentVoiceItem(TIEBA_VOICE_HOST + it.voiceMd5))
-                                            }
-                                            ATME -> {
-                                                add(CommentTextItem(it.text, first))
-                                            }
-                                            IMAGE -> {
-                                                val orgImage: String
-                                                val image: String
-
-                                                val bigCdnSrc = it.bigCdnSrc
-
-                                                if (bigCdnSrc.isNotEmpty() && it.originSrc.isEmpty()) {
-                                                    orgImage = bigCdnSrc.substring(
-                                                        bigCdnSrc.indexOf("http://static"),
-                                                        bigCdnSrc.indexOf("&width=")
-                                                    )
-                                                    image = orgImage
-                                                } else {
-                                                    orgImage = it.originSrc
-                                                    image = it.cdnSrc
+                                    analyzeText(this)
+                                        .forEach {
+                                            when (it.type) {
+                                                TEXT -> {
+                                                    add(CommentTextItem(it.text, first))
                                                 }
-
-                                                imageList.add(orgImage)
-                                                add(
-                                                    CommentImageItem(
-                                                        image, orgImage,
-                                                        first
+                                                VIDEO -> {
+                                                    add(
+                                                        CommentVideoItem(
+                                                            it.src,
+                                                            it.link.orEmpty(it.text.toString())
+                                                        )
                                                     )
-                                                )
+                                                }
+                                                VOICE -> {
+                                                    add(CommentVoiceItem(TIEBA_VOICE_HOST + it.voiceMd5))
+                                                }
+                                                ATME -> {
+                                                    add(CommentTextItem(it.text, first))
+                                                }
+                                                IMAGE -> {
+                                                    val orgImage: String
+                                                    val image: String
+
+                                                    val bigCdnSrc = it.bigCdnSrc
+
+                                                    if (bigCdnSrc.isNotEmpty() && it.originSrc.isEmpty()) {
+                                                        orgImage = bigCdnSrc.substring(
+                                                            bigCdnSrc.indexOf("http://static"),
+                                                            bigCdnSrc.indexOf("&width=")
+                                                        )
+                                                        image = orgImage
+                                                    } else {
+                                                        orgImage = it.originSrc
+                                                        image = it.cdnSrc
+                                                    }
+
+                                                    imageList.add(orgImage)
+                                                    add(CommentImageItem(image, orgImage, first))
+                                                }
                                             }
                                         }
-                                    }
                                 }
 
                             if (post.subPostNumber != 0) {
-                                post.subPostList.subPostList.forEach { subContent ->
-                                    val currentUser2 = userMap[subContent.authorId]
-                                    val name = "${currentUser2?.nameShow}(${currentUser2?.name})"
-                                    analyzeText(subContent.content).forEach {
-                                        add(
-                                            SubCommentItem(
-                                                SpanUtils().append("$name:")
-                                                    .setForegroundColor(ColorUtils.getColor(R.color.design_blue))
-                                                    .append(it.text)
-                                                    .create()!!,
-                                                post.id, treadId
-                                            )
-                                        )
+                                post.subPostList.subPostList
+                                    .forEach { subContent ->
+                                        val subPoster = userMap[subContent.authorId]
+                                        val name =
+                                            "${subPoster?.nameShow}(${subPoster?.name})"
+                                        analyzeText(subContent.content)
+                                            .forEach {
+                                                val isPoster = posterId == subPoster?.id
+                                                add(
+                                                    SubCommentItem(
+                                                        SpanUtils()
+                                                            .append(if (isPoster) "           " else "")
+                                                            .append("$name:")
+                                                            .setForegroundColor(
+                                                                ColorUtils.getColor(
+                                                                    R.color.design_blue
+                                                                )
+                                                            )
+                                                            .append(it.text)
+                                                            .create()!!,
+                                                        post.id, tid,
+                                                        isPoster
+                                                    )
+                                                )
+                                            }
                                     }
-                                }
                                 if (post.subPostNumber > 10) {
                                     add(
                                         SubCommentItem(
                                             "查看全部回复${post.subPostNumber}条",
                                             post.id,
-                                            treadId
+                                            tid
                                         )
                                     )
                                 }
                             }
                             if (first) {
                                 add(
-                                    ThreadBottomItem(
+                                    FloorBottomItem(
                                         threadDetail.thread.id,
                                         threadDetail.thread.replyNum.toInt()
                                     )

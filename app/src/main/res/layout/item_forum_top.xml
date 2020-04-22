@@ -34,61 +34,65 @@
             android:text="@{item.forumName}"
             android:textColor="@color/majorText"
             android:textSize="@dimen/majorText"
+            app:layout_constraintBottom_toTopOf="@id/forumLevel"
             app:layout_constraintStart_toEndOf="@id/forumImage"
             app:layout_constraintTop_toTopOf="@id/forumImage"
             tools:text="id/forumName" />
 
         <TextView
-            android:id="@+id/forumMember"
+            android:id="@+id/forumLevel"
+            invisible="@{!item.isSubscribe}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/view_padding"
-            android:text="@{item.forumMember}"
+            android:gravity="end"
+            android:text="@{item.forumLevel}"
             android:textColor="@color/minorText"
             android:textSize="@dimen/minorText"
+            app:layout_constraintBottom_toTopOf="@id/forumScore"
             app:layout_constraintStart_toStartOf="@id/forumName"
             app:layout_constraintTop_toBottomOf="@id/forumName"
-            tools:text="id/forumMember" />
+            tools:text="id/forumSignCount" />
 
         <TextView
-            android:id="@+id/forumSlogan"
+            android:id="@+id/forumScore"
+            invisible="@{!item.isSubscribe}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/view_padding"
-            android:text="@{item.forumSlogan}"
+            android:gravity="end"
+            android:text="@{item.scoreString}"
             android:textColor="@color/minorText"
-            android:textSize="@dimen/minorText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/forumImage"
-            app:layout_constraintTop_toBottomOf="@id/forumImage"
-            tools:text="item.forumSlogan}" />
-
+            android:textSize="@dimen/minor2Text"
+            app:layout_constraintBottom_toBottomOf="@id/forumImage"
+            app:layout_constraintStart_toStartOf="@id/forumName"
+            app:layout_constraintTop_toBottomOf="@id/forumLevel"
+            tools:text="id/forumSignCount" />
 
         <TextView
             android:id="@+id/forumLike"
             backgroundStroke="@{item.strokeColor}"
             backgroundStrokeWidthDP="@{1}"
-            paddingHorizontalDp="@{3}"
-            paddingVerticalDp="@{2}"
+            paddingHorizontalDp="@{8}"
+            paddingVerticalDp="@{4}"
             visible="@{!item.isSubscribe}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:foreground="?selectableItemBackground"
             android:onClick="@{item::subscribe}"
             android:text="@string/subscribe"
-            android:textColor="@color/normalText"
-            android:textSize="@dimen/normalText"
-            app:layout_constraintBottom_toBottomOf="@id/forumImage"
+            android:textColor="@{item.strokeColor}"
+            android:textSize="@dimen/minorText"
+            app:layout_constraintBottom_toBottomOf="@id/forumScore"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/forumImage"
+            app:layout_constraintTop_toTopOf="@id/forumName"
             tools:text="id/forumLike" />
 
         <TextView
             android:id="@+id/forumSignCount"
             backgroundStroke="@{item.strokeColor}"
             backgroundStrokeWidthDP="@{1}"
-            paddingHorizontalDp="@{3}"
-            paddingVerticalDp="@{2}"
+            paddingHorizontalDp="@{8}"
+            paddingVerticalDp="@{4}"
             visible="@{item.isSubscribe}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -97,28 +101,55 @@
             android:foreground="?selectableItemBackground"
             android:onClick="@{item::signIn}"
             android:text="@{item.signInStr}"
-            android:textColor="@color/normalText"
-            android:textSize="@dimen/normalText"
-            app:layout_constraintBottom_toTopOf="@id/forumLevel"
+            android:textColor="@{item.strokeColor}"
+            android:textSize="@dimen/minorText"
+            app:layout_constraintBottom_toBottomOf="@id/forumScore"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/forumName"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="id/forumLevel" />
 
+
         <TextView
-            android:id="@+id/forumLevel"
-            visible="@{item.isSubscribe}"
+            android:id="@+id/forumMember"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="end"
-            android:text="@{item.forumLevel}"
+            android:layout_marginTop="@dimen/view_padding"
+            android:text="@{item.forumMember}"
+            android:textColor="@color/minorText"
+            android:textSize="@dimen/minor2Text"
+            app:layout_constraintBottom_toTopOf="@id/forumPost"
+            app:layout_constraintEnd_toEndOf="@id/forumSignCount"
+            tools:text="id/forumMember" />
+
+        <TextView
+            android:id="@+id/forumPost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_inside_padding"
+            android:text="@{item.forumPost}"
+            android:textColor="@color/minorText"
+            android:textSize="@dimen/minor2Text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/forumSignCount"
+            tools:text="forumPost" />
+
+
+        <TextView
+            android:id="@+id/forumSlogan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_padding"
+            android:layout_marginEnd="@dimen/view_padding"
+            android:text="@{item.forumSlogan}"
             android:textColor="@color/minorText"
             android:textSize="@dimen/minorText"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/forumSignCount"
-            app:layout_constraintTop_toBottomOf="@id/forumSignCount"
-            tools:text="id/forumSignCount" />
+            app:layout_constraintEnd_toStartOf="@id/forumMember"
+            app:layout_constraintStart_toStartOf="@id/forumImage"
+            app:layout_constraintTop_toBottomOf="@id/forumImage"
+            tools:text="item.forumSlogan}" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
