@@ -7,8 +7,8 @@ import com.saniou.santieba.R
 import com.saniou.santieba.api.TiebaRequest
 import com.saniou.santieba.kts.getDisplayTime
 import com.saniou.santieba.kts.toBool
-import com.saniou.santieba.vo.MSignForumItem
-import com.saniou.santieba.vo.MSignHeaderItem
+import com.saniou.santieba.vo.SimpleForumItem
+import com.saniou.santieba.vo.SimpleHeaderItem
 import com.sanniou.support.components.BaseListViewModel
 import com.sanniou.support.exception.ExceptionEngine
 
@@ -52,7 +52,7 @@ class MsignViewModel : BaseListViewModel() {
                 TiebaRequest.getforumlist()
                     .let { forumListP ->
                         forumIds.clear()
-                        add(MSignHeaderItem("7级以上的吧"))
+                        add(SimpleHeaderItem("7级以上的吧"))
                         forumListP.forumInfo.forEach {
                             if (!it.isSignIn.toBool()) {
                                 forumIds.append(it.forumId)
@@ -60,13 +60,12 @@ class MsignViewModel : BaseListViewModel() {
                             }
 
                             add(
-                                MSignForumItem(
-                                    it.avatar,
+                                SimpleForumItem(
                                     it.forumName,
-                                    "LV${it.userLevel}",
+                                    it.avatar,
                                     "${it.userExp}/${it.needExp}",
-                                    it.isSignIn.toBool(),
-                                    "已签到${it.contSignNum}天"
+                                    "LV${it.userLevel}",
+                                    it.contSignNum.toInt()
                                 )
                             )
                         }
@@ -79,24 +78,23 @@ class MsignViewModel : BaseListViewModel() {
                     }
                 TiebaRequest.forumRecommend()
                     .let {
-                        add(MSignHeaderItem("7级以下的吧"))
+                        add(SimpleHeaderItem("7级以下的吧"))
 
                         it.likeForum
-                            .filter {
-                                it.levelId.toInt() < 7
+                            .filter { forum ->
+                                forum.levelId.toInt() < 7
                             }
                             .forEach { forum ->
                                 if (!forum.isSign.toBool()) {
                                     manualSigns.add(forum.forumName)
                                 }
                                 add(
-                                    MSignForumItem(
-                                        forum.avatar,
+                                    SimpleForumItem(
                                         forum.forumName,
+                                        forum.avatar,
                                         "LV${forum.levelId}",
                                         getDisplayTime(forum.inTime),
-                                        forum.isSign.toBool(),
-                                        if (forum.isSign.toBool()) "已签到" else "未签到"
+                                        if (forum.isSign.toBool()) 0 else -1
                                     )
                                 )
                             }

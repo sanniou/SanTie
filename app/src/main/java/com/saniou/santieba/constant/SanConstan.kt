@@ -18,6 +18,7 @@ const val HOST = "c.tieba.baidu.com/c"
 const val PORTRAIT_HOST = "http://tb.himg.baidu.com/sys/portrait/item/"
 const val TIEBA_HOST = "https://tieba.baidu.com/p/"
 const val TIEBA_FORUM_HOST = "https://tieba.baidu.com/f?kw="
+const val TIEBA_RANK_HOST = "http://tieba.baidu.com/f/like/furank?kw="
 
 const val TIEBA_USER_HOST = "http://tieba.baidu.com/main/"
 const val TIEBA_HOST_2 = "http://tieba.baidu.com/p/"
@@ -31,6 +32,7 @@ const val FORUM_SCHEME = "tbfrs"
 const val THREAD_URL = "tbpb://tieba.baidu.com/"
 
 const val ERROR_CODE_SUCCESS = "0"
+const val ERROR_CODE_NO_MORE = "350006"
 
 const val TEXT = "0"
 const val LINK = "1"

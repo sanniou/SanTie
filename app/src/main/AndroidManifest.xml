@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".SanApplication"
@@ -14,11 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".component.UserMainActivity"></activity>
-        <activity android:name=".component.StoreActivity" />
-        <activity android:name=".component.MSignActivity" />
-        <activity android:name=".component.ThreadSubCommentActivity" />
-        <activity android:name=".component.ForumMainActivity">
+        <activity android:name=".component.ListItemActivity" />
+        <activity android:name=".component.FeedActivity" />
+        <activity android:name=".component.SchemeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -27,6 +26,22 @@
 
                 <data android:scheme="tbfrs" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tbpb" />
+            </intent-filter>
+
+        </activity>
+        <activity android:name=".component.UserMainActivity" />
+        <activity android:name=".component.MSignActivity" />
+        <activity android:name=".component.ThreadSubCommentActivity" />
+        <activity android:name=".component.ForumMainActivity">
+
         </activity>
         <activity android:name=".component.MainActivity">
             <intent-filter>
@@ -38,16 +53,7 @@
         <activity android:name=".component.WebLoginActivity" />
         <activity android:name=".component.SearchActivity" />
         <activity android:name=".component.ImagePreviewActivity" />
-        <activity android:name=".component.ThreadDetailActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="tbpb" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

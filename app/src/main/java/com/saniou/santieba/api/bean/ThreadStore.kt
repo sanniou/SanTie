@@ -35,7 +35,7 @@ data class ThreadStore(
         @Json(name = "author")
         val author: Author = Author(),
         @Json(name = "count")
-        val count: String = "",
+        val count: Int = 0,
         @Json(name = "create_time")
         val createTime: String = "",
         @Json(name = "floor_num")
@@ -75,7 +75,7 @@ data class ThreadStore(
         @Json(name = "title")
         val title: String = "",
         @Json(name = "type")
-        val type: String = ""
+        val type: Int = 0
     ) {
         @JsonClass(generateAdapter = true)
         data class Author(

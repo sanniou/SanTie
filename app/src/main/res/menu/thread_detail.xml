@@ -13,7 +13,7 @@
         android:title="@string/reverse"
         app:showAsAction="always" />
     <item
-        android:id="@+id/menu_star"
+        android:id="@+id/menu_store"
         android:icon="@drawable/ic_thread_store"
         android:title="@string/thread_store"
         app:showAsAction="always" />

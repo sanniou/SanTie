@@ -12,13 +12,16 @@ import com.blankj.utilcode.util.SpanUtils
 import com.blankj.utilcode.util.Utils
 import com.saniou.santieba.R
 import com.saniou.santieba.api.bean.Content
-import com.saniou.santieba.component.ForumMainActivity
-import com.saniou.santieba.component.ThreadDetailActivity
 import com.saniou.santieba.component.UserMainActivity
+import com.saniou.santieba.component.toForum
+import com.saniou.santieba.component.toThreadPageList
 import com.saniou.santieba.constant.ATME
 import com.saniou.santieba.constant.EMOJI
+import com.saniou.santieba.constant.FORUM_SCHEME
 import com.saniou.santieba.constant.LINK
 import com.saniou.santieba.constant.TEXT
+import com.saniou.santieba.constant.THREAD_SCHEME
+import com.saniou.santieba.constant.THREAD_URL
 import com.saniou.santieba.constant.TIEBA_FORUM_HOST
 import com.saniou.santieba.constant.TIEBA_FORUM_HOST_2
 import com.saniou.santieba.constant.TIEBA_HOST
@@ -26,6 +29,35 @@ import com.saniou.santieba.constant.TIEBA_HOST_2
 import com.saniou.santieba.constant.TIEBA_USER_HOST
 import com.sanniou.support.utils.ResourcesUtils
 import com.sanniou.support.utils.openUrl
+import java.net.URLDecoder
+
+fun tiebaForumLinkFilter(intent: Intent): Boolean {
+    if (Intent.ACTION_DEFAULT == intent.action) {
+        if (FORUM_SCHEME == intent.scheme) {
+            val decode = URLDecoder.decode(intent.data!!.toString(), "UTF-8")
+            intent.putExtra(
+                "name",
+                decode.substring(decode.indexOf("kw=") + 3, decode.length)
+            )
+            return true;
+        }
+    }
+    return false;
+}
+
+fun tiebaThreadLinkFilter(intent: Intent): Boolean {
+    if (Intent.ACTION_DEFAULT == intent.action) {
+        if (THREAD_SCHEME == intent.scheme) {
+            intent.putExtra("outside", true)
+            val uri = intent.data!!.toString()
+            if (uri.startsWith(THREAD_URL)) {
+                intent.putExtra("tid", uri.replace(".*tid=(\\d*)".toRegex(), "$1"))
+            }
+            return true
+        }
+    }
+    return false;
+}
 
 fun analyzeText(contents: List<Content>): MutableList<Content> {
     val list = mutableListOf<Content>()
@@ -108,16 +140,12 @@ private class LinkClickSpan(val url: String) : ClickableSpan() {
     override fun onClick(view: View) {
 
         if (url.startsWith(TIEBA_HOST) || url.startsWith(TIEBA_HOST_2)) {
-            val intent = Intent(ActivityUtils.getTopActivity(), ThreadDetailActivity::class.java)
-            intent.putExtra("tid", url.substring(url.indexOf("/p/") + 3, url.indexOf("?")))
-            ActivityUtils.startActivity(intent)
+            toThreadPageList(url.substring(url.indexOf("/p/") + 3, url.indexOf("?")))
             return
         }
 
         if (url.startsWith(TIEBA_FORUM_HOST) || url.startsWith(TIEBA_FORUM_HOST_2)) {
-            val intent = Intent(ActivityUtils.getTopActivity(), ForumMainActivity::class.java)
-            intent.putExtra("name", url.substring(url.indexOf("kw=") + 3))
-            ActivityUtils.startActivity(intent)
+            toForum(url.substring(url.indexOf("kw=") + 3))
             return
         }
 

@@ -6,15 +6,13 @@
 
         <variable
             name="item"
-            type="com.saniou.santieba.vo.MSignForumItem" />
-
+            type="com.saniou.santieba.vo.SimpleForumItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         toForum="@{item.forumName}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/backgroundColor"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?selectableItemBackground"
@@ -23,8 +21,8 @@
         <ImageView
             android:id="@+id/forumImage"
             res="@{item.forumImage}"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="@dimen/image_normal"
+            android:layout_height="@dimen/image_normal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@mipmap/ic_launcher" />
@@ -36,7 +34,7 @@
             android:layout_marginStart="@dimen/view_padding"
             android:text="@{item.forumName}"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/forumProgress"
+            app:layout_constraintBottom_toTopOf="@id/forumDes"
             app:layout_constraintStart_toEndOf="@id/forumImage"
             app:layout_constraintTop_toTopOf="@id/forumImage"
             tools:text="string/about" />
@@ -52,11 +50,11 @@
             tools:text="string/about" />
 
         <TextView
-            android:id="@+id/forumProgress"
+            android:id="@+id/forumDes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/view_padding"
-            android:text="@{item.forumProgress}"
+            android:text="@{item.forumDes}"
             android:textColor="@color/minorText"
             android:textSize="@dimen/minorText"
             app:layout_constraintBottom_toBottomOf="@id/forumImage"
@@ -66,7 +64,6 @@
 
         <TextView
             android:id="@+id/forumState"
-            visible="@{item.forumSignIn}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{item.forumStateText}"

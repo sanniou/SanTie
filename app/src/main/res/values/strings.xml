@@ -33,6 +33,8 @@
     <string name="image_load_failed">图片加载失败</string>
     <string name="level_up_7">7级以上的吧</string>
     <string name="subscribe">关注</string>
+    <string name="subscribed">已关注</string>
+    <string name="mutual_subscribe">互相关注</string>
     <string name="subscribe_forum">关注的吧</string>
     <string name="logout">登出</string>
     <string name="lz_only">只看楼主</string>
@@ -80,6 +82,7 @@
     <string name="vcode">验证码</string>
     <string name="wait_plz">请稍等…</string>
     <string name="go_forum">进吧</string>
-    <string name="open_in_browser">打开浏览器</string>
+    <string name="open_in_browser">浏览器中打开</string>
+    <string name="rank">排行榜</string>
 
 </resources>

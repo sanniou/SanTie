@@ -4,11 +4,17 @@ import android.util.Log
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.SPUtils
 import com.saniou.santieba.api.bean.DataDTO
+import com.saniou.santieba.api.bean.Fans
+import com.saniou.santieba.api.bean.FeedThread
 import com.saniou.santieba.api.bean.FloorPage
+import com.saniou.santieba.api.bean.FollowList
+import com.saniou.santieba.api.bean.FollowResponse
+import com.saniou.santieba.api.bean.Follows
 import com.saniou.santieba.api.bean.ForumPage
 import com.saniou.santieba.api.bean.ForumRecommend
 import com.saniou.santieba.api.bean.ForumSug
 import com.saniou.santieba.api.bean.GetForumList
+import com.saniou.santieba.api.bean.LikedForum
 import com.saniou.santieba.api.bean.Msign
 import com.saniou.santieba.api.bean.Profile
 import com.saniou.santieba.api.bean.SearchPost
@@ -16,6 +22,7 @@ import com.saniou.santieba.api.bean.Sign
 import com.saniou.santieba.api.bean.StatusResponse
 import com.saniou.santieba.api.bean.ThreadPage
 import com.saniou.santieba.api.bean.ThreadStore
+import com.saniou.santieba.api.bean.UserPost
 import com.saniou.santieba.constant.BOOLEAN_FALSE
 import com.saniou.santieba.constant.BOOLEAN_TRUE
 import com.saniou.santieba.constant.EMOJI
@@ -25,7 +32,9 @@ import com.saniou.santieba.constant.LINK
 import com.saniou.santieba.constant.RANGE_NUMBER
 import com.saniou.santieba.kts.getTimestamp
 import com.saniou.santieba.utils.StringUtil
+import com.saniou.santieba.viewmodel.MARK_STATE
 import com.sanniou.support.exception.ApiErrorException
+import com.sanniou.support.extensions.orEmpty
 import com.sanniou.support.moshi.EmptyListToNull
 import com.sanniou.support.moshi.IgnoreString2Object
 import com.squareup.moshi.FromJson
@@ -223,9 +232,154 @@ object TiebaRequest : TiebaService {
         return getforumlist(hashMap)
     }
 
+    override suspend fun likedForum(params: Map<String, String>) =
+        tiebaService.likedForum(params)
+
+    suspend fun likedForum(friendUid: String, page: Int): LikedForum {
+        val hashMap = HashMap<String, String>()
+        hashMap["BDUSS"] = this.BDUSS
+        hashMap["_client_id"] = this.clientId
+        hashMap["_client_type"] = this.clientType
+        hashMap["_client_version"] = this.clientVersion
+        hashMap["_phone_imei"] = this.imei
+        hashMap["from"] = "tieba"
+        hashMap["net_type"] = this.netType
+        hashMap["is_guest"] = BOOLEAN_TRUE
+        if (friendUid.isNotEmpty()) {
+            hashMap["friend_uid"] = friendUid
+        }
+        hashMap["page_no"] = page.toString()
+        hashMap["page_size"] = RANGE_NUMBER.toString()
+        hashMap["uid"] = this.uid
+        hashMap["timestamp"] = getTimestamp().toString()
+        hashMap["sign"] = calsign(hashMap)
+
+        return likedForum(hashMap)
+    }
+
+    override suspend fun userFollow(params: Map<String, String>) =
+        tiebaService.userFollow(params)
+
+    suspend fun userFollow(portrait: String): FollowResponse {
+        val hashMap = HashMap<String, String>()
+        hashMap["BDUSS"] = this.BDUSS
+        hashMap["_client_id"] = this.clientId
+        hashMap["_client_type"] = this.clientType
+        hashMap["_client_version"] = this.clientVersion
+        hashMap["_phone_imei"] = this.imei
+        hashMap["from"] = "tieba"
+        hashMap["net_type"] = this.netType
+        hashMap["tbs"] = this.tbs
+        hashMap["portrait"] = portrait
+        hashMap["timestamp"] = getTimestamp().toString()
+        hashMap["sign"] = calsign(hashMap)
+
+        return userFollow(hashMap)
+            .apply {
+                if (errorCode != ERROR_CODE_SUCCESS || status != 2) {
+                    throw ApiErrorException(errorMsg.orEmpty("关注失败"), errorCode.toInt())
+                }
+            }
+    }
+
+    override suspend fun unFollow(params: Map<String, String>) =
+        tiebaService.unFollow(params)
+
+    suspend fun unFollow(portrait: String): FollowResponse {
+        val hashMap = HashMap<String, String>()
+        hashMap["BDUSS"] = this.BDUSS
+        hashMap["_client_id"] = this.clientId
+        hashMap["_client_type"] = this.clientType
+        hashMap["_client_version"] = this.clientVersion
+        hashMap["_phone_imei"] = this.imei
+        hashMap["from"] = "tieba"
+        hashMap["net_type"] = this.netType
+        hashMap["tbs"] = this.tbs
+        hashMap["portrait"] = portrait
+        hashMap["timestamp"] = getTimestamp().toString()
+        hashMap["sign"] = calsign(hashMap)
+
+        return unFollow(hashMap).apply {
+            if (errorCode != ERROR_CODE_SUCCESS) {
+                throw ApiErrorException(errorMsg, errorCode.toInt())
+            }
+        }
+    }
+
+    override suspend fun followList(params: Map<String, String>) = tiebaService.followList(params)
+
+    suspend fun mutualFollowList(uid: String, pageNum: Int) =
+        followList(uid, pageNum, 1)
+
+    suspend fun followList(uid: String, pageNum: Int, tab: Int = 0): FollowList {
+        val hashMap = HashMap<String, String>()
+        hashMap["BDUSS"] = this.BDUSS
+        hashMap["_client_id"] = this.clientId
+        hashMap["_client_type"] = this.clientType
+        hashMap["_client_version"] = this.clientVersion
+        hashMap["_phone_imei"] = this.imei
+        hashMap["from"] = "tieba"
+        hashMap["net_type"] = this.netType
+        hashMap["timestamp"] = getTimestamp().toString()
+        hashMap["pn"] = pageNum.toString()
+        hashMap["rn"] = RANGE_NUMBER.toString()
+        hashMap["tab"] = tab.toString()
+        if (uid.isNotEmpty()) {
+            hashMap["uid"] = uid
+        }
+        hashMap["sign"] = calsign(hashMap)
+        return followList(hashMap)
+    }
+
+    override suspend fun follows(params: Map<String, String>) =
+        tiebaService.follows(params)
+
+    suspend fun follows(uid: String, pn: String): Follows {
+        val hashMap = HashMap<String, String>()
+        hashMap["BDUSS"] = this.BDUSS
+        hashMap["_client_id"] = this.clientId
+        hashMap["_client_type"] = this.clientType
+        hashMap["_client_version"] = this.clientVersion
+        hashMap["_phone_imei"] = this.imei
+        hashMap["from"] = "tieba"
+        hashMap["net_type"] = this.netType
+        hashMap["is_guest"] = BOOLEAN_TRUE
+        hashMap["uid"] = uid
+        hashMap["pn"] = pn
+        hashMap["rn"] = RANGE_NUMBER.toString()
+        hashMap["timestamp"] = getTimestamp().toString()
+        hashMap["sign"] = calsign(hashMap)
+
+        return follows(hashMap)
+    }
+
+    override suspend fun fans(params: Map<String, String>) =
+        tiebaService.fans(params)
+
+    suspend fun fans(uid: String, pn: String): Fans {
+        val hashMap = HashMap<String, String>()
+        hashMap["BDUSS"] = this.BDUSS
+        hashMap["_client_id"] = this.clientId
+        hashMap["_client_type"] = this.clientType
+        hashMap["_client_version"] = this.clientVersion
+        hashMap["_phone_imei"] = this.imei
+        hashMap["from"] = "tieba"
+        hashMap["net_type"] = this.netType
+        hashMap["is_guest"] = BOOLEAN_TRUE
+        if (uid.isNotEmpty()) {
+            hashMap["uid"] = uid
+        }
+        hashMap["pn"] = pn
+        hashMap["rn"] = RANGE_NUMBER.toString()
+        hashMap["timestamp"] = getTimestamp().toString()
+        hashMap["sign"] = calsign(hashMap)
+
+        return fans(hashMap)
+    }
+
     override suspend fun threadstore(params: Map<String, String>) = tiebaService.threadstore(params)
 
-    suspend fun threadstore(pageNum: Int, userID: String): ThreadStore {
+    suspend fun threadstore(offset: Int, userID: String): ThreadStore {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
@@ -234,7 +388,7 @@ object TiebaRequest : TiebaService {
         hashMap["_phone_imei"] = this.imei
         hashMap["from"] = "tieba"
         hashMap["net_type"] = this.netType
-        hashMap["offset"] = pageNum.minus(1).times(RANGE_NUMBER).toString()
+        hashMap["offset"] = offset.toString()
         hashMap["rn"] = RANGE_NUMBER.toString()
         hashMap["user_id"] = userID
         hashMap["timestamp"] = getTimestamp().toString()
@@ -244,7 +398,7 @@ object TiebaRequest : TiebaService {
 
     override suspend fun profile(params: Map<String, String>) = tiebaService.profile(params)
 
-    suspend fun profile(): Profile {
+    suspend fun profile(pageNum: String = "1"): Profile {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
@@ -256,6 +410,8 @@ object TiebaRequest : TiebaService {
         hashMap["net_type"] = this.netType
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["uid"] = this.uid
+        hashMap["pn"] = pageNum
+        hashMap["rn"] = RANGE_NUMBER.toString()
         hashMap["sign"] = calsign(hashMap)
         return profile(hashMap)
     }
@@ -263,7 +419,7 @@ object TiebaRequest : TiebaService {
     override suspend fun friendProfile(params: Map<String, String>) =
         tiebaService.friendProfile(params)
 
-    suspend fun friendProfile(friendUid: String): Profile {
+    suspend fun friendProfile(friendUid: String, pageNum: String = "1"): Profile {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = BDUSS
         hashMap["_client_id"] = clientId
@@ -275,6 +431,8 @@ object TiebaRequest : TiebaService {
         hashMap["net_type"] = netType
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["uid"] = uid
+        hashMap["pn"] = pageNum
+        hashMap["rn"] = RANGE_NUMBER.toString()
         hashMap["is_guest"] = BOOLEAN_TRUE
         hashMap["friend_uid"] = friendUid
         hashMap["sign"] = calsign(hashMap)
@@ -374,8 +532,8 @@ object TiebaRequest : TiebaService {
         }
         hashMap["kw"] = name
         hashMap["net_type"] = this.netType
-        hashMap["pn"] = page.toString()
         hashMap["q_type"] = "2"
+        hashMap["pn"] = page.toString()
         hashMap["rn"] = RANGE_NUMBER.toString()
         hashMap["scr_dip"] = BOOLEAN_FALSE
         hashMap["scr_h"] = BOOLEAN_FALSE
@@ -417,37 +575,42 @@ object TiebaRequest : TiebaService {
 
     suspend fun threadPage(
         threadId: String,
-        pid: String = "",
+        pid: String? = null,
         lzOnly: Boolean = false,
-        reverse: Boolean = false
+        reverse: Boolean = false,
+        mark: String = BOOLEAN_FALSE,
+        page: Int? = null
     ): ThreadPage {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
         hashMap["_client_id"] = this.clientId
         hashMap["_client_type"] = this.clientType
-        hashMap["_client_version"] = this.newClientVersion
+        hashMap["_client_version"] = "6.2.2"
         hashMap["_phone_imei"] = this.imei
         hashMap["back"] = BOOLEAN_FALSE
-        hashMap["floor_rn"] = "3"
+        hashMap["banner"] = BOOLEAN_FALSE
         hashMap["from"] = "tieba"
         hashMap["kz"] = threadId
         if (lzOnly) {
             hashMap["lz"] = BOOLEAN_TRUE
         }
         if (reverse) {
-            hashMap["last"] = BOOLEAN_TRUE
+            // hashMap["last"] = BOOLEAN_TRUE
             hashMap["r"] = BOOLEAN_TRUE
         }
-        hashMap["mark"] = BOOLEAN_FALSE
+        // 正序 0 list ;1 pid后的list(包括pid)
+        // 倒序 0 pid 前的list ;1 pid后的list(包括pid)
+        hashMap["mark"] = mark
         hashMap["net_type"] = netType
-        if (pid.isNotEmpty()) {
+        if (!pid.isNullOrEmpty()) {
             hashMap["pid"] = pid
         }
+        page?.run {
+            hashMap["pn"] = this.toString()
+        }
         hashMap["rn"] = RANGE_NUMBER.toString()
-        hashMap["scr_dip"] = BOOLEAN_FALSE
-        hashMap["scr_h"] = BOOLEAN_FALSE
-        hashMap["scr_w"] = BOOLEAN_FALSE
-        hashMap["st_type"] = "tb_frslist"
+        hashMap["q_type"] = "2"
+        hashMap["st_type"] = if (mark == BOOLEAN_TRUE) "store_thread" else "tb_frslist"
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["with_floor"] = BOOLEAN_TRUE
         hashMap["sign"] = calsign(hashMap)
@@ -511,12 +674,22 @@ object TiebaRequest : TiebaService {
     override suspend fun rmStore(@FieldMap params: Map<String, String>) =
         tiebaService.rmStore(params)
 
-    suspend fun addStore(tid: String, pid: String): StatusResponse {
+    suspend fun addStore(
+        tid: String,
+        pid: String,
+        lzOnly: Boolean,
+        reverse: Boolean
+    ): StatusResponse {
         val dataBeanX = DataDTO(
             pid,
-            BOOLEAN_FALSE,
-            tid,
-            BOOLEAN_FALSE
+            when (lzOnly) {
+                lzOnly && reverse -> MARK_STATE.SINGLE_REVERSE.value
+                lzOnly && !reverse -> MARK_STATE.SINGLE_NORMAL.value
+                reverse -> MARK_STATE.REVERSE.value
+                !reverse -> MARK_STATE.NORMAL.value
+                else -> MARK_STATE.NORMAL.value
+            },
+            tid
         )
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
@@ -730,13 +903,13 @@ object TiebaRequest : TiebaService {
         return atme(hashMap)
     }
 
-    override suspend fun userPost(@FieldMap params: Map<String, String>) =
-        tiebaService.userPost(params)
+    override suspend fun userPosts(@FieldMap params: Map<String, String>) =
+        tiebaService.userPosts(params)
 
-    suspend fun userPost(
-        pn: String,
-        uid: String
-    ): StatusResponse {
+    suspend fun userPosts(
+        uid: String,
+        pn: String
+    ): UserPost {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = BDUSS
         hashMap["_client_id"] = clientId
@@ -748,11 +921,35 @@ object TiebaRequest : TiebaService {
         hashMap["need_content"] = BOOLEAN_TRUE
         hashMap["net_type"] = netType
         hashMap["pn"] = pn
+        hashMap["rn"] = RANGE_NUMBER.toString()
+        hashMap["timestamp"] = getTimestamp().toString()
+        hashMap["uid"] = uid
+        hashMap["sign"] = calsign(hashMap)
+
+        return userPosts(hashMap)
+    }
+
+    override suspend fun feed(@FieldMap params: Map<String, String>) =
+        tiebaService.feed(params)
+
+    suspend fun feed(page: String): FeedThread {
+        val hashMap = HashMap<String, String>()
+        hashMap["BDUSS"] = BDUSS
+        hashMap["_client_id"] = clientId
+        hashMap["_client_type"] = clientType
+        hashMap["_client_version"] = newClientVersion
+        hashMap["_phone_imei"] = imei
+        hashMap["from"] = "tieba"
+        hashMap["is_thread"] = BOOLEAN_TRUE
+        hashMap["need_content"] = BOOLEAN_TRUE
+        hashMap["net_type"] = netType
+        hashMap["pn"] = page
+        hashMap["q_type"] = "2"
         hashMap["rn"] = "20"
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["uid"] = uid
         hashMap["sign"] = calsign(hashMap)
-        return userPost(hashMap)
+        return feed(hashMap)
     }
 
     private fun calsign(map: Map<String, String>): String {

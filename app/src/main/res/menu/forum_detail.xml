@@ -12,6 +12,11 @@
         android:title="@string/unsubscribe"
         app:showAsAction="never" />
     <item
+        android:id="@+id/menu_rank"
+        android:icon="@drawable/ic_good"
+        android:title="@string/rank"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/menu_browser"
         android:title="@string/open_in_browser"
         app:showAsAction="never" />

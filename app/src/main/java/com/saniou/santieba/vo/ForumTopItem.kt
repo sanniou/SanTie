@@ -1,6 +1,5 @@
 package com.saniou.santieba.vo
 
-import android.view.View
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
@@ -42,7 +41,7 @@ class ForumTopItem(
 
     override fun getItemType() = R.layout.item_forum_top
 
-    fun signIn(v: View) {
+    fun signIn() {
         if (isSignIn) return
         launch {
             try {
@@ -65,7 +64,7 @@ class ForumTopItem(
         strokeColor.set(ResourcesUtils.getColor(if (subscribe && isSignIn) R.color.minorText else R.color.design_blue))
     }
 
-    fun subscribe(v: View) {
+    fun subscribe() {
         subscribeEvent()
     }
 }

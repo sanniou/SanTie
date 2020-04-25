@@ -72,21 +72,26 @@ class ForumMainViewModel : BaseListViewModel() {
                 //帖子列表
                 threadProfile.threadList.forEach { thread ->
                     var postImage = ""
-                    thread.getMedias()
-                        .firstOrNull { it.type != TEXT }
-                        ?.let {
-                            when (it.type) {
-                                IMAGE -> {
-                                    postImage = it.bigPic
-                                }
-                                VOICE -> {
-                                    postImage =
-                                        "https://apic.douyucdn.cn/upload/avatar/000/31/02/60_avatar_middle.jpg"
-                                }
-                                VIDEO -> {
-                                    postImage = it.src
-                                }
-                            }
+
+                    postImage = thread.videoInfo
+                        .takeIf {
+                            it.thumbnailUrl.isNotEmpty()
+                        }
+                        ?.thumbnailUrl
+                        ?: run {
+                            thread.getMedias()
+                                .firstOrNull { it.type != TEXT }
+                                ?.let {
+                                    when (it.type) {
+                                        IMAGE -> it.bigPic
+
+                                        VOICE -> "https://apic.douyucdn.cn/upload/avatar/000/31/02/60_avatar_middle.jpg"
+
+                                        VIDEO -> it.vpic
+
+                                        else -> postImage
+                                    }
+                                } ?: postImage
                         }
                     add(
                         ThreadItem(

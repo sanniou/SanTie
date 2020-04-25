@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.saniou.santieba.vo.BaseSimpleUserItem" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        toUser="@{item.uid}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?selectableItemBackground"
+        android:gravity="center"
+        android:padding="@dimen/view_padding">
+
+        <ImageView
+            circle="@{true}"
+            res="@{item.avatar}"
+            android:layout_width="@dimen/image_normal"
+            android:layout_height="@dimen/image_normal"
+            tools:src="@mipmap/ic_launcher" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/view_padding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@{item.name,default=namenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamename}"
+                android:textColor="@color/majorText"
+                android:textSize="@dimen/majorText" />
+
+            <TextView
+                visible="@{item.des!=null}"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@{item.des,default=des}"
+                android:textColor="@color/minorText"
+                android:textSize="@dimen/minorText" />
+
+        </LinearLayout>
+
+
+        <TextView
+            backgroundStroke="@{item.strokeColor}"
+            backgroundStrokeWidth="@{1}"
+            paddingHorizontalDp="@{8}"
+            paddingVerticalDp="@{4}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:foreground="?selectableItemBackground"
+            android:gravity="center"
+            android:hint="@string/mutual_subscribe"
+            android:onClick="@{()->item.switchFollow()}"
+            android:text="@{item.actionText,default=follow}"
+            android:textColor="@{item.strokeColor}" />
+
+    </LinearLayout>
+</layout>

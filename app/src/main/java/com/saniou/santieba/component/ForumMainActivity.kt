@@ -1,22 +1,21 @@
 package com.saniou.santieba.component
 
-import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.ToastUtils
 import com.saniou.santieba.R
-import com.saniou.santieba.constant.FORUM_SCHEME
 import com.saniou.santieba.constant.MENU_COLOR
 import com.saniou.santieba.constant.TIEBA_FORUM_HOST
+import com.saniou.santieba.constant.TIEBA_RANK_HOST
 import com.saniou.santieba.databinding.ActivityForumMainBinding
 import com.saniou.santieba.kts.tintDrawable
 import com.saniou.santieba.utils.openBrowser
+import com.saniou.santieba.utils.tiebaForumLinkFilter
 import com.saniou.santieba.viewmodel.ForumMainViewModel
 import com.sanniou.support.extensions.getViewModel
 import com.sanniou.support.utils.ResourcesUtils
-import java.net.URLDecoder
 
 class ForumMainActivity : SanBaseActivity<ForumMainViewModel>() {
 
@@ -28,12 +27,10 @@ class ForumMainActivity : SanBaseActivity<ForumMainViewModel>() {
 
         binding as ActivityForumMainBinding
 
-        tiebaLinkFilter()
+        tiebaForumLinkFilter(intent)
 
         setSupportActionBar(binding.actionBar)
-        binding.actionBar.setOnClickListener {
-            binding.recycler.smoothScrollToPosition(0)
-        }
+
         binding.actionBar.setNavigationOnClickListener {
             onBackPressed()
         }
@@ -71,19 +68,6 @@ class ForumMainActivity : SanBaseActivity<ForumMainViewModel>() {
         }
     }
 
-    private fun tiebaLinkFilter() {
-        val intent = intent
-        if (Intent.ACTION_DEFAULT == intent.action) {
-            if (FORUM_SCHEME == intent.scheme) {
-                val decode = URLDecoder.decode(intent.data!!.toString(), "UTF-8")
-                intent.putExtra(
-                    "name",
-                    decode.substring(decode.indexOf("kw=") + 3, decode.length)
-                )
-            }
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.forum_detail, menu)
         return true
@@ -102,6 +86,9 @@ class ForumMainActivity : SanBaseActivity<ForumMainViewModel>() {
             }
             R.id.menu_browser -> {
                 openBrowser(this, TIEBA_FORUM_HOST + viewModel.forumName.get())
+            }
+            R.id.menu_rank -> {
+                openBrowser(this, TIEBA_RANK_HOST + viewModel.forumName.get() + "&ie=utf-8")
             }
         }
         return true

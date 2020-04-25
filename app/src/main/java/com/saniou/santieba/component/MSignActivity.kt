@@ -19,7 +19,7 @@ class MSignActivity : SanBaseActivity<MsignViewModel>() {
         binding.forumList
             .addItemDecoration(
                 PinnedHeaderItemDecoration
-                    .Builder(R.layout.item_msign_header)
+                    .Builder(R.layout.item_simple_header)
                     .enableDivider(false)
                     .create()
             )

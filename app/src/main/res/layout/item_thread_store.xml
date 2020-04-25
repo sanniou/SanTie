@@ -20,6 +20,7 @@
 
         <ImageView
             android:id="@+id/thread_avatar"
+            circle="@{true}"
             res="@{item.avatar}"
             toUser="@{item.uid}"
             android:layout_width="50dp"
@@ -32,7 +33,7 @@
         <TextView
             android:id="@+id/thread_name"
             toUser="@{item.uid}"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/view_padding"
             android:layout_marginEnd="@dimen/view_padding"
@@ -41,6 +42,7 @@
             android:text="@{item.name}"
             android:textColor="@color/majorText"
             android:textSize="@dimen/majorText"
+            app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toStartOf="@id/thread_forum"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@id/thread_avatar"
@@ -72,8 +74,11 @@
 
         <TextView
             android:id="@+id/thread_forum"
+            backgroundStroke="@{@color/design_orange}"
+            backgroundStrokeWidthDP="@{1}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/view_inside_padding"
             android:text="@{item.forum,default=thread_forum}"
             android:textColor="@color/design_orange"
             android:textSize="@dimen/majorText"
@@ -100,6 +105,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/thread_title"
             tools:src="@drawable/ali_003" />
+
+
+        <TextView
+            android:id="@+id/update_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_padding"
+            android:text="@{item.updateInfo,default=updateInfo}"
+            android:textColor="@{item.notify?@color/design_red:@color/minorText}"
+            android:textSize="@dimen/minorText"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="@id/replay_count"
+            app:layout_constraintEnd_toStartOf="@id/repay_icon"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/replay_count" />
 
         <TextView
             android:id="@+id/replay_count"

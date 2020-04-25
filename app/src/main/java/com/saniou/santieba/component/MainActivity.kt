@@ -20,8 +20,17 @@ class MainActivity : SanBaseActivity<MainViewModel>() {
 
         viewModel.observeEventInt(this, Observer {
             when (it) {
+                0 -> {
+                    toPostsList(viewModel.mID)
+                }
+                1 -> {
+                    toFansList()
+                }
+                2 -> {
+                    toFollowsList()
+                }
                 3 -> {
-                    startActivityEx(StoreActivity::class.java, "UID", viewModel.mID)
+                    toStoreList(viewModel.mID)
                 }
                 4 -> {
                     startActivityEx(SearchActivity::class.java, "UID", viewModel.mID)

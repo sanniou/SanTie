@@ -1,6 +1,7 @@
 package com.saniou.santieba.api.bean
 
 import com.saniou.santieba.api.TiebaRequest
+import com.sanniou.support.moshi.IgnoreJsonString2Json
 import com.sanniou.support.moshi.IgnoreString2Object
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -585,6 +586,64 @@ data class ForumPage(
     )
 
     @JsonClass(generateAdapter = true)
+    data class VideoInfo(
+        @Json(name = "auditing")
+        val auditing: String = "",
+        @Json(name = "format_matched")
+        val formatMatched: String = "",
+        @Json(name = "is_vertical")
+        val isVertical: String = "",
+        @Json(name = "origin_video_url")
+        val originVideoUrl: String = "",
+        @Json(name = "play_count")
+        val playCount: String = "",
+        @Json(name = "thumbnail_height")
+        val thumbnailHeight: String = "",
+        @Json(name = "thumbnail_picid")
+        val thumbnailPicid: String = "",
+        @Json(name = "thumbnail_url")
+        val thumbnailUrl: String = "",
+        @Json(name = "thumbnail_width")
+        val thumbnailWidth: String = "",
+        @Json(name = "video_desc")
+        val videoDesc: List<VideoDesc> = listOf(),
+        @Json(name = "video_duration")
+        val videoDuration: String = "",
+        @Json(name = "video_format")
+        val videoFormat: String = "",
+        @Json(name = "video_from")
+        val videoFrom: String = "",
+        @Json(name = "video_height")
+        val videoHeight: String = "",
+        @Json(name = "video_length")
+        val videoLength: String = "",
+        @Json(name = "video_log_id")
+        val videoLogId: String = "",
+        @Json(name = "video_md5")
+        val videoMd5: String = "",
+        @Json(name = "video_type")
+        val videoType: String = "",
+        @Json(name = "video_url")
+        val videoUrl: String = "",
+        @Json(name = "video_width")
+        val videoWidth: String = ""
+    ) {
+        @JsonClass(generateAdapter = true)
+        data class VideoDesc(
+            @Json(name = "video_height")
+            val videoHeight: String = "",
+            @Json(name = "video_id")
+            val videoId: String = "",
+            @Json(name = "video_size")
+            val videoSize: String = "",
+            @Json(name = "video_url")
+            val videoUrl: String = "",
+            @Json(name = "video_width")
+            val videoWidth: String = ""
+        )
+    }
+
+    @JsonClass(generateAdapter = true)
     data class StarEnter(
         @Json(name = "icon")
         val icon: String = "",
@@ -620,6 +679,8 @@ data class ForumPage(
         val disagreeNum: String = "",
         @Json(name = "fid")
         val fid: String = "",
+        @Json(name = "video_info")
+        val videoInfo: VideoInfo = VideoInfo(),
         @Json(name = "first_post_content")
         val firstPostContent: List<FirstPostContent> = listOf(),
         @Json(name = "first_post_id")
@@ -704,7 +765,7 @@ data class ForumPage(
         val viewNum: String = "",
         @Json(name = "voice_info")
         val voiceInfo: List<VoiceInfo> = listOf(),
-        @IgnoreString2Object.IgnoreJsonString2Object
+        @IgnoreJsonString2Json
         @Json(name = "zan")
         val zan: Any = Any()
     ) {
@@ -953,7 +1014,9 @@ data class ForumPage(
             @Json(name = "type")
             val type: String = "",
             @Json(name = "src")
-            val src: String = ""
+            val src: String = "",
+            @Json(name = "vpic")
+            val vpic: String = ""
         )
     }
 

@@ -22,6 +22,9 @@ class UserMainViewModel : BaseListViewModel() {
     val likeCount = ObservableField("")
     val concernCount = ObservableField("")
     val userName = ObservableField("")
+    val forumAge = ObservableField("")
+    val distance = ObservableField("")
+    val distanceTime = ObservableField("")
 
     fun init(uid: String) {
         this.uid = uid
@@ -40,7 +43,10 @@ class UserMainViewModel : BaseListViewModel() {
                         fansCount.set(fansNum)
                         concernCount.set(concernNum)
                         likeCount.set(likeForumNum)
+                        forumAge.set(tbAge)
                     }
+                    distance.set(it.tainfo.distanceinfo.distance)
+                    distanceTime.set(getDisplayTime(it.tainfo.distanceinfo.time))
                     it.postList.forEach { post ->
                         add(
                             FriendThreadItem(

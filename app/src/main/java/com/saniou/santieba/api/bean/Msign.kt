@@ -11,8 +11,8 @@ data class Msign(
     val error: Error = Error(),
     @Json(name = "error_code")
     val errorCode: String = "",
-    @Json(name = "info")
-    val info: String = "",
+    // @Json(name = "info")
+    // val info: Any = Any(),
     @Json(name = "is_timeout")
     val isTimeout: String = "",
     @Json(name = "logid")

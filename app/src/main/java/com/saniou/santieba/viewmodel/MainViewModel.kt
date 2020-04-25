@@ -6,6 +6,7 @@ import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.saniou.santieba.R
 import com.saniou.santieba.api.TiebaRequest
+import com.saniou.santieba.component.FeedActivity
 import com.saniou.santieba.component.MSignActivity
 import com.saniou.santieba.constant.PORTRAIT_HOST
 import com.saniou.santieba.kts.toBool
@@ -25,10 +26,15 @@ class MainViewModel : BaseListViewModel() {
         ActivityUtils.startActivity(MSignActivity::class.java)
     }
 
+    fun toFeed() {
+        ActivityUtils.startActivity(FeedActivity::class.java)
+    }
+
     fun getFavorite() {
         clear()
         launch {
             try {
+
                 TiebaRequest.profile()
                     .let {
                         it.user.run {
@@ -58,6 +64,7 @@ class MainViewModel : BaseListViewModel() {
                             }
                         sendEvent(5)
                     }
+                val userPost = TiebaRequest.userPosts(mID, "1")
             } catch (e: Exception) {
                 sendEvent(6)
                 ToastUtils.showShort(ExceptionEngine.handleMessage(e))
@@ -71,5 +78,17 @@ class MainViewModel : BaseListViewModel() {
 
     fun toSearch() {
         sendEvent(4)
+    }
+
+    fun toFollows() {
+        sendEvent(2)
+    }
+
+    fun toFans() {
+        sendEvent(1)
+    }
+
+    fun toPosts() {
+        sendEvent(0)
     }
 }

@@ -11,10 +11,12 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.blankj.utilcode.util.KeyboardUtils
 import com.saniou.santieba.R
+import com.saniou.santieba.constant.BOOLEAN_TRUE
 import com.saniou.santieba.viewmodel.SearchViewModel
 import com.saniou.santieba.vo.SearchForumItem
 import com.saniou.santieba.vo.SearchThreadItem
-import com.sanniou.multiitemkit.MultiClickAdapter
+import com.sanniou.multiitem.MultiItemAdapter
+import com.sanniou.multiitemkit.ItemClickHelper
 import com.sanniou.multiitemkit.OnItemClickListener
 import com.sanniou.multiitemkit.decoration.VerticalItemDecoration
 import com.sanniou.multiitemkit.drawable.DividerDrawable
@@ -75,25 +77,25 @@ class SearchActivity : SanBaseActivity<SearchViewModel>() {
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
             return RecyclerView(this@SearchActivity).apply {
                 val listAdapter =
-                    MultiClickAdapter(if (position == 0) viewModel.forumList else viewModel.threadList)
-                listAdapter.itemClickListener = OnItemClickListener {
-                    if (position == 0) {
-                        (it.item as SearchForumItem).run {
-                            val intent = Intent(this@SearchActivity, ForumMainActivity::class.java)
-                            intent.putExtra("name", fname)
-                            startActivity(intent)
+                    MultiItemAdapter(if (position == 0) viewModel.forumList else viewModel.threadList)
+
+                ItemClickHelper.attachToRecyclerView(this,
+                    OnItemClickListener {
+                        if (position == 0) {
+                            (it.item as SearchForumItem).run {
+                                val intent =
+                                    Intent(this@SearchActivity, ForumMainActivity::class.java)
+                                intent.putExtra("name", fname)
+                                startActivity(intent)
+                            }
+                        } else {
+                            (it.item as SearchThreadItem).run {
+                                toThreadPageList(tid, outside = BOOLEAN_TRUE)
+                            }
                         }
-                    } else {
-                        (it.item as SearchThreadItem).run {
-                            val intent =
-                                Intent(this@SearchActivity, ThreadDetailActivity::class.java)
-                            intent.putExtra("tid", tid)
-                            intent.putExtra("outside", true)
-                            startActivity(intent)
-                        }
-                    }
-                    true
-                }
+                        true
+                    })
+
                 adapter = listAdapter
                 layoutManager = LinearLayoutManager(this@SearchActivity)
                 val drawable = DividerDrawable(

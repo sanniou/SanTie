@@ -6,6 +6,5 @@ import com.squareup.moshi.JsonClass
 data class DataDTO(
     val pid: String,
     val status: String,
-    val tid: String,
-    val type: String
+    val tid: String
 )

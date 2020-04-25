@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.saniou.santieba.vo.SwitchHeaderItem" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/layout_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/view_padding">
+
+        <TextView
+            android:id="@+id/text_des"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@{item.des,default=seddddd}" />
+
+        <TextView
+            android:id="@+id/text_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.switchDes,default=switch}" />
+
+        <ImageView
+            android:id="@+id/icon_switch"
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/view_inside_padding"
+            android:src="@drawable/ic_switch" />
+    </LinearLayout>
+</layout>

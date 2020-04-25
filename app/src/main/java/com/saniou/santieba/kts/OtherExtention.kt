@@ -33,7 +33,7 @@ fun getDateToInt(j: Long, i: Int): Int =
 
     }
 
-fun getDisplayTime(j: String) = getDisplayTime(j.toLong())
+fun getDisplayTime(j: String) = if (j.isNotEmpty()) getDisplayTime(j.toLong()) else ""
 
 fun getDisplayTime(j: Long): String {
     val dateToInt = getDateToInt(getStringToDate(getCurrentDate()) / 1000 - j, 1)

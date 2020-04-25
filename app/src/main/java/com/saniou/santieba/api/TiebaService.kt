@@ -1,10 +1,16 @@
 package com.saniou.santieba.api
 
+import com.saniou.santieba.api.bean.Fans
+import com.saniou.santieba.api.bean.FeedThread
 import com.saniou.santieba.api.bean.FloorPage
+import com.saniou.santieba.api.bean.FollowList
+import com.saniou.santieba.api.bean.FollowResponse
+import com.saniou.santieba.api.bean.Follows
 import com.saniou.santieba.api.bean.ForumPage
 import com.saniou.santieba.api.bean.ForumRecommend
 import com.saniou.santieba.api.bean.ForumSug
 import com.saniou.santieba.api.bean.GetForumList
+import com.saniou.santieba.api.bean.LikedForum
 import com.saniou.santieba.api.bean.Msign
 import com.saniou.santieba.api.bean.Profile
 import com.saniou.santieba.api.bean.SearchPost
@@ -12,6 +18,7 @@ import com.saniou.santieba.api.bean.Sign
 import com.saniou.santieba.api.bean.StatusResponse
 import com.saniou.santieba.api.bean.ThreadPage
 import com.saniou.santieba.api.bean.ThreadStore
+import com.saniou.santieba.api.bean.UserPost
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
@@ -33,6 +40,10 @@ interface TiebaService {
     @FormUrlEncoded
     suspend fun unlikeForum(@FieldMap params: Map<String, String>): StatusResponse
 
+    @POST("f/forum/like")
+    @FormUrlEncoded
+    suspend fun likedForum(@FieldMap params: Map<String, String>): LikedForum
+
     @POST("c/forum/like")
     @FormUrlEncoded
     suspend fun likeForum(@FieldMap params: Map<String, String>): StatusResponse
@@ -48,6 +59,14 @@ interface TiebaService {
     @POST("c/thread/add")
     @FormUrlEncoded
     suspend fun addThread(@FieldMap params: Map<String, String>): StatusResponse
+
+    @POST("c/user/follow")
+    @FormUrlEncoded
+    suspend fun userFollow(@FieldMap params: Map<String, String>): FollowResponse
+
+    @POST("c/user/unfollow")
+    @FormUrlEncoded
+    suspend fun unFollow(@FieldMap params: Map<String, String>): FollowResponse
 
     @POST("c/post/add")
     @FormUrlEncoded
@@ -77,13 +96,30 @@ interface TiebaService {
     @FormUrlEncoded
     suspend fun replyme(@FieldMap params: Map<String, String>): StatusResponse
 
+
     @POST("u/feed/atme")
     @FormUrlEncoded
     suspend fun atme(@FieldMap params: Map<String, String>): StatusResponse
 
+    @POST("u/fans/page")
+    @FormUrlEncoded
+    suspend fun fans(@FieldMap params: Map<String, String>): Fans
+
+    @POST("u/follow/page")
+    @FormUrlEncoded
+    suspend fun follows(@FieldMap params: Map<String, String>): Follows
+
+    @POST("u/follow/followList")
+    @FormUrlEncoded
+    suspend fun followList(@FieldMap params: Map<String, String>): FollowList
+
     @POST("u/feed/userpost")
     @FormUrlEncoded
-    suspend fun userPost(@FieldMap params: Map<String, String>): StatusResponse
+    suspend fun userPosts(@FieldMap params: Map<String, String>): UserPost
+
+    @POST("u/feed/forum")
+    @FormUrlEncoded
+    suspend fun feed(@FieldMap params: Map<String, String>): FeedThread
 
     @POST("u/user/profile")
     @FormUrlEncoded

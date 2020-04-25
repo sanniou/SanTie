@@ -5,13 +5,14 @@
 
         <variable
             name="item"
-            type="com.saniou.santieba.vo.MSignHeaderItem" />
+            type="com.saniou.santieba.vo.SimpleHeaderItem" />
     </data>
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/simple_text"
         android:layout_width="match_parent"
-        android:background="@color/config_white"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:background="@color/config_white"
+        android:padding="@dimen/view_padding"
         android:text="@{item.header}" />
 </layout>
