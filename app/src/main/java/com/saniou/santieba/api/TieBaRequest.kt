@@ -579,7 +579,8 @@ object TiebaRequest : TiebaService {
         lzOnly: Boolean = false,
         reverse: Boolean = false,
         mark: String = BOOLEAN_FALSE,
-        page: Int? = null
+        page: Int? = null,
+        storeHead: String = BOOLEAN_FALSE
     ): ThreadPage {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
@@ -610,7 +611,7 @@ object TiebaRequest : TiebaService {
         }
         hashMap["rn"] = RANGE_NUMBER.toString()
         hashMap["q_type"] = "2"
-        hashMap["st_type"] = if (mark == BOOLEAN_TRUE) "store_thread" else "tb_frslist"
+        hashMap["st_type"] = if (storeHead == BOOLEAN_TRUE) "store_thread" else "tb_frslist"
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["with_floor"] = BOOLEAN_TRUE
         hashMap["sign"] = calsign(hashMap)

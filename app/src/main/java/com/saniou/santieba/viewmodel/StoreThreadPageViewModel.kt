@@ -1,38 +1,14 @@
 package com.saniou.santieba.viewmodel
 
-import com.blankj.utilcode.util.ColorUtils
-import com.blankj.utilcode.util.NetworkUtils
-import com.blankj.utilcode.util.SpanUtils
-import com.blankj.utilcode.util.ToastUtils
-import com.saniou.santieba.R
 import com.saniou.santieba.api.TiebaRequest
-import com.saniou.santieba.api.bean.Content
 import com.saniou.santieba.api.bean.ThreadPage
-import com.saniou.santieba.constant.ATME
 import com.saniou.santieba.constant.BOOLEAN_FALSE
 import com.saniou.santieba.constant.BOOLEAN_TRUE
-import com.saniou.santieba.constant.IMAGE
 import com.saniou.santieba.constant.PORTRAIT_HOST
-import com.saniou.santieba.constant.TEXT
-import com.saniou.santieba.constant.TIEBA_VOICE_HOST
-import com.saniou.santieba.constant.VIDEO
-import com.saniou.santieba.constant.VOICE
 import com.saniou.santieba.kts.getDisplayTime
 import com.saniou.santieba.kts.toBool
-import com.saniou.santieba.utils.analyzeText
-import com.saniou.santieba.vo.CommentImageItem
-import com.saniou.santieba.vo.CommentTextItem
-import com.saniou.santieba.vo.CommentVideoItem
-import com.saniou.santieba.vo.CommentVoiceItem
-import com.saniou.santieba.vo.DividerItem
-import com.saniou.santieba.vo.FloorBottomItem
 import com.saniou.santieba.vo.FloorTopItem
-import com.saniou.santieba.vo.SubCommentItem
 import com.saniou.santieba.vo.ThreadTitleItem
-import com.sanniou.support.exception.ExceptionEngine
-import com.sanniou.support.extensions.orEmpty
-import com.sanniou.support.lifecycle.NonNullLiveData
-import com.sanniou.support.utils.ResourcesUtils
 
 enum class MARK_STATE(var value: String) {
     NORMAL("1"),
@@ -42,6 +18,8 @@ enum class MARK_STATE(var value: String) {
 }
 
 class StoreThreadPageViewModel : PageViewModel() {
+
+    override fun getReverseStartPosition() = 5
 
     override fun initParam(param: Map<String, String>) {
         super.initParam(param)
@@ -71,14 +49,13 @@ class StoreThreadPageViewModel : PageViewModel() {
     }
 
     override suspend fun fetchPoint(point: String?): Boolean {
-        val mark = getValueOrDefault("isStore", BOOLEAN_FALSE)
-        setValue("isStore", BOOLEAN_FALSE)
         return TiebaRequest.threadPage(
             tid,
             point,
             lzOly.value,
             reverse.value,
-            if (!headerAdded && !reverse.value && mark.toBool()) BOOLEAN_TRUE else BOOLEAN_FALSE
+            if (!headerAdded && !reverse.value) BOOLEAN_TRUE else BOOLEAN_FALSE,
+            storeHead = if (!headerAdded) BOOLEAN_TRUE else BOOLEAN_FALSE
         )
             .let { threadDetail ->
 
@@ -111,11 +88,9 @@ class StoreThreadPageViewModel : PageViewModel() {
                         )
 
                     }
-                    // if mark is true,put headerAdded true ,or put this when put postList
-                    if (mark == BOOLEAN_TRUE) {
-                        headerAdded = true
-                        addHeaderContent(null, emptyList(), threadDetail)
-                    }
+
+                    headerAdded = true
+                    addHeaderContent(null, emptyList(), threadDetail)
                 }
 
                 //帖子列表
@@ -124,30 +99,8 @@ class StoreThreadPageViewModel : PageViewModel() {
 
                         val currentUser = userMap[post.authorId]!!
 
-                        // mark header
-                        if (!headerAdded) {
-                            headerAdded = true
-                            if (!reverse.value) {
-                                addHeaderContent(post.id, post.content, threadDetail)
-                                return@forEach
-                            } else {
-                                addHeaderContent(null, emptyList(), threadDetail)
-                            }
-                        }
-
                         // 帖头
-                        addItem(
-                            FloorTopItem(
-                                post.floor.toInt(),
-                                "$PORTRAIT_HOST${currentUser.portrait}",
-                                "${currentUser.nameShow}(${currentUser.name})",
-                                currentUser.levelId.toInt(),
-                                getDisplayTime(post.time.toLong()),
-                                currentUser.id,
-                                post.id,
-                                threadDetail.thread.author.id == currentUser.id
-                            )
-                        )
+                        addFloorTop(post, currentUser, threadDetail)
                         // 帖子内容
                         addContent(post.id, post.content)
 

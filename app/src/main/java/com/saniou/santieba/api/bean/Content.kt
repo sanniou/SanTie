@@ -53,7 +53,8 @@ data class Content(
     val src: String = "",
 
     @Json(name = "voice_md5")
-    val voiceMd5: String = ""
+    val voiceMd5: String = "",
+    var isPoster: Boolean = false
 
 )
 

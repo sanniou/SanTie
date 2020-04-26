@@ -3,6 +3,7 @@ package com.saniou.santieba.component
 import android.content.Intent
 import android.view.View
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ActivityUtils
 import com.saniou.santieba.R
 import com.saniou.santieba.constant.BOOLEAN_FALSE
@@ -30,6 +31,8 @@ interface ListItemView<T : ListItemViewModel> {
         binding: ActivityListBinding,
         viewModel: T
     )
+
+    fun getLayoutManager(context: ListItemActivity): RecyclerView.LayoutManager? = null
 }
 
 class ListItemActivity : SanBaseActivity<ListItemViewModel>() {
@@ -43,11 +46,21 @@ class ListItemActivity : SanBaseActivity<ListItemViewModel>() {
 
     override fun onBindingCreated(binding: ViewDataBinding) {
         binding as ActivityListBinding
+        var customerLayoutManager = false
 
         (intent.getSerializableExtra(LIST_VIEW) as? (Class<ListItemView<ListItemViewModel>>))
             ?.run {
-                newInstance().onBinding(this@ListItemActivity, binding, viewModel)
+                newInstance()
+                    .apply {
+                        onBinding(this@ListItemActivity, binding, viewModel)
+                        getLayoutManager(this@ListItemActivity)
+                            ?.apply {
+                                customerLayoutManager = true
+                                binding.recycler.layoutManager = this
+                            }
+                    }
             }
+        binding.customerLayoutManager = customerLayoutManager
 
         binding.actionBar.setNavigationOnClickListener { onBackPressed() }
         if (viewModel.getHeaderType() > 0) {
@@ -84,9 +97,7 @@ fun toForum(forum: String) {
 fun toStoreThreadPageList(
     tid: String,
     pid: String? = null,
-    markState: String = BOOLEAN_FALSE,
-    outside: String? = null,
-    isStore: String? = null
+    markState: String = BOOLEAN_FALSE
 ) {
     toListItemActivity {
         putExtra(LIST_CLASS, StoreThreadPageViewModel::class.java)
@@ -94,12 +105,6 @@ fun toStoreThreadPageList(
         putExtra(LIST_MAP, HashMap<String, String>()
             .apply {
                 put("tid", tid)
-                isStore?.let {
-                    put("isStore", it)
-                }
-                outside?.let {
-                    put("outside", it)
-                }
                 put("markState", markState)
                 pid?.let {
                     put("pid", it)

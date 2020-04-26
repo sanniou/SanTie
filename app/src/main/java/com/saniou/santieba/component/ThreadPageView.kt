@@ -3,6 +3,7 @@ package com.saniou.santieba.component
 import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.IntentUtils
 import com.blankj.utilcode.util.ToastUtils
@@ -15,13 +16,9 @@ import com.saniou.santieba.kts.tintDrawable
 import com.saniou.santieba.utils.ClipboardUtils
 import com.saniou.santieba.utils.openBrowser
 import com.saniou.santieba.viewmodel.PageViewModel
-import com.saniou.santieba.viewmodel.StoreThreadPageViewModel
-import com.saniou.santieba.viewmodel.ThreadPageViewModel
 import com.saniou.santieba.vo.CommentImageItem
 import com.saniou.santieba.vo.FloorTopItem
 import com.saniou.santieba.vo.SubCommentItem
-import com.sanniou.multiitem.AdapterViewHolder
-import com.sanniou.multiitem.DataItem
 import com.sanniou.multiitem.MultiItemAdapter
 import com.sanniou.multiitemkit.ItemClickHelper
 import com.sanniou.multiitemkit.OnItemClickListener
@@ -29,11 +26,27 @@ import com.sanniou.support.utils.ResourcesUtils
 
 class ThreadPageView : ListItemView<PageViewModel> {
 
+    var top: Int = 0
+    var viewHolder: RecyclerView.ViewHolder? = null
+
     override fun onBinding(
         context: ListItemActivity,
         binding: ActivityListBinding,
         viewModel: PageViewModel
     ) {
+
+        viewModel.reverseLayoutPosition.observe(context, Observer {
+            when (it) {
+                -1 -> top = binding.recycler
+                    .findViewHolderForAdapterPosition(viewModel.getReverseStartPosition())
+                    .apply { viewHolder = this }
+                    ?.itemView?.run { top } ?: 0
+
+                else -> (binding.recycler.layoutManager as LinearLayoutManager)
+                    .scrollToPositionWithOffset(viewHolder!!.adapterPosition, top)
+            }
+
+        })
 
         viewModel.store.observe(context, Observer {
             binding.actionBar.menu.findItem(R.id.menu_store).icon =

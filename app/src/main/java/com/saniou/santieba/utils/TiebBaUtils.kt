@@ -8,10 +8,12 @@ import android.text.style.ClickableSpan
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.blankj.utilcode.util.ActivityUtils
+import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.SpanUtils
 import com.blankj.utilcode.util.Utils
 import com.saniou.santieba.R
 import com.saniou.santieba.api.bean.Content
+import com.saniou.santieba.api.bean.ThreadPage
 import com.saniou.santieba.component.UserMainActivity
 import com.saniou.santieba.component.toForum
 import com.saniou.santieba.component.toThreadPageList
@@ -57,6 +59,82 @@ fun tiebaThreadLinkFilter(intent: Intent): Boolean {
         }
     }
     return false;
+}
+
+fun analyzeSubText(
+    name: String,
+    subPoster: ThreadPage.Post.SubPostContent,
+    isPoster: Boolean,
+    contents: List<Content>
+): MutableList<Content> {
+    fun createSpan() = SpanUtils()
+        .append(if (isPoster) "           " else "")
+        .append("$name:")
+        .setForegroundColor(ColorUtils.getColor(R.color.design_blue))
+        .setClickSpan(LinkClickSpan(TIEBA_USER_HOST + subPoster.id))
+
+    val list = mutableListOf<Content>()
+    var charSpan: SpanUtils? = null
+    contents.forEach {
+        when (it.type) {
+            TEXT -> {
+                charSpan ?: run {
+                    charSpan = createSpan()
+                }
+                charSpan?.append(it.text)
+            }
+            LINK -> {
+                charSpan ?: run {
+                    charSpan = createSpan()
+                }
+                charSpan?.append(it.text)
+                    ?.setForegroundColor(ResourcesUtils.getColor(R.color.colorPrimary))
+                    ?.setClickSpan(LinkClickSpan(it.text.toString()))
+            }
+            EMOJI -> {
+                charSpan ?: run {
+                    charSpan = createSpan()
+                }
+                getDrawable(it.text.toString())?.run {
+                    charSpan?.appendImage(this)
+                } ?: run {
+                    charSpan?.append("[${it.c}]")
+                }
+            }
+            ATME -> {
+                charSpan ?: run {
+                    charSpan = createSpan()
+                }
+                charSpan?.append(it.text)
+                    ?.setForegroundColor(ResourcesUtils.getColor(R.color.design_blue))
+                    ?.setClickSpan(LinkClickSpan(TIEBA_USER_HOST + it.uid))
+            }
+
+            else -> {
+                charSpan?.run {
+                    list.add(
+                        Content(
+                            text = charSpan!!.create(),
+                            type = TEXT
+                        )
+                    )
+                    charSpan = null
+                }
+                list.add(it)
+            }
+        }
+    }
+    charSpan?.run {
+        list.add(
+            Content(
+                text = charSpan!!.create(),
+                type = TEXT,
+                isPoster = isPoster
+            )
+        )
+        charSpan = null
+    }
+    return list
 }
 
 fun analyzeText(contents: List<Content>): MutableList<Content> {

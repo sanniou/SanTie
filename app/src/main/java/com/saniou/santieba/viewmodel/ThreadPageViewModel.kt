@@ -1,5 +1,6 @@
 package com.saniou.santieba.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.NetworkUtils
 import com.blankj.utilcode.util.SpanUtils
@@ -19,6 +20,7 @@ import com.saniou.santieba.constant.VOICE
 import com.saniou.santieba.kts.getDisplayTime
 import com.saniou.santieba.kts.toBool
 import com.saniou.santieba.utils.LinkClickSpan
+import com.saniou.santieba.utils.analyzeSubText
 import com.saniou.santieba.utils.analyzeText
 import com.saniou.santieba.vo.CommentImageItem
 import com.saniou.santieba.vo.CommentTextItem
@@ -29,6 +31,9 @@ import com.saniou.santieba.vo.FloorBottomItem
 import com.saniou.santieba.vo.FloorTopItem
 import com.saniou.santieba.vo.SubCommentItem
 import com.saniou.santieba.vo.ThreadTitleItem
+import com.sanniou.multiitem.DataItem
+import com.sanniou.multiitemkit.vo.LoadMoreItem
+import com.sanniou.multiitemkit.vo.NonItem
 import com.sanniou.support.exception.ExceptionEngine
 import com.sanniou.support.extensions.orEmpty
 import com.sanniou.support.lifecycle.NonNullLiveData
@@ -42,8 +47,13 @@ abstract class PageViewModel : PointAutoListItemViewModel() {
     var store = NonNullLiveData(false)
     var lzOly = NonNullLiveData(false)
     var reverse = NonNullLiveData(false)
-
-    var headerAdded = false;
+    var reverseLayoutPosition = MutableLiveData<Int>()
+    var headerAdded = false
+    private val reverseLoad = LoadMoreItem {
+        fetchReverseMore()
+    }.apply {
+        autoLoad = false
+    }
 
     override fun getDividerHeight() = 0
 
@@ -108,61 +118,54 @@ abstract class PageViewModel : PointAutoListItemViewModel() {
                 ResourcesUtils.getColor(R.color.shadowColor)
             )
         )
+        if (reverse.value) {
+            addItem(reverseLoad)
+        }
     }
 
-    protected fun addContent(pid: String?, contents: List<Content>, first: Boolean = false) {
-        if (contents.isEmpty()) {
-            return
-        }
-        updatePoint(pid)
-        analyzeText(contents)
-            .forEach {
-                when (it.type) {
-                    TEXT -> {
-                        addItem(CommentTextItem(it.text, first))
-                    }
-                    VIDEO -> {
-                        addItem(
-                            CommentVideoItem(
-                                it.src,
-                                it.link.orEmpty(it.text.toString())
-                            )
-                        )
-                    }
-                    VOICE -> {
-                        addItem(CommentVoiceItem(TIEBA_VOICE_HOST + it.voiceMd5))
-                    }
-                    ATME -> {
-                        addItem(CommentTextItem(it.text, first))
-                    }
-                    IMAGE -> {
-                        var orgImage: String
-                        var image: String
+    abstract fun getReverseStartPosition(): Int
 
-                        val bigCdnSrc = it.bigCdnSrc
+    protected fun fetchReverseMore() {
+        launch {
+            try {
+                val reverseStartPosition = getReverseStartPosition()
+                TiebaRequest.threadPage(
+                    tid,
+                    (list[reverseStartPosition] as FloorTopItem).pid,
+                    lzOly.value,
+                    false
+                ).let { threadPage ->
+                    // 用户列表
+                    val userMap = mutableMapOf<String, ThreadPage.UserX>()
+                    threadPage.userList.forEach {
+                        userMap[it.id] = it
+                    }
 
-                        if (bigCdnSrc.isNotEmpty() && it.originSrc.isEmpty()) {
-                            orgImage = bigCdnSrc
-                            image = orgImage
-                        } else {
-                            orgImage = it.originSrc
-                            image = it.cdnSrc
+                    reverseLayoutPosition.value = -1
+
+                    threadPage.postList
+                        .forEach { post ->
+
+                            val currentUser = userMap[post.authorId]!!
+
+                            addDivider(true)
+
+                            addSubComment(post, userMap, threadPage, true)
+                            // 帖子内容
+                            addContent(post.id, post.content, first = false, reverse = true)
+                            // 帖头
+                            addFloorTop(post, currentUser, threadPage, true)
+
                         }
+                    reverseLayoutPosition.value = 0
 
-                        orgImage = splitImageUrl(orgImage)
-                        image = splitImageUrl(image)
-
-                        imageList.add(orgImage)
-                        addItem(
-                            CommentImageItem(
-                                if (wifiConnected) orgImage else image,
-                                orgImage,
-                                first
-                            )
-                        )
-                    }
+                    reverseLoad.loadSuccess(threadPage.page.hasMore.toBool() && threadPage.postList.isNotEmpty())
                 }
+            } catch (e: Exception) {
+                reverseLoad.loadFailed()
+                ToastUtils.showShort(ExceptionEngine.handleMessage(e))
             }
+        }
     }
 
     private fun splitImageUrl(orgImage: String): String {
@@ -174,76 +177,155 @@ abstract class PageViewModel : PointAutoListItemViewModel() {
         }
     }
 
+    protected fun addFloorTop(
+        post: ThreadPage.Post,
+        currentUser: ThreadPage.UserX,
+        threadDetail: ThreadPage,
+        reverse: Boolean = false
+    ) {
+        addItem(
+            FloorTopItem(
+                post.floor.toInt(),
+                "$PORTRAIT_HOST${currentUser.portrait}",
+                "${currentUser.nameShow}(${currentUser.name})",
+                currentUser.levelId.toInt(),
+                getDisplayTime(post.time.toLong()),
+                currentUser.id,
+                post.id,
+                threadDetail.thread.author.id == currentUser.id
+            ), reverse
+        )
+    }
+
+    protected fun addContent(
+        pid: String?, contents: List<Content>, first: Boolean = false, reverse: Boolean = false
+    ) {
+        if (contents.isEmpty()) {
+            return
+        }
+        if (reverse) {
+
+        } else {
+            updatePoint(pid)
+        }
+        addItems(
+            analyzeText(contents)
+                .map {
+                    when (it.type) {
+                        TEXT -> CommentTextItem(it.text, first)
+
+                        VIDEO -> CommentVideoItem(it.src, it.link.orEmpty(it.text.toString()))
+
+                        VOICE -> CommentVoiceItem(TIEBA_VOICE_HOST + it.voiceMd5)
+
+                        ATME -> CommentTextItem(it.text, first)
+
+                        IMAGE -> {
+                            var orgImage: String
+                            var image: String
+
+                            val bigCdnSrc = it.bigCdnSrc
+
+                            if (bigCdnSrc.isNotEmpty() && it.originSrc.isEmpty()) {
+                                orgImage = bigCdnSrc
+                                image = orgImage
+                            } else {
+                                orgImage = it.originSrc
+                                image = it.cdnSrc
+                            }
+
+                            orgImage = splitImageUrl(orgImage)
+                            image = splitImageUrl(image)
+
+                            imageList.add(orgImage)
+                            CommentImageItem(
+                                if (wifiConnected) orgImage else image,
+                                orgImage,
+                                first
+                            )
+                        }
+                        else -> NonItem()
+                    }
+                }, reverse
+        )
+    }
+
     protected fun addSubComment(
         post: ThreadPage.Post,
         userMap: MutableMap<String, ThreadPage.UserX>,
-        threadDetail: ThreadPage
+        threadDetail: ThreadPage,
+        reverse: Boolean = false
     ) {
         if (post.subPostNumber == 0) {
             return
         }
 
-        addItem(
-            DividerItem(
-                ResourcesUtils.getDimensionPixelSize(R.dimen.default_margin_small),
-                ResourcesUtils.getColor(R.color.config_white)
-            )
-        )
-
-        post.subPostList.subPostList
-            .forEach { subContent ->
+        val lists = post.subPostList.subPostList
+            .flatMap { subContent ->
                 val subPoster = userMap[subContent.authorId]
                 val name =
                     "${subPoster?.nameShow}(${subPoster?.name})"
-                analyzeText(subContent.content)
-                    .forEach {
-                        val isPoster =
-                            threadDetail.thread.author.id == subPoster?.id
-                        addItem(
-                            SubCommentItem(
-                                SpanUtils()
-                                    .append(if (isPoster) "           " else "")
-                                    .append("$name:")
-                                    .setForegroundColor(ColorUtils.getColor(R.color.design_blue))
-                                    .setClickSpan(LinkClickSpan(TIEBA_USER_HOST + subPoster?.id))
-                                    .append(it.text)
-                                    .create()!!,
-                                post.id, tid,
-                                isPoster
-                            )
-                        )
-                    }
+                val isPoster =
+                    threadDetail.thread.author.id == subPoster?.id
+                analyzeSubText(name, subContent, isPoster, subContent.content)
+            }.map {
+                SubCommentItem(it.text, post.id, tid, it.isPoster)
+
             }
-        if (post.subPostNumber > 10) {
-            addItem(
-                SubCommentItem(
-                    "查看全部回复${post.subPostNumber}条",
-                    post.id,
-                    tid
-                )
-            )
-        }
+
+
+        addItems(
+            listOf(
+                DividerItem(
+                    ResourcesUtils.getDimensionPixelSize(R.dimen.default_margin_small),
+                    ResourcesUtils.getColor(R.color.config_white)
+                ),
+                *lists.toTypedArray(),
+                if (post.subPostNumber > post.subPostList.subPostList.size)
+                    SubCommentItem(
+                        "查看全部回复${post.subPostNumber}条",
+                        post.id,
+                        tid
+                    ) else NonItem()
+            ), reverse
+        )
     }
 
-    protected fun addDivider() {
-        addItem(
-            DividerItem(
-                ResourcesUtils.getDimensionPixelSize(R.dimen.default_margin_normal),
-                ResourcesUtils.getColor(R.color.config_white)
-            )
+    protected fun addDivider(reverse: Boolean = false) {
+
+        addItems(
+            listOf(
+                DividerItem(
+                    ResourcesUtils.getDimensionPixelSize(R.dimen.default_margin_normal),
+                    ResourcesUtils.getColor(R.color.config_white)
+                ), DividerItem(
+                    ResourcesUtils.getDimensionPixelSize(R.dimen.divider_height),
+                    ResourcesUtils.getColor(R.color.shadowColor),
+                    ResourcesUtils.getColor(R.color.config_white),
+                    ResourcesUtils.getDimensionPixelSize(R.dimen.default_margin_normal)
+                )
+            ), reverse
         )
-        addItem(
-            DividerItem(
-                ResourcesUtils.getDimensionPixelSize(R.dimen.divider_height),
-                ResourcesUtils.getColor(R.color.shadowColor),
-                ResourcesUtils.getColor(R.color.config_white),
-                ResourcesUtils.getDimensionPixelSize(R.dimen.default_margin_normal)
-            )
+    }
+
+    private fun addItems(elements: Collection<DataItem>, reverse: Boolean = false) {
+        list.addAll(
+            if (reverse) getReverseStartPosition() else list.size - 1, elements
         )
+    }
+
+    private fun addItem(item: DataItem, reverse: Boolean = true) {
+        if (reverse) {
+            add(getReverseStartPosition(), item)
+        } else {
+            super.addItem(item)
+        }
     }
 }
 
 class ThreadPageViewModel : PageViewModel() {
+
+    override fun getReverseStartPosition() = 3
 
     override suspend fun fetchPoint(point: String?): Boolean {
         return TiebaRequest.threadPage(
@@ -303,18 +385,7 @@ class ThreadPageViewModel : PageViewModel() {
                         }
 
                         // 帖头
-                        addItem(
-                            FloorTopItem(
-                                post.floor.toInt(),
-                                "$PORTRAIT_HOST${currentUser.portrait}",
-                                "${currentUser.nameShow}(${currentUser.name})",
-                                currentUser.levelId.toInt(),
-                                getDisplayTime(post.time.toLong()),
-                                currentUser.id,
-                                post.id,
-                                threadDetail.thread.author.id == currentUser.id
-                            )
-                        )
+                        addFloorTop(post, currentUser, threadDetail)
                         // 帖子内容
                         addContent(post.id, post.content)
 
