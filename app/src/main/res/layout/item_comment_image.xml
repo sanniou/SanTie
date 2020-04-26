@@ -6,16 +6,19 @@
         <variable
             name="item"
             type="com.saniou.santieba.vo.CommentImageItem" />
+
+        <import type="com.saniou.santieba.R" />
     </data>
 
     <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-        placeholder="@{item.placeholder}"
+        error="@{R.drawable.ic_placeholder}"
+        placeholder="@{R.drawable.ic_placeholder}"
         res="@{item.image}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/view_padding"
         android:paddingStart="@{item.first?@dimen/default_margin_normal:@dimen/comment_start}"
-        android:paddingTop="@dimen/view_padding"
+        android:layout_marginTop="@dimen/view_padding"
         android:paddingEnd="@dimen/default_margin_normal"
         tools:src="@drawable/image_emoticon" />
 </layout>

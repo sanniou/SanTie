@@ -31,7 +31,7 @@ data class Profile(
     @Json(name = "logid")
     val logid: Long = 0,
     @Json(name = "mask_type")
-    val maskType: Int = MASK_TYPE_ALLOW,
+    val maskType: String = MASK_TYPE_ALLOW.toString(),
     @Json(name = "newest_dynamic_list")
     val newestDynamicList: Any = Any(),
     @Json(name = "nickname_info")

@@ -1,7 +1,9 @@
 package com.saniou.santieba.vo
 
 import androidx.databinding.ObservableBoolean
+import com.blankj.utilcode.util.SnackbarUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.google.android.material.snackbar.Snackbar
 import com.saniou.santieba.R
 import com.saniou.santieba.api.TiebaRequest
 import com.sanniou.support.exception.ExceptionEngine
@@ -39,7 +41,7 @@ abstract class BaseSimpleUserItem(
 
     override fun getItemType() = R.layout.item_simple_user
 
-    fun switchFollow() {
+    open fun switchFollow() {
         launch {
             try {
                 if (followed.get()) TiebaRequest.unFollow(portrait)
@@ -61,11 +63,12 @@ class FansItem(
     uid: String,
     portrait: String,
     followed: Boolean,
-    des: CharSequence? = null
+    des: CharSequence? = null,
+    current: Boolean = true
 ) : BaseSimpleUserItem(avatar, name, uid, portrait, followed, des) {
     override val followedColor = R.color.minorText
     override val unfollowedColor = R.color.design_blue
-    override val followedString = R.string.mutual_subscribe
+    override val followedString = if (current) R.string.mutual_subscribe else R.string.subscribed
     override val unfollowedString = R.string.subscribe
 }
 
@@ -75,10 +78,13 @@ class FollowItem(
     uid: String,
     portrait: String,
     followed: Boolean,
-    des: CharSequence? = null
+    beenFollowed: Boolean,
+    des: CharSequence? = null,
+    current: Boolean = true
 ) : BaseSimpleUserItem(avatar, name, uid, portrait, followed, des) {
     override val followedColor = R.color.minorText
-    override val unfollowedColor = R.color.minorText
-    override val followedString = R.string.mutual_subscribe
+    override val unfollowedColor = R.color.design_blue
+    override val followedString =
+        if (beenFollowed) R.string.mutual_subscribe else R.string.subscribed
     override val unfollowedString = R.string.subscribe
 }

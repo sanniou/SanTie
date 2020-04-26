@@ -71,8 +71,8 @@ data class UserPost(
         val multipleForumList: List<MultipleForum> = listOf(),
         @Json(name = "name_show")
         val nameShow: String = "",
-        @Json(name = "poll_info")
-        val pollInfo: List<Any> = listOf(),
+        // @Json(name = "poll_info")
+        // val pollInfo: List<Any> = listOf(),
         @Json(name = "post_id")
         val postId: String = "",
         @Json(name = "ptype")

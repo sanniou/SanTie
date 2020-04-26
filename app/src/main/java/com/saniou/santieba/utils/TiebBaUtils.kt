@@ -132,7 +132,7 @@ fun getDrawable(name: String): Drawable? {
     return if (resourceId == 0) null else resources.getDrawable(resourceId)
 }
 
-private class LinkClickSpan(val url: String) : ClickableSpan() {
+class LinkClickSpan(val url: String) : ClickableSpan() {
     override fun updateDrawState(ds: TextPaint) {
         ds.isUnderlineText = false
     }

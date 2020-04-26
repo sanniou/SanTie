@@ -6,6 +6,7 @@ import com.saniou.santieba.api.bean.MEDIA_TYPE_PIC
 import com.saniou.santieba.constant.PORTRAIT_HOST
 import com.saniou.santieba.kts.getDisplayTime
 import com.saniou.santieba.kts.toBool
+import com.saniou.santieba.vo.FriendThreadItem
 import com.saniou.santieba.vo.StoreThreadItem
 
 class PostsListViewModel : PageAutoListItemViewModel() {
@@ -21,12 +22,9 @@ class PostsListViewModel : PageAutoListItemViewModel() {
                 post.postList
                     .forEach {
                         addItem(
-                            StoreThreadItem(
-                                "${it.nameShow}(${it.userName})",
+                            FriendThreadItem(
                                 it.forumName,
-                                "$PORTRAIT_HOST${it.userPortrait}",
                                 getDisplayTime(it.createTime),
-                                "",
                                 it.title,
                                 it.media
                                     .getOrNull(0)
@@ -45,11 +43,8 @@ class PostsListViewModel : PageAutoListItemViewModel() {
 
                                     },
                                 it.replyNum,
-                                it.threadId,
-                                it.isPostDeleted.toBool(),
-                                it.userId,
-                                it.postId,
-                                "", false
+                                it.threadId
+
                             )
                         )
                     }

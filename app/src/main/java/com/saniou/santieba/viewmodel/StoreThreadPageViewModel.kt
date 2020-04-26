@@ -151,59 +151,9 @@ class StoreThreadPageViewModel : PageViewModel() {
                         // 帖子内容
                         addContent(post.id, post.content)
 
-                        if (post.subPostNumber != 0) {
-                            post.subPostList.subPostList
-                                .forEach { subContent ->
-                                    val subPoster = userMap[subContent.authorId]
-                                    val name =
-                                        "${subPoster?.nameShow}(${subPoster?.name})"
-                                    analyzeText(subContent.content)
-                                        .forEach {
-                                            val isPoster =
-                                                threadDetail.thread.author.id == subPoster?.id
-                                            addItem(
-                                                SubCommentItem(
-                                                    SpanUtils()
-                                                        .append(if (isPoster) "           " else "")
-                                                        .append("$name:")
-                                                        .setForegroundColor(
-                                                            ColorUtils.getColor(
-                                                                R.color.design_blue
-                                                            )
-                                                        )
-                                                        .append(it.text)
-                                                        .create()!!,
-                                                    post.id, tid,
-                                                    isPoster
-                                                )
-                                            )
-                                        }
-                                }
-                            if (post.subPostNumber > 10) {
-                                addItem(
-                                    SubCommentItem(
-                                        "查看全部回复${post.subPostNumber}条",
-                                        post.id,
-                                        tid
-                                    )
-                                )
-                            }
-                        }
+                        addSubComment(post, userMap, threadDetail)
 
-                        addItem(
-                            DividerItem(
-                                ResourcesUtils.getDimensionPixelSize(R.dimen.default_margin_normal),
-                                ResourcesUtils.getColor(R.color.config_white)
-                            )
-                        )
-                        addItem(
-                            DividerItem(
-                                ResourcesUtils.getDimensionPixelSize(R.dimen.divider_height),
-                                ResourcesUtils.getColor(R.color.shadowColor),
-                                ResourcesUtils.getColor(R.color.config_white),
-                                ResourcesUtils.getDimensionPixelSize(R.dimen.default_margin_normal)
-                            )
-                        )
+                        addDivider()
                     }
 
 

@@ -2,6 +2,7 @@ package com.saniou.santieba.api.bean
 
 import com.saniou.santieba.api.TiebaRequest
 import com.sanniou.support.moshi.IgnoreJsonString2Json
+import com.sanniou.support.moshi.IgnoreJsonString2List
 import com.sanniou.support.moshi.IgnoreString2Object
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -782,6 +783,7 @@ data class ForumPage(
             val num: String = "",
             @Json(name = "last_time")
             val lastTime: String = "",
+            @IgnoreJsonString2List
             @Json(name = "user_id_list")
             val userIdList: List<String> = listOf()
         )

@@ -9,16 +9,16 @@ import com.saniou.santieba.api.TiebaRequest
 import com.saniou.santieba.api.bean.Content
 import com.saniou.santieba.api.bean.ThreadPage
 import com.saniou.santieba.constant.ATME
-import com.saniou.santieba.constant.BOOLEAN_FALSE
-import com.saniou.santieba.constant.BOOLEAN_TRUE
 import com.saniou.santieba.constant.IMAGE
 import com.saniou.santieba.constant.PORTRAIT_HOST
 import com.saniou.santieba.constant.TEXT
+import com.saniou.santieba.constant.TIEBA_USER_HOST
 import com.saniou.santieba.constant.TIEBA_VOICE_HOST
 import com.saniou.santieba.constant.VIDEO
 import com.saniou.santieba.constant.VOICE
 import com.saniou.santieba.kts.getDisplayTime
 import com.saniou.santieba.kts.toBool
+import com.saniou.santieba.utils.LinkClickSpan
 import com.saniou.santieba.utils.analyzeText
 import com.saniou.santieba.vo.CommentImageItem
 import com.saniou.santieba.vo.CommentTextItem
@@ -33,7 +33,6 @@ import com.sanniou.support.exception.ExceptionEngine
 import com.sanniou.support.extensions.orEmpty
 import com.sanniou.support.lifecycle.NonNullLiveData
 import com.sanniou.support.utils.ResourcesUtils
-import org.apache.commons.lang3.ObjectUtils
 
 abstract class PageViewModel : PointAutoListItemViewModel() {
     val imageList = mutableListOf<String>()
@@ -137,8 +136,8 @@ abstract class PageViewModel : PointAutoListItemViewModel() {
                         addItem(CommentTextItem(it.text, first))
                     }
                     IMAGE -> {
-                        val orgImage: String
-                        val image: String
+                        var orgImage: String
+                        var image: String
 
                         val bigCdnSrc = it.bigCdnSrc
 
@@ -149,6 +148,9 @@ abstract class PageViewModel : PointAutoListItemViewModel() {
                             orgImage = it.originSrc
                             image = it.cdnSrc
                         }
+
+                        orgImage = splitImageUrl(orgImage)
+                        image = splitImageUrl(image)
 
                         imageList.add(orgImage)
                         addItem(
@@ -161,6 +163,83 @@ abstract class PageViewModel : PointAutoListItemViewModel() {
                     }
                 }
             }
+    }
+
+    private fun splitImageUrl(orgImage: String): String {
+        val indexOf = orgImage.indexOf("src=")
+        return if (indexOf != -1) {
+            orgImage.substring(indexOf + 4, orgImage.indexOf("gif&") + 3)
+        } else {
+            orgImage
+        }
+    }
+
+    protected fun addSubComment(
+        post: ThreadPage.Post,
+        userMap: MutableMap<String, ThreadPage.UserX>,
+        threadDetail: ThreadPage
+    ) {
+        if (post.subPostNumber == 0) {
+            return
+        }
+
+        addItem(
+            DividerItem(
+                ResourcesUtils.getDimensionPixelSize(R.dimen.default_margin_small),
+                ResourcesUtils.getColor(R.color.config_white)
+            )
+        )
+
+        post.subPostList.subPostList
+            .forEach { subContent ->
+                val subPoster = userMap[subContent.authorId]
+                val name =
+                    "${subPoster?.nameShow}(${subPoster?.name})"
+                analyzeText(subContent.content)
+                    .forEach {
+                        val isPoster =
+                            threadDetail.thread.author.id == subPoster?.id
+                        addItem(
+                            SubCommentItem(
+                                SpanUtils()
+                                    .append(if (isPoster) "           " else "")
+                                    .append("$name:")
+                                    .setForegroundColor(ColorUtils.getColor(R.color.design_blue))
+                                    .setClickSpan(LinkClickSpan(TIEBA_USER_HOST + subPoster?.id))
+                                    .append(it.text)
+                                    .create()!!,
+                                post.id, tid,
+                                isPoster
+                            )
+                        )
+                    }
+            }
+        if (post.subPostNumber > 10) {
+            addItem(
+                SubCommentItem(
+                    "查看全部回复${post.subPostNumber}条",
+                    post.id,
+                    tid
+                )
+            )
+        }
+    }
+
+    protected fun addDivider() {
+        addItem(
+            DividerItem(
+                ResourcesUtils.getDimensionPixelSize(R.dimen.default_margin_normal),
+                ResourcesUtils.getColor(R.color.config_white)
+            )
+        )
+        addItem(
+            DividerItem(
+                ResourcesUtils.getDimensionPixelSize(R.dimen.divider_height),
+                ResourcesUtils.getColor(R.color.shadowColor),
+                ResourcesUtils.getColor(R.color.config_white),
+                ResourcesUtils.getDimensionPixelSize(R.dimen.default_margin_normal)
+            )
+        )
     }
 }
 
@@ -239,59 +318,9 @@ class ThreadPageViewModel : PageViewModel() {
                         // 帖子内容
                         addContent(post.id, post.content)
 
-                        if (post.subPostNumber != 0) {
-                            post.subPostList.subPostList
-                                .forEach { subContent ->
-                                    val subPoster = userMap[subContent.authorId]
-                                    val name =
-                                        "${subPoster?.nameShow}(${subPoster?.name})"
-                                    analyzeText(subContent.content)
-                                        .forEach {
-                                            val isPoster =
-                                                threadDetail.thread.author.id == subPoster?.id
-                                            addItem(
-                                                SubCommentItem(
-                                                    SpanUtils()
-                                                        .append(if (isPoster) "           " else "")
-                                                        .append("$name:")
-                                                        .setForegroundColor(
-                                                            ColorUtils.getColor(
-                                                                R.color.design_blue
-                                                            )
-                                                        )
-                                                        .append(it.text)
-                                                        .create()!!,
-                                                    post.id, tid,
-                                                    isPoster
-                                                )
-                                            )
-                                        }
-                                }
-                            if (post.subPostNumber > 10) {
-                                addItem(
-                                    SubCommentItem(
-                                        "查看全部回复${post.subPostNumber}条",
-                                        post.id,
-                                        tid
-                                    )
-                                )
-                            }
-                        }
+                        addSubComment(post, userMap, threadDetail)
 
-                        addItem(
-                            DividerItem(
-                                ResourcesUtils.getDimensionPixelSize(R.dimen.default_margin_normal),
-                                ResourcesUtils.getColor(R.color.config_white)
-                            )
-                        )
-                        addItem(
-                            DividerItem(
-                                ResourcesUtils.getDimensionPixelSize(R.dimen.divider_height),
-                                ResourcesUtils.getColor(R.color.shadowColor),
-                                ResourcesUtils.getColor(R.color.config_white),
-                                ResourcesUtils.getDimensionPixelSize(R.dimen.default_margin_normal)
-                            )
-                        )
+                        addDivider()
                     }
 
 

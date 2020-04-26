@@ -212,7 +212,7 @@
             app:layout_constraintTop_toBottomOf="@id/fans_hint" />
 
         <ImageView
-            visible="@{viewModel.maskType==1}"
+            visible="@{viewModel.maskType!=1}"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:alpha="0.5"
@@ -223,10 +223,10 @@
             app:layout_constraintTop_toTopOf="@id/forums" />
 
         <ImageView
-            visible="@{viewModel.maskType==1}"
-            android:alpha="0.5"
+            visible="@{viewModel.maskType==3}"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:alpha="0.5"
             android:src="@drawable/ic_lock"
             app:layout_constraintBottom_toBottomOf="@id/thread_hint"
             app:layout_constraintEnd_toEndOf="@id/thread"

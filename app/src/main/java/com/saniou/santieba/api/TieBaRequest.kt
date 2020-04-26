@@ -276,7 +276,7 @@ object TiebaRequest : TiebaService {
 
         return userFollow(hashMap)
             .apply {
-                if (errorCode != ERROR_CODE_SUCCESS || status != 2) {
+                if (errorCode != ERROR_CODE_SUCCESS) {
                     throw ApiErrorException(errorMsg.orEmpty("关注失败"), errorCode.toInt())
                 }
             }

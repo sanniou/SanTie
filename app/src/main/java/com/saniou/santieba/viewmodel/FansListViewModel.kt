@@ -16,8 +16,9 @@ class FansListViewModel : PageAutoListItemViewModel() {
 
     override fun getHeaderType() = R.layout.item_simple_header
 
-    override suspend fun fetchPage(page: Int) =
-        TiebaRequest.fans(getValue("friendId"), page.toString())
+    override suspend fun fetchPage(page: Int): Boolean {
+        val uid = getValue("friendId")
+        return TiebaRequest.fans(uid, page.toString())
             .let { fans ->
                 set(0, SimpleHeaderItem("粉丝${fans.page.totalCount}人"))
 
@@ -29,11 +30,13 @@ class FansListViewModel : PageAutoListItemViewModel() {
                                 "${it.nameShow}(${it.name})",
                                 it.id,
                                 it.portrait,
-                                it.isFriend.toBool(),
-                                it.intro.ifEmpty { null }
+                                it.hasConcerned.toBool(),
+                                it.intro.ifEmpty { null },
+                                current = uid.isEmpty()
                             )
                         )
                     }
                 fans.userList.isNotEmpty()
             }
+    }
 }

@@ -33,12 +33,44 @@ class FollowsListViewModel : PageAutoListItemViewModel() {
     override suspend fun fetchPage(page: Int) =
         TiebaRequest.followList(getValue("uid"), page, tab)
             .let { follows ->
-                set(
-                    0, SwitchHeaderItem(
-                        "${getFollowState()}${follows.totalFollowNum}人",
-                        getFollowState()
-                    )
-                )
+                if (page == 1) {
+                    if (follows.commonFollowList.isNotEmpty()) {
+                        set(
+                            0, SwitchHeaderItem(
+                                "共同关注${follows.commonFollowList.size}人",
+                                getFollowState()
+                            )
+                        )
+                        follows.commonFollowList
+                            .forEach {
+                                addItem(
+                                    FollowItem(
+                                        "$PORTRAIT_HOST${it.portrait}",
+                                        "${it.nameShow}(${it.name})",
+                                        it.id,
+                                        it.portrait,
+                                        it.hasConcerned.toBool(),
+                                        false,
+                                        it.intro
+                                    )
+                                )
+                            }
+
+                        addItem(
+                            SwitchHeaderItem(
+                                "${getFollowState()}${follows.totalFollowNum}人",
+                                getFollowState()
+                            )
+                        )
+                    } else {
+                        set(
+                            0, SwitchHeaderItem(
+                                "${getFollowState()}${follows.totalFollowNum}人",
+                                getFollowState()
+                            )
+                        )
+                    }
+                }
                 follows.followList
                     .forEach {
                         addItem(
@@ -47,6 +79,7 @@ class FollowsListViewModel : PageAutoListItemViewModel() {
                                 "${it.nameShow}(${it.name})",
                                 it.id,
                                 it.portrait,
+                                it.hasConcerned.toBool(),
                                 it.isFriend.toBool(),
                                 it.intro
                             )

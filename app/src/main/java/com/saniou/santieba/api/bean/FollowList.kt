@@ -8,7 +8,7 @@ import com.squareup.moshi.JsonClass
 data class FollowList(
     @IgnoreJsonString2List
     @Json(name = "common_follow_list")
-    val commonFollowList: List<Follow> = listOf(),
+    val commonFollowList: List<CommonFollow> = listOf(),
     @Json(name = "ctime")
     val ctime: Int = 0,
     @Json(name = "error_code")
@@ -29,11 +29,35 @@ data class FollowList(
     val totalFollowNum: String = ""
 ) {
     @JsonClass(generateAdapter = true)
+    data class CommonFollow(
+        @Json(name = "has_concerned")
+        val hasConcerned: String = "",
+        @Json(name = "id")
+        val id: String = "",
+        @Json(name = "intro")
+        val intro: String = "",
+        @Json(name = "live_id")
+        val liveId: String = "",
+        @Json(name = "live_status")
+        val liveStatus: String = "",
+        @Json(name = "name")
+        val name: String = "",
+        @Json(name = "name_show")
+        val nameShow: String = "",
+        @Json(name = "portrait")
+        val portrait: String = "",
+        @Json(name = "portraith")
+        val portraith: String = ""
+    )
+
+    @JsonClass(generateAdapter = true)
     data class Follow(
         @Json(name = "ala_info")
         val alaInfo: Any = Any(),
         @Json(name = "baijiahao_info")
         val baijiahaoInfo: BaijiahaoInfo = BaijiahaoInfo(),
+        @Json(name = "has_concerned")
+        val hasConcerned: String = "1",
         @Json(name = "id")
         val id: String = "",
         @Json(name = "intro")

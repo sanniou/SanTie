@@ -11,14 +11,17 @@ import com.saniou.santieba.kts.getDisplayTime
 import com.saniou.santieba.vo.FriendThreadItem
 import com.sanniou.support.components.BaseListViewModel
 import com.sanniou.support.exception.ExceptionEngine
+import com.sanniou.support.extensions.orEmpty
+import com.sanniou.support.lifecycle.NonNullLiveData
 
 const val MASK_TYPE_ALLOW = 1
+const val MASK_TYPE_FORUM_BLOCK = 2
 const val MASK_TYPE_PRIVATE = 3
 
 class UserMainViewModel : BaseListViewModel() {
 
     var uid: String = "";
-    var maskType: Int = MASK_TYPE_ALLOW
+    var maskType = NonNullLiveData(MASK_TYPE_ALLOW)
     val avatar = ObservableField<Any>(R.drawable.image_emoticon)
     val threadCount = ObservableField("")
     val fansCount = ObservableField("")
@@ -38,11 +41,11 @@ class UserMainViewModel : BaseListViewModel() {
         launch {
             try {
                 TiebaRequest.friendProfile(uid).let {
-                    maskType = it.maskType
+                    maskType.value = it.maskType.toIntOrNull() ?: MASK_TYPE_ALLOW
 
                     it.user.run {
                         avatar.set("$PORTRAIT_HOST$portrait")
-                        threadCount.set(threadNum)
+                        threadCount.set(threadNum.orEmpty("0"))
                         userName.set("$nameShow($name)")
                         fansCount.set(fansNum)
                         concernCount.set(concernNum)

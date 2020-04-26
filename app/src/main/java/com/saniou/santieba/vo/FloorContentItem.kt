@@ -12,7 +12,6 @@ class CommentImageItem(
     var first: Boolean = false
 ) : DataItem {
     override fun getItemType() = R.layout.item_comment_image
-    fun getPlaceholder() = R.drawable.ic_placeholder
 }
 
 class CommentTextItem(var content: CharSequence, var first: Boolean = false) : DataItem {

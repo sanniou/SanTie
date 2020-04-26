@@ -28,14 +28,14 @@ class UserMainActivity : SanBaseActivity<UserMainViewModel>() {
             getStringExtra("uid")
         }?.run {
             binding.forums.setOnClickListener {
-                if (viewModel.maskType == MASK_TYPE_ALLOW) {
+                if (viewModel.maskType.value == MASK_TYPE_ALLOW) {
                     toForumList(this)
                 } else {
                     ToastUtils.showShort("用户已设置隐藏")
                 }
             }
             binding.forumsHint.setOnClickListener {
-                if (viewModel.maskType == MASK_TYPE_ALLOW) {
+                if (viewModel.maskType.value == MASK_TYPE_ALLOW) {
                     toForumList(this)
                 } else {
                     ToastUtils.showShort("用户已设置隐藏")
@@ -54,14 +54,14 @@ class UserMainActivity : SanBaseActivity<UserMainViewModel>() {
                 toFollowsList(this)
             }
             binding.thread.setOnClickListener {
-                if (viewModel.maskType == MASK_TYPE_ALLOW) {
+                if (viewModel.maskType.value != MASK_TYPE_PRIVATE) {
                     toPostsList(this)
                 } else {
                     ToastUtils.showShort("用户已设置隐藏")
                 }
             }
             binding.threadHint.setOnClickListener {
-                if (viewModel.maskType == MASK_TYPE_ALLOW) {
+                if (viewModel.maskType.value != MASK_TYPE_PRIVATE) {
                     toPostsList(this)
                 } else {
                     ToastUtils.showShort("用户已设置隐藏")
