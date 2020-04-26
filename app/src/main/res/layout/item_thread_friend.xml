@@ -56,10 +56,13 @@
 
         <TextView
             android:id="@+id/thread_forum"
+            backgroundStroke="@{@color/design_orange}"
+            backgroundStrokeWidthDP="@{1}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.forum,default=thread_forum}"
             android:layout_marginTop="@dimen/view_padding"
+            android:paddingHorizontal="@dimen/view_inside_padding"
+            android:text="@{item.forum,default=thread_forum}"
             android:textColor="@color/design_orange"
             android:textSize="@dimen/majorText"
             app:layout_constraintStart_toStartOf="parent"

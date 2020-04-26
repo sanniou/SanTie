@@ -65,7 +65,7 @@ class MsignViewModel : BaseListViewModel() {
                                     it.avatar,
                                     "${it.userExp}/${it.needExp}",
                                     "LV${it.userLevel}",
-                                    it.contSignNum.toInt()
+                                    if (it.isSignIn.toBool()) it.contSignNum.toInt() else -1
                                 )
                             )
                         }

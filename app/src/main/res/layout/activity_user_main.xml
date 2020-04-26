@@ -30,7 +30,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/config_white"
-            app:layout_constraintBottom_toBottomOf="@id/forum_hint"
+            app:layout_constraintBottom_toBottomOf="@id/forums_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/action_bar"
@@ -88,7 +88,6 @@
             app:layout_constraintTop_toBottomOf="@id/distance"
             tools:text="@string/app_name" />
 
-
         <TextView
             android:id="@+id/forums"
             android:layout_width="0dp"
@@ -102,7 +101,7 @@
             tools:text="{viewModel.likeCount}" />
 
         <TextView
-            android:id="@+id/forum_hint"
+            android:id="@+id/forums_hint"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/view_inside_padding"
@@ -168,7 +167,7 @@
             tools:text="{viewModel.threadCount}" />
 
         <TextView
-            android:id="@+id/friends_hint"
+            android:id="@+id/follows_hint"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/view_inside_padding"
@@ -177,6 +176,62 @@
             app:layout_constraintEnd_toEndOf="@id/follows"
             app:layout_constraintStart_toStartOf="@id/follows"
             app:layout_constraintTop_toBottomOf="@id/follows" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@color/shadowColor"
+            app:layout_constraintBottom_toBottomOf="@id/fans_hint"
+            app:layout_constraintEnd_toStartOf="@id/thread"
+            app:layout_constraintStart_toEndOf="@id/forums"
+            app:layout_constraintTop_toTopOf="@id/forums" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@color/shadowColor"
+            app:layout_constraintBottom_toBottomOf="@id/fans_hint"
+            app:layout_constraintEnd_toStartOf="@id/fans"
+            app:layout_constraintStart_toEndOf="@id/thread"
+            app:layout_constraintTop_toTopOf="@id/forums" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@color/shadowColor"
+            app:layout_constraintBottom_toBottomOf="@id/fans_hint"
+            app:layout_constraintEnd_toStartOf="@id/fans"
+            app:layout_constraintStart_toEndOf="@id/follows"
+            app:layout_constraintTop_toTopOf="@id/forums" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/shadowColor"
+            app:layout_constraintBottom_toTopOf="@id/recycler"
+            app:layout_constraintTop_toBottomOf="@id/fans_hint" />
+
+        <ImageView
+            visible="@{viewModel.maskType==1}"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:alpha="0.5"
+            android:src="@drawable/ic_lock"
+            app:layout_constraintBottom_toBottomOf="@id/forums_hint"
+            app:layout_constraintEnd_toEndOf="@id/forums"
+            app:layout_constraintStart_toStartOf="@id/forums"
+            app:layout_constraintTop_toTopOf="@id/forums" />
+
+        <ImageView
+            visible="@{viewModel.maskType==1}"
+            android:alpha="0.5"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_lock"
+            app:layout_constraintBottom_toBottomOf="@id/thread_hint"
+            app:layout_constraintEnd_toEndOf="@id/thread"
+            app:layout_constraintStart_toStartOf="@id/thread"
+            app:layout_constraintTop_toTopOf="@id/thread" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
@@ -187,6 +242,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/view_inside_padding"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/forum_hint" />
+            app:layout_constraintTop_toBottomOf="@id/forums_hint"
+            app:layout_goneMarginTop="@dimen/bar_height" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

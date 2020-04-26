@@ -652,9 +652,6 @@ object TiebaRequest : TiebaService {
         return subFloor(hashMap)
     }
 
-    override suspend fun addStore(@FieldMap params: Map<String, String>) =
-        tiebaService.addStore(params)
-
     suspend fun rmStore(tid: String): StatusResponse {
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = this.BDUSS
@@ -669,10 +666,18 @@ object TiebaRequest : TiebaService {
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["sign"] = calsign(hashMap)
         return rmStore(hashMap)
+            .apply {
+                if (errorCode != ERROR_CODE_SUCCESS) {
+                    throw ApiErrorException(errorMsg, errorCode.toInt())
+                }
+            }
     }
 
     override suspend fun rmStore(@FieldMap params: Map<String, String>) =
         tiebaService.rmStore(params)
+
+    override suspend fun addStore(@FieldMap params: Map<String, String>) =
+        tiebaService.addStore(params)
 
     suspend fun addStore(
         tid: String,
@@ -682,7 +687,7 @@ object TiebaRequest : TiebaService {
     ): StatusResponse {
         val dataBeanX = DataDTO(
             pid,
-            when (lzOnly) {
+            when {
                 lzOnly && reverse -> MARK_STATE.SINGLE_REVERSE.value
                 lzOnly && !reverse -> MARK_STATE.SINGLE_NORMAL.value
                 reverse -> MARK_STATE.REVERSE.value
@@ -711,6 +716,11 @@ object TiebaRequest : TiebaService {
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["sign"] = calsign(hashMap)
         return addStore(hashMap)
+            .apply {
+                if (errorCode != ERROR_CODE_SUCCESS) {
+                    throw ApiErrorException(errorMsg, errorCode.toInt())
+                }
+            }
     }
 
     override suspend fun addThread(@FieldMap params: Map<String, String>) =

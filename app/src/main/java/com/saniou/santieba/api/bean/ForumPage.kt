@@ -11,15 +11,15 @@ data class ForumPage(
     @Json(name = "agree_banner")
     val agreeBanner: AgreeBanner = AgreeBanner(),
     @Json(name = "ala_stage_list")
-    val alaStageList: Any = Any(),
+    val alaStageList: List<Any> = listOf(),
     @Json(name = "anti")
     val anti: Anti = Anti(),
     @Json(name = "asp_shown_info")
     val aspShownInfo: String = "",
     @Json(name = "banner_thread_list")
-    val bannerThreadList: Any = Any(),
+    val bannerThreadList: List<Any> = listOf(),
     @Json(name = "business_promot")
-    val businessPromot: Any = Any(),
+    val businessPromot: List<Any> = listOf(),
     @Json(name = "ctime")
     val ctime: Int = 0,
     @Json(name = "error_code")
@@ -57,17 +57,17 @@ data class ForumPage(
     @Json(name = "private_forum_active_info")
     val privateForumActiveInfo: PrivateForumActiveInfo = PrivateForumActiveInfo(),
     @Json(name = "recom_post_topic")
-    val recomPostTopic: Any = Any(),
+    val recomPostTopic: List<Any> = listOf(),
     @Json(name = "server_time")
     val serverTime: String = "",
     @Json(name = "smart_app_avatar")
-    val smartAppAvatar: Any = Any(),
+    val smartAppAvatar: List<Any> = listOf(),
     @Json(name = "sort_type")
     val sortType: String = "",
     @Json(name = "star_enter")
     val starEnter: List<StarEnter> = listOf(),
     @Json(name = "thread_id_list")
-    val threadIdList: Any = Any(),
+    val threadIdList: List<Any> = listOf(),
     @Json(name = "thread_list")
     val threadList: List<Thread> = listOf(),
     @Json(name = "time")
@@ -192,9 +192,9 @@ data class ForumPage(
         @Json(name = "avatar")
         val avatar: String = "",
         @Json(name = "badges")
-        val badges: Any = Any(),
+        val badges: List<Any> = listOf(),
         @Json(name = "banner")
-        val banner: Any = Any(),
+        val banner: List<Any> = listOf(),
         @Json(name = "banner_list")
         val bannerList: BannerList = BannerList(),
         @Json(name = "can_use_accelerate")
@@ -210,9 +210,11 @@ data class ForumPage(
         @Json(name = "forum_game_label")
         val forumGameLabel: String = "",
         @Json(name = "forum_sign_calendar")
-        val forumSignCalendar: Any = Any(),
+        val forumSignCalendar: List<Any> = listOf(),
         @Json(name = "forumvip_show_icon")
         val forumvipShowIcon: ForumvipShowIcon = ForumvipShowIcon(),
+        @Json(name = "game_card")
+        val gameCard: List<Any> = listOf(),
         @Json(name = "good_classify")
         val goodClassify: List<GoodClassify> = listOf(),
         @Json(name = "has_frs_star")
@@ -266,7 +268,7 @@ data class ForumPage(
         @Json(name = "tids")
         val tids: String = "",
         @Json(name = "top_notice")
-        val topNotice: Any = Any(),
+        val topNotice: List<Any> = listOf(),
         @Json(name = "user_level")
         val userLevel: String = "",
         @Json(name = "zhibo")
@@ -283,7 +285,7 @@ data class ForumPage(
         @JsonClass(generateAdapter = true)
         data class BannerList(
             @Json(name = "app")
-            val app: Any = Any()
+            val app: List<Any> = listOf()
         )
 
         @JsonClass(generateAdapter = true)
@@ -534,7 +536,7 @@ data class ForumPage(
         @Json(name = "has_frs_star")
         val hasFrsStar: String = "",
         @Json(name = "trade")
-        val trade: Any = Any()
+        val trade: List<Any> = listOf()
     )
 
     @JsonClass(generateAdapter = true)
@@ -670,7 +672,7 @@ data class ForumPage(
         @Json(name = "author")
         val author: Author = Author(),
         @Json(name = "book_chapter")
-        val bookChapter: Any = Any(),
+        val bookChapter: List<Any> = listOf(),
         @Json(name = "comment_num")
         val commentNum: String = "",
         @Json(name = "create_time")
@@ -733,8 +735,8 @@ data class ForumPage(
         val lastTime: String = "",
         @Json(name = "last_time_int")
         val lastTimeInt: String = "",
-//        @Json(name = "location")
-//        val location: Any = Any(),
+        // @Json(name = "location")
+        // val location: List<Any> = listOf(),
         @Json(name = "media")
         val media: List<Any> = listOf(),
         @Json(name = "media_num")
@@ -749,6 +751,10 @@ data class ForumPage(
         val shareNum: String = "",
         @Json(name = "t_share_img")
         val tShareImg: String = "",
+        @Json(name = "tab_id")
+        val tabId: String = "",
+        @Json(name = "tab_name")
+        val tabName: String = "",
         @Json(name = "thread_id")
         val threadId: String = "",
         @Json(name = "thread_type")
@@ -767,8 +773,19 @@ data class ForumPage(
         val voiceInfo: List<VoiceInfo> = listOf(),
         @IgnoreJsonString2Json
         @Json(name = "zan")
-        val zan: Any = Any()
+        val zan: Zan = Zan()
     ) {
+
+        @JsonClass(generateAdapter = true)
+        data class Zan(
+            @Json(name = "num")
+            val num: String = "",
+            @Json(name = "last_time")
+            val lastTime: String = "",
+            @Json(name = "user_id_list")
+            val userIdList: List<String> = listOf()
+        )
+
         @JsonClass(generateAdapter = true)
         data class VoiceInfo(
             @Json(name = "type")
@@ -847,10 +864,10 @@ data class ForumPage(
             val sealPrefix: String = "",
             @Json(name = "sex")
             val sex: String = "",
-            @Json(name = "tb_vip")
-            val tbVip: Any = Any(),
-//            @Json(name = "theme_card")
-//            val themeCard: Any = Any(),
+            // @Json(name = "tb_vip")
+            // val tbVip: List<Any> = listOf(),
+            // @Json(name = "theme_card")
+            // val themeCard: List<Any> = listOf(),
             @Json(name = "tshow_icon")
             val tshowIcon: List<TshowIcon> = listOf(),
             @Json(name = "type")
@@ -864,8 +881,8 @@ data class ForumPage(
                 val lat: String = "",
                 @Json(name = "lng")
                 val lng: String = "",
-                @Json(name = "location")
-                val location: String = "",
+                // @Json(name = "location")
+                // val location: String = "",
                 @Json(name = "show_name")
                 val showName: String = ""
             )
@@ -1005,6 +1022,10 @@ data class ForumPage(
             val bigPic: String = "",
             @Json(name = "is_long_pic")
             val isLongPic: String = "",
+            @Json(name = "origin_pic")
+            val originPic: String = "",
+            @Json(name = "origin_size")
+            val originSize: String = "",
             @Json(name = "post_id")
             val postId: String = "",
             @Json(name = "show_original_btn")
@@ -1081,6 +1102,8 @@ data class ForumPage(
             val displayName: String = "",
             @Json(name = "duty")
             val duty: String = "",
+            @Json(name = "forbidden_forumlist")
+            val forbiddenForumlist: String = "",
             @Json(name = "free_flag")
             val freeFlag: String = "",
             @Json(name = "global")
@@ -1100,7 +1123,7 @@ data class ForumPage(
             @Json(name = "lbs")
             val lbs: Lbs = Lbs(),
             @Json(name = "mParr_props")
-            val mParrProps: Any = Any(),
+            val mParrProps: List<Any> = listOf(),
             @Json(name = "meizhi_level")
             val meizhiLevel: String = "",
             @Json(name = "new_active_forum")
@@ -1247,7 +1270,7 @@ data class ForumPage(
                         @Json(name = "count")
                         val count: String = "",
                         @Json(name = "forum_list")
-                        val forumList: Any = Any()
+                        val forumList: List<Any> = listOf()
                     )
 
                     @JsonClass(generateAdapter = true)
@@ -1315,7 +1338,7 @@ data class ForumPage(
                 @Json(name = "1")
                 val x1: X1 = X1(),
                 @Json(name = "2")
-                val x2: Any = Any()
+                val x2: List<Any> = listOf()
             ) {
                 @JsonClass(generateAdapter = true)
                 data class X1(
@@ -1390,8 +1413,8 @@ data class ForumPage(
                 val like: String = "",
                 @Json(name = "live")
                 val live: String = "",
-                @Json(name = "location")
-                val location: String = "",
+                // @Json(name = "location")
+                // val location: String = "",
                 @Json(name = "post")
                 val post: String = ""
             )
@@ -1419,7 +1442,7 @@ data class ForumPage(
     @JsonClass(generateAdapter = true)
     data class UserExtend(
         @Json(name = "data")
-        val `data`: Any = Any(),
+        val `data`: List<Any> = listOf(),
         @Json(name = "tips")
         val tips: String = "",
         @Json(name = "user_extend_storey")

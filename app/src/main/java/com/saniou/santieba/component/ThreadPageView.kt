@@ -14,19 +14,25 @@ import com.saniou.santieba.kts.startActivityEx
 import com.saniou.santieba.kts.tintDrawable
 import com.saniou.santieba.utils.ClipboardUtils
 import com.saniou.santieba.utils.openBrowser
+import com.saniou.santieba.viewmodel.PageViewModel
+import com.saniou.santieba.viewmodel.StoreThreadPageViewModel
 import com.saniou.santieba.viewmodel.ThreadPageViewModel
 import com.saniou.santieba.vo.CommentImageItem
+import com.saniou.santieba.vo.FloorTopItem
 import com.saniou.santieba.vo.SubCommentItem
+import com.sanniou.multiitem.AdapterViewHolder
+import com.sanniou.multiitem.DataItem
+import com.sanniou.multiitem.MultiItemAdapter
 import com.sanniou.multiitemkit.ItemClickHelper
 import com.sanniou.multiitemkit.OnItemClickListener
 import com.sanniou.support.utils.ResourcesUtils
 
-class ThreadPageView : ListItemView<ThreadPageViewModel> {
+class ThreadPageView : ListItemView<PageViewModel> {
 
     override fun onBinding(
         context: ListItemActivity,
         binding: ActivityListBinding,
-        viewModel: ThreadPageViewModel
+        viewModel: PageViewModel
     ) {
 
         viewModel.store.observe(context, Observer {
@@ -72,7 +78,11 @@ class ThreadPageView : ListItemView<ThreadPageViewModel> {
                         }
                     }
                     R.id.menu_store -> {
-                        viewModel.changeStore((binding.recycler.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition())
+                        if (viewModel.store.value) {
+                            viewModel.rmStore()
+                        } else {
+                            viewModel.addStore(findFirstPid(binding))
+                        }
                     }
                     R.id.menu_share -> {
                         ActivityUtils.startActivity(IntentUtils.getShareTextIntent(TIEBA_HOST + viewModel.tid))
@@ -110,5 +120,17 @@ class ThreadPageView : ListItemView<ThreadPageViewModel> {
 
             false
         })
+    }
+
+    private fun findFirstPid(binding: ActivityListBinding): String {
+        var firstPosition = (binding.recycler.layoutManager as LinearLayoutManager)
+            .findFirstCompletelyVisibleItemPosition()
+        while (true) {
+            val adapter = binding.recycler.adapter as MultiItemAdapter<*>
+
+            val item = adapter.getItem(firstPosition++)
+            if (item is FloorTopItem)
+                return item.pid
+        }
     }
 }

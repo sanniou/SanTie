@@ -14,6 +14,7 @@ import com.saniou.santieba.viewmodel.ForumListViewModel
 import com.saniou.santieba.viewmodel.ListItemViewModel
 import com.saniou.santieba.viewmodel.PostsListViewModel
 import com.saniou.santieba.viewmodel.StoreListViewModel
+import com.saniou.santieba.viewmodel.StoreThreadPageViewModel
 import com.saniou.santieba.viewmodel.ThreadPageViewModel
 import com.sanniou.support.extensions.getViewModel
 import com.sanniou.support.widget.recyclerview.OnHeaderClickListener
@@ -80,7 +81,7 @@ fun toForum(forum: String) {
     context.startActivity(intent)
 }
 
-fun toThreadPageList(
+fun toStoreThreadPageList(
     tid: String,
     pid: String? = null,
     markState: String = BOOLEAN_FALSE,
@@ -88,7 +89,7 @@ fun toThreadPageList(
     isStore: String? = null
 ) {
     toListItemActivity {
-        putExtra(LIST_CLASS, ThreadPageViewModel::class.java)
+        putExtra(LIST_CLASS, StoreThreadPageViewModel::class.java)
         putExtra(LIST_VIEW, ThreadPageView::class.java)
         putExtra(LIST_MAP, HashMap<String, String>()
             .apply {
@@ -102,6 +103,23 @@ fun toThreadPageList(
                 put("markState", markState)
                 pid?.let {
                     put("pid", it)
+                }
+            })
+    }
+}
+
+fun toThreadPageList(
+    tid: String,
+    outside: String? = null
+) {
+    toListItemActivity {
+        putExtra(LIST_CLASS, ThreadPageViewModel::class.java)
+        putExtra(LIST_VIEW, ThreadPageView::class.java)
+        putExtra(LIST_MAP, HashMap<String, String>()
+            .apply {
+                put("tid", tid)
+                outside?.let {
+                    put("outside", it)
                 }
             })
     }

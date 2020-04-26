@@ -50,6 +50,7 @@ class ThreadSubCommentViewModel : BaseListViewModel() {
                                         "${author.nameShow}(${author.name})"
                                         , author.levelId,
                                         getDisplayTime(time),
+                                        id,
                                         author.id
                                     )
                                 )
@@ -86,6 +87,7 @@ class ThreadSubCommentViewModel : BaseListViewModel() {
                                     "${subAuthor.nameShow}(${subAuthor.name})"
                                     , subAuthor.levelId,
                                     getDisplayTime(subPost.time),
+                                    subPost.id,
                                     subAuthor.id
                                 )
                             )

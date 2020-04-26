@@ -11,6 +11,7 @@ class FloorTopItem(
     var levle: Int,
     var time: CharSequence,
     var uid: String,
+    var pid: String,
     var isPoster: Boolean = false
 ) : DataItem {
     var levelColor: Int = LEVEL_CLOLRS[levle]

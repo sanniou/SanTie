@@ -9,4 +9,5 @@ data class StatusResponse(
     val errorCode: String = "",
     @Json(name = "error_msg")
     val errorMsg: String = ""
+
 )

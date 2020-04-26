@@ -1,5 +1,6 @@
 package com.saniou.santieba.api.bean
 
+import com.saniou.santieba.viewmodel.MASK_TYPE_ALLOW
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -30,7 +31,7 @@ data class Profile(
     @Json(name = "logid")
     val logid: Long = 0,
     @Json(name = "mask_type")
-    val maskType: String = "",
+    val maskType: Int = MASK_TYPE_ALLOW,
     @Json(name = "newest_dynamic_list")
     val newestDynamicList: Any = Any(),
     @Json(name = "nickname_info")

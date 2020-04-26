@@ -102,7 +102,7 @@ class ForumMainViewModel : BaseListViewModel() {
                             thread.title,
                             "${thread.author.nameShow}(${thread.author.name})",
                             thread.replyNum,
-                            ((thread.zan as? Map<*, *>?)?.get("num") as String?) ?: "",
+                            thread.zan.num,
                             thread.abstract[0].text,
                             getDisplayTime(thread.createTime.toLong()),
                             "$PORTRAIT_HOST${thread.author.portrait}",

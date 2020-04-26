@@ -33,145 +33,52 @@ import com.sanniou.support.exception.ExceptionEngine
 import com.sanniou.support.extensions.orEmpty
 import com.sanniou.support.lifecycle.NonNullLiveData
 import com.sanniou.support.utils.ResourcesUtils
-import org.apache.commons.lang3.ObjectUtils
 
-abstract class PageViewModel : PointAutoListItemViewModel() {
-    val imageList = mutableListOf<String>()
-    var tid = ""
-    var wifiConnected = false
-    var forumName = NonNullLiveData("")
-    var store = NonNullLiveData(false)
-    var lzOly = NonNullLiveData(false)
-    var reverse = NonNullLiveData(false)
+enum class MARK_STATE(var value: String) {
+    NORMAL("1"),
+    SINGLE_NORMAL("3"),
+    REVERSE("4"),
+    SINGLE_REVERSE("6")
+}
 
-    var headerAdded = false;
-
-    override fun getDividerHeight() = 0
+class StoreThreadPageViewModel : PageViewModel() {
 
     override fun initParam(param: Map<String, String>) {
         super.initParam(param)
-        tid = getValue("tid")
-        title.value = "帖子"
-    }
-
-    override fun onRefresh() {
-        headerAdded = false
-        wifiConnected = NetworkUtils.isWifiConnected()
-        super.onRefresh()
-    }
-
-    override fun getHeaderType() = R.layout.item_thread_title
-
-    fun addStore(first: String) {
-        launch {
-            try {
-                TiebaRequest.addStore(tid, first, lzOly.value, reverse.value)
-                    .let {
-                        ToastUtils.showShort("收藏成功")
-                        store.value = !store.value
-                    }
-            } catch (e: Exception) {
-                ToastUtils.showShort(ExceptionEngine.handleMessage(e))
+        when (getValue("markState")) {
+            MARK_STATE.NORMAL.value -> {
+                lzOly.value = false
+                reverse.value = false
+            }
+            MARK_STATE.REVERSE.value -> {
+                lzOly.value = false
+                reverse.value = true
+            }
+            MARK_STATE.SINGLE_REVERSE.value -> {
+                lzOly.value = true
+                reverse.value = true
+            }
+            MARK_STATE.SINGLE_NORMAL.value -> {
+                lzOly.value = true
+                reverse.value = false
             }
         }
     }
 
-    fun rmStore() {
-        launch {
-            try {
-                TiebaRequest.rmStore(tid)
-                    .let {
-                        ToastUtils.showShort("取消收藏成功")
-                        sendEvent(4)
-                        store.value = !store.value
-                    }
-            } catch (e: Exception) {
-                ToastUtils.showShort(ExceptionEngine.handleMessage(e))
-            }
-        }
+    override fun initPoint() {
+        updatePoint(getValueOrNull("pid"))
+        removeValue("pid")
     }
-
-    protected fun addHeaderContent(
-        pid: String?,
-        content: List<Content>,
-        threadDetail: ThreadPage
-    ) {
-        addContent(pid, content, true)
-        addItem(
-            FloorBottomItem(
-                threadDetail.thread.id,
-                threadDetail.thread.replyNum.toInt()
-            )
-        )
-        addItem(
-            DividerItem(
-                ResourcesUtils.getDimensionPixelSize(R.dimen.default_margin_small),
-                ResourcesUtils.getColor(R.color.shadowColor)
-            )
-        )
-    }
-
-    protected fun addContent(pid: String?, contents: List<Content>, first: Boolean = false) {
-        if (contents.isEmpty()) {
-            return
-        }
-        updatePoint(pid)
-        analyzeText(contents)
-            .forEach {
-                when (it.type) {
-                    TEXT -> {
-                        addItem(CommentTextItem(it.text, first))
-                    }
-                    VIDEO -> {
-                        addItem(
-                            CommentVideoItem(
-                                it.src,
-                                it.link.orEmpty(it.text.toString())
-                            )
-                        )
-                    }
-                    VOICE -> {
-                        addItem(CommentVoiceItem(TIEBA_VOICE_HOST + it.voiceMd5))
-                    }
-                    ATME -> {
-                        addItem(CommentTextItem(it.text, first))
-                    }
-                    IMAGE -> {
-                        val orgImage: String
-                        val image: String
-
-                        val bigCdnSrc = it.bigCdnSrc
-
-                        if (bigCdnSrc.isNotEmpty() && it.originSrc.isEmpty()) {
-                            orgImage = bigCdnSrc
-                            image = orgImage
-                        } else {
-                            orgImage = it.originSrc
-                            image = it.cdnSrc
-                        }
-
-                        imageList.add(orgImage)
-                        addItem(
-                            CommentImageItem(
-                                if (wifiConnected) orgImage else image,
-                                orgImage,
-                                first
-                            )
-                        )
-                    }
-                }
-            }
-    }
-}
-
-class ThreadPageViewModel : PageViewModel() {
 
     override suspend fun fetchPoint(point: String?): Boolean {
+        val mark = getValueOrDefault("isStore", BOOLEAN_FALSE)
+        setValue("isStore", BOOLEAN_FALSE)
         return TiebaRequest.threadPage(
             tid,
             point,
             lzOly.value,
-            reverse.value
+            reverse.value,
+            if (!headerAdded && !reverse.value && mark.toBool()) BOOLEAN_TRUE else BOOLEAN_FALSE
         )
             .let { threadDetail ->
 
@@ -203,6 +110,11 @@ class ThreadPageViewModel : PageViewModel() {
                             )
                         )
 
+                    }
+                    // if mark is true,put headerAdded true ,or put this when put postList
+                    if (mark == BOOLEAN_TRUE) {
+                        headerAdded = true
+                        addHeaderContent(null, emptyList(), threadDetail)
                     }
                 }
 

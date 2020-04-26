@@ -34,6 +34,7 @@
     <dimen name="slide_margin">16dp</dimen>
 
     <dimen name="divider_height">1dp</dimen>
+    <dimen name="bar_height">2dp</dimen>
 
     <!--Popup-->
     <dimen name="popup_arrow_up_margin_top">13dp</dimen>

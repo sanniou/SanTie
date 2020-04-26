@@ -6,6 +6,8 @@
         <variable
             name="item"
             type="com.saniou.santieba.vo.ThreadItem" />
+
+        <import type="com.saniou.santieba.R" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,6 +23,8 @@
         <ImageView
             android:id="@+id/poster_avatar"
             circle="@{true}"
+            error="@{R.drawable.ic_placeholder}"
+            placeholder="@{R.drawable.ic_placeholder}"
             res="@{item.avatar}"
             toUser="@{item.uid}"
             android:layout_width="50dp"
@@ -31,8 +35,8 @@
 
         <TextView
             android:id="@+id/poster_name"
-            android:layout_width="0dp"
             toUser="@{item.uid}"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/view_padding"
             android:text="@{item.posterName}"
@@ -86,6 +90,8 @@
 
         <ImageView
             android:id="@+id/post_image"
+            error="@{R.drawable.ic_placeholder}"
+            placeholder="@{R.drawable.ic_placeholder}"
             res="@{item.postImage}"
             visible="@{!item.postImage.isEmpty()}"
             android:layout_width="0dp"

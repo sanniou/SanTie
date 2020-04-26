@@ -26,7 +26,7 @@ class StoreView : ListItemView<StoreListViewModel> {
                 (it.item as? StoreThreadItem)?.run {
                     takeIf { item -> !item.isDeleted }
                         ?.run {
-                            toThreadPageList(tid, markPid, markState, isStore = BOOLEAN_TRUE)
+                            toStoreThreadPageList(tid, markPid, markState, isStore = BOOLEAN_TRUE)
                         }
                         ?: run { ToastUtils.showShort("帖子被删除") }
                 }
