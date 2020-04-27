@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/item_text"
+  android:layout_width="280dp"
+  android:layout_height="wrap_content"
+  android:lineSpacingExtra="6dp"
+  android:padding="10dp"
+  android:textColor="#666666"
+  android:textSize="16dp"
+  tools:text="工作"
+  />

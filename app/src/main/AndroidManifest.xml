@@ -40,6 +40,8 @@
         <activity android:name=".component.UserMainActivity" />
         <activity android:name=".component.MSignActivity" />
         <activity android:name=".component.ThreadSubCommentActivity" />
+        <activity android:name=".component.StoreViewActivity" />
+        <activity android:name=".component.ThreadPageViewActivity" />
         <activity android:name=".component.ForumMainActivity">
 
         </activity>

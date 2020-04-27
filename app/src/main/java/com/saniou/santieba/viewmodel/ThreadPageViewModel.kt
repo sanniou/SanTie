@@ -1,9 +1,7 @@
 package com.saniou.santieba.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.NetworkUtils
-import com.blankj.utilcode.util.SpanUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.saniou.santieba.R
 import com.saniou.santieba.api.TiebaRequest
@@ -13,13 +11,11 @@ import com.saniou.santieba.constant.ATME
 import com.saniou.santieba.constant.IMAGE
 import com.saniou.santieba.constant.PORTRAIT_HOST
 import com.saniou.santieba.constant.TEXT
-import com.saniou.santieba.constant.TIEBA_USER_HOST
 import com.saniou.santieba.constant.TIEBA_VOICE_HOST
 import com.saniou.santieba.constant.VIDEO
 import com.saniou.santieba.constant.VOICE
 import com.saniou.santieba.kts.getDisplayTime
 import com.saniou.santieba.kts.toBool
-import com.saniou.santieba.utils.LinkClickSpan
 import com.saniou.santieba.utils.analyzeSubText
 import com.saniou.santieba.utils.analyzeText
 import com.saniou.santieba.vo.CommentImageItem
@@ -71,10 +67,10 @@ abstract class PageViewModel : PointAutoListItemViewModel() {
 
     override fun getHeaderType() = R.layout.item_thread_title
 
-    fun addStore(first: String) {
+    fun addStore(pid: String) {
         launch {
             try {
-                TiebaRequest.addStore(tid, first, lzOly.value, reverse.value)
+                TiebaRequest.addStore(tid, pid, lzOly.value, reverse.value)
                     .let {
                         ToastUtils.showShort("收藏成功")
                         store.value = !store.value

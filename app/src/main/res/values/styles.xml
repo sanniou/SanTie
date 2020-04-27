@@ -16,4 +16,112 @@
         <item name="android:textSize">@dimen/majorText</item><!--设置文字大小的-->
     </style>
 
+    <style name="confirm_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <!--RoundButton-->
+    <!--无点击动画-->
+    <!--<style name="RoundButton" parent="@style/Widget.AppCompat.Button.Borderless">-->
+    <style name="RoundButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:text">按钮</item>
+        <item name="android:textColor">@color/design_major</item>
+        <item name="android:layout_width">@dimen/wrap_content</item>
+        <item name="android:layout_height">@dimen/wrap_content</item>
+        <item name="borderWidth">@dimen/button_border_width</item>
+        <item name="android:textSize">@dimen/design_text_major</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="radius">@dimen/button_radius</item>
+    </style>
+
+    <style name="RoundButton.small">
+        <item name="android:textColor">@color/selector_button_small</item>
+        <item name="borderColor">@color/selector_button_small</item>
+        <item name="borderWidth">@dimen/button_small_border_width</item>
+        <item name="android:text">按钮</item>
+        <item name="android:layout_width">@dimen/wrap_content</item>
+        <item name="android:layout_height">@dimen/design_button_small</item>
+        <item name="android:textSize">@dimen/design_text_weak</item>
+        <item name="android:gravity">center</item>
+        <item name="radius">@dimen/button_radius_small</item>
+    </style>
+
+    <style name="RoundButton.normal">
+        <item name="android:textColor">@color/selector_button_normal</item>
+        <item name="borderColor">@color/selector_bord_normal</item>
+        <item name="backgroundColor">@color/selector_button_normal_background</item>
+        <item name="borderWidth">@dimen/button_small_border_width</item>
+        <item name="android:paddingTop">7dp</item>
+        <item name="android:paddingBottom">7dp</item>
+        <item name="android:paddingStart">28dp</item>
+        <item name="android:paddingEnd">28dp</item>
+        <item name="android:text">按钮</item>
+        <item name="android:layout_width">@dimen/wrap_content</item>
+        <item name="android:layout_height">@dimen/wrap_content</item>
+        <item name="android:textSize">@dimen/design_text_normal</item>
+        <item name="android:gravity">center</item>
+        <item name="radius">@dimen/button_radius_normal</item>
+    </style>
+
+    <style name="RoundButton.normal2">
+        <item name="android:textColor">@color/design_white</item>
+        <item name="borderColor">@color/design_blue</item>
+        <item name="backgroundColor">@color/design_blue</item>
+        <item name="borderWidth">@dimen/button_small_border_width</item>
+        <item name="android:paddingTop">7dp</item>
+        <item name="android:paddingBottom">7dp</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+        <item name="android:text">按钮</item>
+        <item name="android:layout_width">@dimen/wrap_content</item>
+        <item name="android:layout_height">@dimen/design_button_normal2</item>
+        <item name="android:textSize">@dimen/design_text_weak</item>
+        <item name="android:gravity">center</item>
+        <item name="radius">@dimen/button_radius_normal</item>
+    </style>
+
+    <style name="RoundButton.yellow" parent="RoundButton">
+        <item name="android:textColor">@color/design_major</item>
+        <item name="backgroundColor">@color/design_yellow</item>
+    </style>
+
+    <style name="RoundButton.White" parent="RoundButton">
+        <item name="android:textColor">@color/config_black</item>
+        <item name="backgroundColor">@color/config_white</item>
+    </style>
+
+    <style name="RoundButton.White_blue" parent="RoundButton">
+        <item name="android:textColor">@color/design_blue</item>
+        <item name="backgroundColor">@color/config_white</item>
+        <item name="borderColor">@color/design_blue</item>
+
+    </style>
+
+    <style name="RoundButton.blue" parent="RoundButton">
+        <item name="android:textColor">@color/design_white</item>
+        <item name="backgroundColor">@color/selector_button_color_blue</item>
+    </style>
+
+    <!--全局Dialog的Theme-->
+    <style name="LApplicationDialog" parent="Theme.AppCompat.Dialog">
+        <item name="windowMinWidthMinor">85%</item>
+        <item name="android:windowMinWidthMinor">85%</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowMinWidthMajor">100%</item>
+        <item name="android:windowMinWidthMajor">100%</item>
+        <item name="android:windowBackground">@color/config_transparent</item>
+    </style>
 </resources>

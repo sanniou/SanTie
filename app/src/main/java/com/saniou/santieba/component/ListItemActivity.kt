@@ -1,5 +1,6 @@
 package com.saniou.santieba.component
 
+import android.app.Activity
 import android.content.Intent
 import android.view.View
 import androidx.databinding.ViewDataBinding
@@ -8,7 +9,6 @@ import com.blankj.utilcode.util.ActivityUtils
 import com.saniou.santieba.R
 import com.saniou.santieba.constant.BOOLEAN_FALSE
 import com.saniou.santieba.databinding.ActivityListBinding
-import com.saniou.santieba.databinding.toUser
 import com.saniou.santieba.viewmodel.FansListViewModel
 import com.saniou.santieba.viewmodel.FollowsListViewModel
 import com.saniou.santieba.viewmodel.ForumListViewModel
@@ -21,45 +21,34 @@ import com.sanniou.support.extensions.getViewModel
 import com.sanniou.support.widget.recyclerview.OnHeaderClickListener
 import com.sanniou.support.widget.recyclerview.PinnedHeaderItemDecoration
 
-private val LIST_CLASS = "class"
-private val LIST_MAP = "map"
-private val LIST_VIEW = "view"
+private const val LIST_CLASS = "class"
+private const val LIST_MAP = "map"
 
-interface ListItemView<T : ListItemViewModel> {
-    fun onBinding(
-        context: ListItemActivity,
-        binding: ActivityListBinding,
-        viewModel: T
-    )
+open class ListItemActivity<T : ListItemViewModel> : SanBaseActivity<T>() {
 
-    fun getLayoutManager(context: ListItemActivity): RecyclerView.LayoutManager? = null
-}
+    open fun getLayoutManager(): RecyclerView.LayoutManager? = null
 
-class ListItemActivity : SanBaseActivity<ListItemViewModel>() {
+    open fun onBinding(binding: ActivityListBinding) = Unit
 
     override fun createViewModel() =
-        getViewModel(intent.getSerializableExtra(LIST_CLASS) as Class<ListItemViewModel>).apply {
+        getViewModel(intent.getSerializableExtra(LIST_CLASS) as Class<T>).apply {
             initParam(intent.getSerializableExtra(LIST_MAP) as Map<String, String>)
         }
 
     override fun getLayoutRes() = R.layout.activity_list
 
-    override fun onBindingCreated(binding: ViewDataBinding) {
+    final override fun onBindingCreated(binding: ViewDataBinding) {
         binding as ActivityListBinding
-        var customerLayoutManager = false
 
-        (intent.getSerializableExtra(LIST_VIEW) as? (Class<ListItemView<ListItemViewModel>>))
-            ?.run {
-                newInstance()
-                    .apply {
-                        onBinding(this@ListItemActivity, binding, viewModel)
-                        getLayoutManager(this@ListItemActivity)
-                            ?.apply {
-                                customerLayoutManager = true
-                                binding.recycler.layoutManager = this
-                            }
-                    }
+        onBinding(binding)
+
+        var customerLayoutManager = false
+        getLayoutManager()
+            ?.apply {
+                customerLayoutManager = true
+                binding.recycler.layoutManager = this
             }
+
         binding.customerLayoutManager = customerLayoutManager
 
         binding.actionBar.setNavigationOnClickListener { onBackPressed() }
@@ -99,9 +88,8 @@ fun toStoreThreadPageList(
     pid: String? = null,
     markState: String = BOOLEAN_FALSE
 ) {
-    toListItemActivity {
+    toListItemActivity(ThreadPageViewActivity::class.java) {
         putExtra(LIST_CLASS, StoreThreadPageViewModel::class.java)
-        putExtra(LIST_VIEW, ThreadPageView::class.java)
         putExtra(LIST_MAP, HashMap<String, String>()
             .apply {
                 put("tid", tid)
@@ -117,9 +105,8 @@ fun toThreadPageList(
     tid: String,
     outside: String? = null
 ) {
-    toListItemActivity {
+    toListItemActivity(ThreadPageViewActivity::class.java) {
         putExtra(LIST_CLASS, ThreadPageViewModel::class.java)
-        putExtra(LIST_VIEW, ThreadPageView::class.java)
         putExtra(LIST_MAP, HashMap<String, String>()
             .apply {
                 put("tid", tid)
@@ -131,9 +118,8 @@ fun toThreadPageList(
 }
 
 fun toStoreList(uid: String) {
-    toListItemActivity {
+    toListItemActivity(StoreViewActivity::class.java) {
         putExtra(LIST_CLASS, StoreListViewModel::class.java)
-        putExtra(LIST_VIEW, StoreView::class.java)
         putExtra(LIST_MAP, HashMap<String, String>()
             .apply {
                 put("uid", uid)
@@ -151,45 +137,42 @@ fun toForumList(uid: String) {
     }
 }
 
-private fun toListItemActivity(block: Intent.() -> Unit) {
+private fun toListItemActivity(
+    activity: Class<out Activity> = ListItemActivity::class.java,
+    block: Intent.() -> Unit
+) {
     ActivityUtils.startActivity(
-        Intent(ActivityUtils.getTopActivity(), ListItemActivity::class.java)
+        Intent(ActivityUtils.getTopActivity(), activity)
             .apply(block)
     )
 }
 
 fun toFansList(uid: String = "") {
-    ActivityUtils.startActivity(
-        Intent(ActivityUtils.getTopActivity(), ListItemActivity::class.java)
+    toListItemActivity {
+        putExtra(LIST_CLASS, FansListViewModel::class.java)
+        putExtra(LIST_MAP, HashMap<String, String>()
             .apply {
-                putExtra(LIST_CLASS, FansListViewModel::class.java)
-                putExtra(LIST_MAP, HashMap<String, String>()
-                    .apply {
-                        put("friendId", uid)
-                    })
+                put("friendId", uid)
             })
+    }
 }
 
 fun toPostsList(uid: String) {
-    ActivityUtils.startActivity(
-        Intent(ActivityUtils.getTopActivity(), ListItemActivity::class.java)
+    toListItemActivity {
+        putExtra(LIST_CLASS, PostsListViewModel::class.java)
+        putExtra(LIST_MAP, HashMap<String, String>()
             .apply {
-                putExtra(LIST_CLASS, PostsListViewModel::class.java)
-                putExtra(LIST_MAP, HashMap<String, String>()
-                    .apply {
-                        put("uid", uid)
-                    })
+                put("uid", uid)
             })
+    }
 }
 
 fun toFollowsList(uid: String = "") {
-    ActivityUtils.startActivity(
-        Intent(ActivityUtils.getTopActivity(), ListItemActivity::class.java)
+    toListItemActivity {
+        putExtra(LIST_CLASS, FollowsListViewModel::class.java)
+        putExtra(LIST_MAP, HashMap<String, String>()
             .apply {
-                putExtra(LIST_CLASS, FollowsListViewModel::class.java)
-                putExtra(LIST_MAP, HashMap<String, String>()
-                    .apply {
-                        put("uid", uid)
-                    })
+                put("uid", uid)
             })
+    }
 }

@@ -2,6 +2,7 @@ package com.saniou.santieba.viewmodel
 
 import androidx.databinding.ObservableField
 import com.blankj.utilcode.util.ActivityUtils
+import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.saniou.santieba.R
@@ -34,7 +35,6 @@ class MainViewModel : BaseListViewModel() {
         clear()
         launch {
             try {
-
                 TiebaRequest.profile()
                     .let {
                         it.user.run {

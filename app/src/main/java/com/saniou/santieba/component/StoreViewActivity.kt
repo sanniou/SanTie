@@ -3,22 +3,16 @@ package com.saniou.santieba.component
 import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
-import com.saniou.santieba.constant.BOOLEAN_TRUE
 import com.saniou.santieba.databinding.ActivityListBinding
-import com.saniou.santieba.kts.startActivityEx
 import com.saniou.santieba.viewmodel.StoreListViewModel
 import com.saniou.santieba.vo.StoreThreadItem
 import com.sanniou.multiitemkit.ItemClickHelper
 import com.sanniou.multiitemkit.OnItemClickListener
 import com.sanniou.multiitemkit.OnLongPressListener
 
-class StoreView : ListItemView<StoreListViewModel> {
+class StoreViewActivity : ListItemActivity<StoreListViewModel>() {
 
-    override fun onBinding(
-        context: ListItemActivity,
-        binding: ActivityListBinding,
-        listViewModel: StoreListViewModel
-    ) {
+    override fun onBinding(binding: ActivityListBinding) {
         ItemClickHelper.attachToRecyclerView(
             binding.recycler,
             itemClickListener = OnItemClickListener {
@@ -35,16 +29,16 @@ class StoreView : ListItemView<StoreListViewModel> {
             longPressListener = OnLongPressListener {
 
                 val item = it.item as StoreThreadItem
-                val index = listViewModel.removeAt(item)
+                val index = viewModel.removeAt(item)
 
                 Snackbar.make(binding.root, "", Snackbar.LENGTH_LONG)
                     .setAction("撤销") { _ ->
-                        listViewModel.add(index, item)
+                        viewModel.add(index, item)
                     }
                     .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
                         override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                             if (event != DISMISS_EVENT_ACTION) {
-                                listViewModel.rmStore(item)
+                                viewModel.rmStore(item)
                             }
                         }
                     })
