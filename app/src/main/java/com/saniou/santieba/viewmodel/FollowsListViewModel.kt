@@ -1,7 +1,7 @@
 package com.saniou.santieba.viewmodel
 
 import com.saniou.santieba.R
-import com.saniou.santieba.api.TiebaRequest
+import com.saniou.santieba.model.TiebaRequest
 import com.saniou.santieba.constant.PORTRAIT_HOST
 import com.saniou.santieba.constant.RANGE_NUMBER
 import com.saniou.santieba.kts.toBool
@@ -14,7 +14,7 @@ class FollowsListViewModel : PageAutoListItemViewModel() {
 
     override fun initParam(param: Map<String, String>) {
         super.initParam(param)
-        title.value = "${if (getValue("uid").isEmpty()) "我" else "他"}的关注"
+        // title.value = "${if (getValue("uid").isEmpty()) "我" else "他"}的关注"
     }
 
     override fun getHeaderType() = R.layout.item_switch_header

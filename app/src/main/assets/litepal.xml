@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="tblite" />
+    <version value="23" />
+    <list>
+        <mapping class="com.saniou.santieba.model.database.Account" />
+        <mapping class="com.saniou.santieba.model.database.Draft" />
+        <mapping class="com.saniou.santieba.model.database.History" />
+        <mapping class="com.saniou.santieba.model.database.Block" />
+        <mapping class="com.saniou.santieba.model.database.TopForum" />
+        <mapping class="com.saniou.santieba.model.database.SearchHistory" />
+    </list>
+</litepal>

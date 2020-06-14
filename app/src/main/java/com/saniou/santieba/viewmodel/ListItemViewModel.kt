@@ -14,8 +14,18 @@ abstract class ListItemViewModel : BaseListViewModel() {
     private val param = mutableMapOf<String, String>()
 
     val refreshState = MutableLiveData<Boolean>()
+    val startRefresh = MutableLiveData<Boolean>()
 
-    val title = MutableLiveData<CharSequence>()
+
+    open val dividerHeight = 1
+
+    open val dividerColor = 0
+
+    open val autoRefresh = false
+
+    open val refreshable = false
+
+    open val span = 0
 
     @CallSuper
     open fun initParam(param: Map<String, String>) {
@@ -36,13 +46,9 @@ abstract class ListItemViewModel : BaseListViewModel() {
     open fun onRefresh() {
     }
 
-    open fun getDividerHeight() = 1
-
-    open fun autoRefresh() = false
-
-    open fun refreshable() = false
-
     fun getValue(key: String) = param[key]!!
+
+    fun getNullableValue(key: String) = param[key]
 
     fun removeValue(key: String) = param.remove(key)
 
@@ -70,7 +76,7 @@ abstract class AutoListItemViewModel : ListItemViewModel() {
     @CallSuper
     override fun onRefresh() {
         loadMoreItem.ready()
-        // 可能会导致刷新失败，需要在合适的时机用 set 方法替换
+        // 不加可能会导致刷新手势失效，可以在合适的时机用 set（0） 方法替换
         add(NonItem())
         add(loadMoreItem)
     }
@@ -96,9 +102,9 @@ abstract class AutoListItemViewModel : ListItemViewModel() {
 
     open fun fetchFailed() = Unit
 
-    override fun autoRefresh() = true
+    override val autoRefresh = true
 
-    override fun refreshable() = true
+    override val refreshable = true
 
     fun addItem(item: DataItem) {
         super.add(list.size - 1, item)

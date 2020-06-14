@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.NetworkUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.saniou.santieba.R
-import com.saniou.santieba.api.TiebaRequest
-import com.saniou.santieba.api.bean.Content
-import com.saniou.santieba.api.bean.ThreadPage
+import com.saniou.santieba.model.TiebaRequest
+import com.saniou.santieba.model.bean.Content
+import com.saniou.santieba.model.bean.ThreadPage
 import com.saniou.santieba.constant.ATME
 import com.saniou.santieba.constant.IMAGE
 import com.saniou.santieba.constant.PORTRAIT_HOST
@@ -51,12 +51,12 @@ abstract class PageViewModel : PointAutoListItemViewModel() {
         autoLoad = false
     }
 
-    override fun getDividerHeight() = 0
+    override val dividerHeight = 0
 
     override fun initParam(param: Map<String, String>) {
         super.initParam(param)
         tid = getValue("tid")
-        title.value = "帖子"
+        // title.value = "帖子"
     }
 
     override fun onRefresh() {
@@ -332,7 +332,7 @@ class ThreadPageViewModel : PageViewModel() {
         )
             .let { threadDetail ->
 
-                title.value = threadDetail.forum.name
+                // title.value = threadDetail.forum.name
 
                 store.value = threadDetail.thread.collectStatus.toBool()
 

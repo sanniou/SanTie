@@ -15,8 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+<!--        <activity android:name=".component.TiebarMainActivity"></activity>-->
         <activity android:name=".component.ListItemActivity" />
-        <activity android:name=".component.FeedActivity" />
+<!--        <activity android:name=".component.FeedActivity" />-->
         <activity android:name=".component.SchemeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -26,7 +27,6 @@
 
                 <data android:scheme="tbfrs" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -35,17 +35,9 @@
 
                 <data android:scheme="tbpb" />
             </intent-filter>
-
         </activity>
         <activity android:name=".component.UserMainActivity" />
-        <activity android:name=".component.MSignActivity" />
-        <activity android:name=".component.ThreadSubCommentActivity" />
-        <activity android:name=".component.StoreViewActivity" />
-        <activity android:name=".component.ThreadPageViewActivity" />
-        <activity android:name=".component.ForumMainActivity">
-
-        </activity>
-        <activity android:name=".component.MainActivity">
+        <activity android:name=".component.TiebarMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,9 +45,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".component.WebLoginActivity" />
-        <activity android:name=".component.SearchActivity" />
         <activity android:name=".component.ImagePreviewActivity" />
-
     </application>
 
 </manifest>

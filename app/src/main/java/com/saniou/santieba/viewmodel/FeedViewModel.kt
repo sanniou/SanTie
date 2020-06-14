@@ -1,6 +1,6 @@
 package com.saniou.santieba.viewmodel
 
-import com.saniou.santieba.api.TiebaRequest
+import com.saniou.santieba.model.TiebaRequest
 import com.saniou.santieba.vo.SearchForumItem
 import com.sanniou.support.components.BaseListViewModel
 

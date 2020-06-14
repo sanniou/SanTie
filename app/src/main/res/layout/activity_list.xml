@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -12,42 +12,24 @@
             type="com.saniou.santieba.viewmodel.ListItemViewModel" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+
+    <com.sanniou.support.widget.swiper.LSwipeRefreshLayout
+        android:id="@+id/refresh"
+        enabled="@{viewModel.refreshable}"
+        onRefresh="@{viewModel::refresh}"
+        refreshStatus="@{viewModel.refreshState}"
+        startRefresh="@{viewModel.startRefresh}"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".component.ListItemActivity">
+        android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/action_bar"
-            onBackToTop="@{recycler}"
-            visible="@{viewModel.title!=null}"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            customerLayoutManager="@{customerLayoutManager}"
+            data="@{viewModel.list}"
+            dividerColor="@{viewModel.dividerColor}"
+            dividerHeightDp="@{viewModel.dividerHeight}"
+            span="@{viewModel.span}"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="?attr/homeAsUpIndicator"
-            app:popupTheme="@style/ToolbarTheme"
-            app:title="@{viewModel.title}" />
-
-        <com.sanniou.support.widget.swiper.LSwipeRefreshLayout
-            android:id="@+id/refresh"
-            enabled="@{viewModel.refreshable()}"
-            onRefresh="@{viewModel::refresh}"
-            refreshStatus="@{viewModel.refreshState}"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler"
-                customerLayoutManager="@{customerLayoutManager}"
-                data="@{viewModel.list}"
-                dividerColor="@{@color/shadowColor}"
-                dividerHeightDp="@{viewModel.dividerHeight}"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </com.sanniou.support.widget.swiper.LSwipeRefreshLayout>
-    </LinearLayout>
+            android:layout_height="match_parent" />
+    </com.sanniou.support.widget.swiper.LSwipeRefreshLayout>
 </layout>

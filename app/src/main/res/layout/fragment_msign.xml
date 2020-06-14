@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.saniou.santieba.viewmodel.MsignViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".component.sign.MSignFragment">
+
+        <!--        <androidx.appcompat.widget.Toolbar-->
+        <!--            android:id="@+id/msign_top"-->
+        <!--            onBackToTop="@{forumList}"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            app:navigationIcon="?attr/homeAsUpIndicator"-->
+        <!--            app:popupTheme="@style/ToolbarTheme"-->
+        <!--            app:title="" />-->
+
+        <TextView
+            android:id="@+id/msign_msg"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:background="#393f56"
+            android:gravity="bottom|center"
+            android:paddingBottom="10dp"
+            android:text="@string/sign_in_description"
+            android:textColor="#586376"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            res="@{viewModel.signImage}"
+            android:layout_width="80dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:onClick="@{v->viewModel.msign()}"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@id/msign_msg"
+            app:layout_constraintStart_toStartOf="@id/msign_msg"
+            app:layout_constraintTop_toTopOf="@id/msign_msg" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/minorText"
+            app:layout_constraintTop_toBottomOf="@id/msign_msg" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/forum_list"
+            data="@{viewModel.list}"
+            dividerColor="@{@color/shadowColor}"
+            dividerHeightDp="@{1}"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/msign_msg" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

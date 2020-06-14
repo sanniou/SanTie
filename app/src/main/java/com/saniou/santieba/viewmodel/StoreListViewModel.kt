@@ -1,26 +1,22 @@
 package com.saniou.santieba.viewmodel
 
 import com.blankj.utilcode.util.ToastUtils
-import com.saniou.santieba.api.TiebaRequest
-import com.saniou.santieba.api.bean.MEDIA_TYPE_FLASH
-import com.saniou.santieba.api.bean.MEDIA_TYPE_PIC
+import com.saniou.santieba.model.TiebaRequest
+import com.saniou.santieba.model.bean.MEDIA_TYPE_FLASH
+import com.saniou.santieba.model.bean.MEDIA_TYPE_PIC
 import com.saniou.santieba.constant.PORTRAIT_HOST
 import com.saniou.santieba.constant.RANGE_NUMBER
 import com.saniou.santieba.kts.getDisplayTime
 import com.saniou.santieba.kts.toBool
+import com.saniou.santieba.model.api.interfaces.SanTiebaApi
 import com.saniou.santieba.vo.StoreThreadItem
 import com.sanniou.support.exception.ExceptionEngine
 
 class StoreListViewModel : OffsetAutoListItemViewModel() {
 
-    override fun initParam(param: Map<String, String>) {
-        super.initParam(param)
-        title.value = "我的收藏"
-    }
-
     override suspend fun fetchOffset(offset: Int) =
 
-        TiebaRequest.threadstore(offset, getValue("uid"))
+        SanTiebaApi.threadStore(offset)
             .let { threadData ->
 
                 threadData.storeThread

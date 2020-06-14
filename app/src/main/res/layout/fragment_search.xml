@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.saniou.santieba.viewmodel.SearchViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/search_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".component.search.SearchFragment">
+
+        <View
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="@dimen/default_margin_small"
+            android:background="@drawable/search_bar_shape"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/search_bar_ic"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/default_margin_normal"
+            android:src="@drawable/ic_search"
+            app:layout_constraintBottom_toBottomOf="@id/search_text"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="@id/search_bar"
+            app:layout_constraintTop_toTopOf="@id/search_text" />
+
+        <EditText
+            android:id="@+id/search_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin_normal"
+            android:background="@null"
+            android:hint="@string/go_forum"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:text="@={viewModel.searchText}"
+            android:textColor="@color/search_word_text_color"
+            android:textColorHint="@color/zhihuGray"
+            android:textSize="@dimen/majorText"
+            app:layout_constraintBottom_toBottomOf="@id/search_bar"
+            app:layout_constraintEnd_toEndOf="@id/search_bar"
+            app:layout_constraintStart_toEndOf="@id/search_bar_ic"
+            app:layout_constraintTop_toTopOf="@id/search_bar" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_strip"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginTop="@dimen/default_margin_small"
+            app:layout_constraintTop_toBottomOf="@id/search_bar"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/majorText"
+            app:tabTextColor="@color/minorText" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/search_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tab_strip" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

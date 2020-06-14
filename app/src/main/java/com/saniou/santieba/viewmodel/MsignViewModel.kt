@@ -4,7 +4,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableInt
 import com.blankj.utilcode.util.ToastUtils
 import com.saniou.santieba.R
-import com.saniou.santieba.api.TiebaRequest
+import com.saniou.santieba.model.TiebaRequest
 import com.saniou.santieba.kts.getDisplayTime
 import com.saniou.santieba.kts.toBool
 import com.saniou.santieba.vo.SimpleForumItem

@@ -40,7 +40,7 @@ class WebLoginActivity : SanBaseActivity<WebLoginViewModel>() {
     var mPortrait: String = ""
 
     /* access modifiers changed from: private */
-    val mProgressBar: ProgressBar by lazy {
+    val mProgressBar by lazy {
         findViewById<ProgressBar>(R.id.progress)
     }
     private val mRealUrl by lazy {
@@ -189,7 +189,7 @@ class WebLoginActivity : SanBaseActivity<WebLoginViewModel>() {
             SQLiteUtil.insert(createOrOpenDataBase, "account", treeMap)
             SQLiteUtil.closeDataBase(createOrOpenDataBase)
         }
-        startActivityEx(MainActivity::class.java)
+        startActivityEx<TiebarMainActivity>()
         finish()
     }
 

@@ -3,7 +3,7 @@ package com.saniou.santieba.constant
 import com.saniou.santieba.R
 import com.sanniou.support.utils.ResourcesUtils
 
-val MENU_COLOR = ResourcesUtils.getColor(R.color.colorPrimary)
+val MENU_COLOR = ResourcesUtils.getColor(R.color.white)
 
 const val EVENT_UI_REFRESH_SUCCESS = 0
 const val EVENT_UI_REFRESH_FAILED = 1

@@ -5,7 +5,7 @@ import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import com.blankj.utilcode.util.ToastUtils
 import com.saniou.santieba.R
-import com.saniou.santieba.api.TiebaRequest
+import com.saniou.santieba.model.TiebaRequest
 import com.sanniou.support.exception.ExceptionEngine
 import com.sanniou.support.multiitem.ScopeItem
 import com.sanniou.support.utils.ResourcesUtils

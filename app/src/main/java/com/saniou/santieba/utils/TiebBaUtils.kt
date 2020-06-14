@@ -12,8 +12,8 @@ import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.SpanUtils
 import com.blankj.utilcode.util.Utils
 import com.saniou.santieba.R
-import com.saniou.santieba.api.bean.Content
-import com.saniou.santieba.api.bean.ThreadPage
+import com.saniou.santieba.model.bean.Content
+import com.saniou.santieba.model.bean.ThreadPage
 import com.saniou.santieba.component.UserMainActivity
 import com.saniou.santieba.component.toForum
 import com.saniou.santieba.component.toThreadPageList

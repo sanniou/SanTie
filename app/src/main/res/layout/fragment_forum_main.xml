@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.saniou.santieba.component.forum.ForumMainViewModel" />
+
+        <variable
+            name="pageViewModel"
+            type="com.saniou.santieba.viewmodel.ForumPageViewModel" />
+    </data>
+
+    <com.saniou.santieba.widget.NestedCoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                topAnimation="@{pageViewModel.forumInfo!=null}"
+                visible="@{pageViewModel.forumInfo!=null}"
+                android:orientation="vertical"
+                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed|snap"
+                tools:context=".component.forum.ForumMainFragment">
+
+                <ImageView
+                    android:id="@+id/forum_avatar"
+                    res="@{pageViewModel.forumInfo.avatar}"
+                    android:layout_width="@dimen/image_normal"
+                    android:layout_height="@dimen/image_normal"
+                    android:layout_marginStart="@dimen/view_padding"
+                    android:layout_marginTop="@dimen/view_padding"
+                    android:src="@mipmap/ic_launcher"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/forum_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/view_padding"
+                    android:text="@{pageViewModel.forumInfo.forumName}"
+                    app:layout_constraintStart_toEndOf="@id/forum_avatar"
+                    app:layout_constraintTop_toTopOf="@id/forum_avatar" />
+
+                <ProgressBar
+                    android:id="@+id/forum_level_progress"
+                    style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
+                    max="@{pageViewModel.forumInfo.nextScore}"
+                    progress="@{pageViewModel.forumInfo.currentScore}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="2dp"
+                    android:indeterminate="false"
+                    android:minWidth="120dp"
+                    android:minHeight="0dp"
+                    android:progressDrawable="@drawable/drawable_progress"
+                    app:layout_constraintStart_toStartOf="@id/forum_name"
+                    app:layout_constraintTop_toBottomOf="@id/forum_name"
+                    tools:max="100"
+                    tools:progress="50" />
+
+
+                <TextView
+                    android:id="@+id/forum_leval"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text='@{pageViewModel.forumInfo.forumLevel+":"+pageViewModel.forumInfo.forumLevelName}'
+                    app:layout_constraintStart_toStartOf="@id/forum_level_progress"
+                    app:layout_constraintTop_toBottomOf="@id/forum_level_progress" />
+
+                <TextView
+                    android:id="@+id/forum_sign"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/view_padding"
+                    android:text="@{pageViewModel.forumInfo.signIn?@string/show_signed:@string/show_unsigned}"
+                    app:layout_constraintBottom_toBottomOf="@id/forum_avatar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/forum_avatar" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/forum_tab"
+                    icons="@{viewModel.icons}"
+                    title="@{viewModel.titles}"
+                    viewPager="@{forumPage}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/forum_sort_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/title_sort_by_reply"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/forum_tab"
+                    app:layout_constraintEnd_toStartOf="@id/forum_sort_icon"
+                    app:layout_constraintTop_toTopOf="@id/forum_tab" />
+
+                <ImageView
+                    android:id="@+id/forum_sort_icon"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/forum_sort_text"
+                    app:layout_constraintBottom_toBottomOf="@id/forum_tab"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/forum_tab"
+                    app:srcCompat="@drawable/ic_keyboard_arrow_down" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/forum_page"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/forum_tab" />
+    </com.saniou.santieba.widget.NestedCoordinatorLayout>
+</layout>

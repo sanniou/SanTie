@@ -36,6 +36,24 @@
             app:layout_constraintTop_toBottomOf="@id/action_bar"
             tools:background="@color/red" />
 
+        <TextView
+            backgroundStroke="@{viewModel.follow?@color/minorText:@color/design_blue}"
+            backgroundStrokeWidth="@{1}"
+            paddingHorizontalDp="@{8}"
+            paddingVerticalDp="@{4}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/image_padding"
+            android:foreground="?selectableItemBackground"
+            android:gravity="center"
+            android:hint="@string/mutual_subscribe"
+            android:onClick="@{()->viewModel.switchFollow()}"
+            android:text="@{viewModel.follow?@string/subscribed:@string/subscribe,default=follow}"
+            android:textColor="@{viewModel.follow?@color/minorText:@color/design_blue}"
+            app:layout_constraintBottom_toBottomOf="@id/avatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/avatar" />
+
         <ImageView
             android:id="@+id/avatar"
             circle="@{true}"
@@ -70,6 +88,7 @@
 
         <TextView
             android:id="@+id/distance"
+            visible="@{viewModel.distance.empty}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/view_padding"
@@ -80,6 +99,7 @@
 
         <TextView
             android:id="@+id/distance_time"
+            visible="@{viewModel.distanceTime.empty}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/view_padding"
@@ -89,6 +109,15 @@
             tools:text="@string/app_name" />
 
         <TextView
+            android:id="@+id/user_intro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_inside_padding"
+            android:text="@{viewModel.intro,default=intro}"
+            app:layout_constraintStart_toStartOf="@id/avatar"
+            app:layout_constraintTop_toBottomOf="@id/avatar" />
+
+        <TextView
             android:id="@+id/forums"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -96,7 +125,7 @@
             android:gravity="center"
             android:text="@{viewModel.likeCount}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/avatar"
+            app:layout_constraintTop_toBottomOf="@id/user_intro"
             app:layout_constraintWidth_percent="0.25"
             tools:text="{viewModel.likeCount}" />
 

@@ -2,7 +2,7 @@ package com.saniou.santieba.viewmodel
 
 import android.text.Html
 import com.blankj.utilcode.util.ToastUtils
-import com.saniou.santieba.api.TiebaRequest
+import com.saniou.santieba.model.TiebaRequest
 import com.saniou.santieba.kts.getDisplayTime
 import com.saniou.santieba.kts.toBool
 import com.saniou.santieba.vo.OnLoadListener

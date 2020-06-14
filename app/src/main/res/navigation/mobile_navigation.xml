@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/navbar_home">
+
+    <action
+        android:id="@+id/action_global_user_msign"
+        app:destination="@id/user_msign" />
+
+    <fragment
+        android:id="@+id/user_login"
+        android:name="com.saniou.santieba.component.LoginFragment"
+        android:label="@string/title_login">
+        <action
+            android:id="@+id/login_to_update"
+            app:destination="@id/user_update" />
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/navbar_explore"
+        android:name="com.saniou.santieba.component.FeedFragment"
+        android:label="@string/title_explore"
+        tools:layout="@layout/activity_feed" />
+
+
+    <fragment
+        android:id="@+id/navbar_msg"
+        android:name="com.saniou.santieba.component.HomeFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/activity_feed" />
+
+    <fragment
+        android:id="@+id/navbar_user"
+        android:name="com.saniou.santieba.component.FeedFragment"
+        android:label="@string/title_user"
+        tools:layout="@layout/activity_feed" />
+
+    <fragment
+        android:id="@+id/navbar_store"
+        android:name="com.saniou.santieba.component.store.StoreFragment"
+        android:label="@string/my_store"
+        tools:layout="@layout/activity_list">
+        <action
+            android:id="@+id/action_navbar_store_to_thread_page"
+            app:destination="@id/thread_page"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/msg_post"
+        android:name="com.saniou.santieba.component.ListItemFragment"
+        android:label="@string/title_user"
+        tools:layout="@layout/activity_feed">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/user_msign"
+        android:name="com.saniou.santieba.component.sign.MSignFragment"
+        android:label="@string/one_click_sign" />
+
+    <fragment
+        android:id="@+id/navbar_home"
+        android:name="com.saniou.santieba.component.HomeFragment"
+        android:label="@string/title_main">
+
+        <action
+            android:id="@+id/action_navbar_home_to_user_login"
+            app:destination="@id/user_login" />
+        <action
+            android:id="@+id/action_navbar_home_to_user_update"
+            app:destination="@id/user_update" />
+        <action
+            android:id="@+id/action_navbar_home_to_forum"
+            app:destination="@id/forum_main" />
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/user_update"
+        android:name="com.saniou.santieba.component.UpdateInfoFragment"
+        android:label="@string/update_tip_no_header" />
+
+    <fragment
+        android:id="@+id/forum_main"
+        android:name="com.saniou.santieba.component.forum.ForumMainFragment"
+        android:label="{forum}">
+        <argument
+            android:name="forum"
+            app:argType="string" />
+        <action
+            android:id="@+id/forum_main_to_thread"
+            app:destination="@id/thread_page"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_close_exit"
+            app:popEnterAnim="@anim/fragment_close_enter"
+            app:popExitAnim="@anim/fragment_close_exit" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/thread_page"
+        android:name="com.saniou.santieba.component.thread.ThreadPageFragment"
+        android:label="ThreadPageFragment"
+        app:popUpTo="@id/forum_main"
+        app:popUpToInclusive="true">
+        <argument
+            android:name="tid"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/forum_thread_to_sub_thread"
+            app:destination="@id/threadSubCommentFragment"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_close_exit"
+            app:popEnterAnim="@anim/fragment_close_enter"
+            app:popExitAnim="@anim/fragment_close_exit" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/search_fragment"
+        android:name="com.saniou.santieba.component.search.SearchFragment"
+        android:label="SearchFragmetn">
+
+        <action
+            android:id="@+id/action_search_fragment_to_forum_main"
+            app:destination="@id/forum_main" />
+        <action
+            android:id="@+id/action_search_fragment_to_thread_page"
+            app:destination="@id/thread_page" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_search_fragment"
+        app:destination="@id/search_fragment" />
+
+    <fragment
+        android:id="@+id/threadSubCommentFragment"
+        android:name="com.saniou.santieba.component.thread.ThreadSubCommentFragment"
+        android:label="ThreadSubCommentFragment">
+        <argument
+            android:name="tid"
+            app:argType="string" />
+        <argument
+            android:name="pid"
+            app:argType="string" />
+    </fragment>
+</navigation>

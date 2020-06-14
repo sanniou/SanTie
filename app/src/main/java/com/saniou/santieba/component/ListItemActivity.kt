@@ -14,15 +14,13 @@ import com.saniou.santieba.viewmodel.FollowsListViewModel
 import com.saniou.santieba.viewmodel.ForumListViewModel
 import com.saniou.santieba.viewmodel.ListItemViewModel
 import com.saniou.santieba.viewmodel.PostsListViewModel
+import com.saniou.santieba.viewmodel.ReplyListViewModel
 import com.saniou.santieba.viewmodel.StoreListViewModel
 import com.saniou.santieba.viewmodel.StoreThreadPageViewModel
 import com.saniou.santieba.viewmodel.ThreadPageViewModel
 import com.sanniou.support.extensions.getViewModel
 import com.sanniou.support.widget.recyclerview.OnHeaderClickListener
 import com.sanniou.support.widget.recyclerview.PinnedHeaderItemDecoration
-
-private const val LIST_CLASS = "class"
-private const val LIST_MAP = "map"
 
 open class ListItemActivity<T : ListItemViewModel> : SanBaseActivity<T>() {
 
@@ -31,7 +29,7 @@ open class ListItemActivity<T : ListItemViewModel> : SanBaseActivity<T>() {
     open fun onBinding(binding: ActivityListBinding) = Unit
 
     override fun createViewModel() =
-        getViewModel(intent.getSerializableExtra(LIST_CLASS) as Class<T>).apply {
+        getViewModel(intent.getSerializableExtra(LIST_VIEW_MODEL) as Class<T>).apply {
             initParam(intent.getSerializableExtra(LIST_MAP) as Map<String, String>)
         }
 
@@ -51,7 +49,7 @@ open class ListItemActivity<T : ListItemViewModel> : SanBaseActivity<T>() {
 
         binding.customerLayoutManager = customerLayoutManager
 
-        binding.actionBar.setNavigationOnClickListener { onBackPressed() }
+        // binding.actionBar.setNavigationOnClickListener { onBackPressed() }
         if (viewModel.getHeaderType() > 0) {
             binding.recycler.addItemDecoration(
                 PinnedHeaderItemDecoration
@@ -70,17 +68,17 @@ open class ListItemActivity<T : ListItemViewModel> : SanBaseActivity<T>() {
                     .create()
             )
         }
-        if (viewModel.autoRefresh()) {
-            binding.refresh.startRefresh()
+        if (viewModel.autoRefresh) {
+            viewModel.refresh()
         }
     }
 }
 
 fun toForum(forum: String) {
-    val context = ActivityUtils.getTopActivity()
-    val intent = Intent(context, ForumMainActivity::class.java)
-    intent.putExtra("name", forum)
-    context.startActivity(intent)
+    // val context = ActivityUtils.getTopActivity()
+    // val intent = Intent(context, ForumMainActivity::class.java)
+    // intent.putExtra("name", forum)
+    // context.startActivity(intent)
 }
 
 fun toStoreThreadPageList(
@@ -89,7 +87,7 @@ fun toStoreThreadPageList(
     markState: String = BOOLEAN_FALSE
 ) {
     toListItemActivity(ThreadPageViewActivity::class.java) {
-        putExtra(LIST_CLASS, StoreThreadPageViewModel::class.java)
+        putExtra(LIST_VIEW_MODEL, StoreThreadPageViewModel::class.java)
         putExtra(LIST_MAP, HashMap<String, String>()
             .apply {
                 put("tid", tid)
@@ -106,7 +104,7 @@ fun toThreadPageList(
     outside: String? = null
 ) {
     toListItemActivity(ThreadPageViewActivity::class.java) {
-        putExtra(LIST_CLASS, ThreadPageViewModel::class.java)
+        putExtra(LIST_VIEW_MODEL, ThreadPageViewModel::class.java)
         putExtra(LIST_MAP, HashMap<String, String>()
             .apply {
                 put("tid", tid)
@@ -117,19 +115,19 @@ fun toThreadPageList(
     }
 }
 
-fun toStoreList(uid: String) {
-    toListItemActivity(StoreViewActivity::class.java) {
-        putExtra(LIST_CLASS, StoreListViewModel::class.java)
-        putExtra(LIST_MAP, HashMap<String, String>()
-            .apply {
-                put("uid", uid)
-            })
-    }
-}
+// fun toStoreList(uid: String) {
+//     toListItemActivity(StoreViewActivity::class.java) {
+//         putExtra(LIST_VIEW_MODEL, StoreListViewModel::class.java)
+//         putExtra(LIST_MAP, HashMap<String, String>()
+//             .apply {
+//                 put("uid", uid)
+//             })
+//     }
+// }
 
 fun toForumList(uid: String) {
     toListItemActivity {
-        putExtra(LIST_CLASS, ForumListViewModel::class.java)
+        putExtra(LIST_VIEW_MODEL, ForumListViewModel::class.java)
         putExtra(LIST_MAP, HashMap<String, String>()
             .apply {
                 put("friendId", uid)
@@ -149,7 +147,7 @@ private fun toListItemActivity(
 
 fun toFansList(uid: String = "") {
     toListItemActivity {
-        putExtra(LIST_CLASS, FansListViewModel::class.java)
+        putExtra(LIST_VIEW_MODEL, FansListViewModel::class.java)
         putExtra(LIST_MAP, HashMap<String, String>()
             .apply {
                 put("friendId", uid)
@@ -157,9 +155,19 @@ fun toFansList(uid: String = "") {
     }
 }
 
+fun toReplyList(uid: String) {
+    toListItemActivity {
+        putExtra(LIST_VIEW_MODEL, ReplyListViewModel::class.java)
+        putExtra(LIST_MAP, HashMap<String, String>()
+            .apply {
+                put("uid", uid)
+            })
+    }
+}
+
 fun toPostsList(uid: String) {
     toListItemActivity {
-        putExtra(LIST_CLASS, PostsListViewModel::class.java)
+        putExtra(LIST_VIEW_MODEL, PostsListViewModel::class.java)
         putExtra(LIST_MAP, HashMap<String, String>()
             .apply {
                 put("uid", uid)
@@ -169,7 +177,7 @@ fun toPostsList(uid: String) {
 
 fun toFollowsList(uid: String = "") {
     toListItemActivity {
-        putExtra(LIST_CLASS, FollowsListViewModel::class.java)
+        putExtra(LIST_VIEW_MODEL, FollowsListViewModel::class.java)
         putExtra(LIST_MAP, HashMap<String, String>()
             .apply {
                 put("uid", uid)

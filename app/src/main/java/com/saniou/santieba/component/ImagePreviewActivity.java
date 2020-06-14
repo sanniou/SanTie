@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.saniou.santieba.R;
-import com.saniou.santieba.api.TiebaRequest;
+import com.saniou.santieba.model.TiebaRequest;
 import com.saniou.santieba.vo.PhotoViewItem;
 import com.saniou.santieba.widget.photoview.Info;
 import com.saniou.santieba.widget.photoview.PhotoView;

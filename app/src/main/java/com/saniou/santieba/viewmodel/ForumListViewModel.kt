@@ -1,6 +1,6 @@
 package com.saniou.santieba.viewmodel
 
-import com.saniou.santieba.api.TiebaRequest
+import com.saniou.santieba.model.TiebaRequest
 import com.saniou.santieba.constant.RANGE_NUMBER
 import com.saniou.santieba.vo.SimpleForumItem
 
@@ -8,7 +8,7 @@ class ForumListViewModel : PageAutoListItemViewModel() {
 
     override fun initParam(param: Map<String, String>) {
         super.initParam(param)
-        title.value = "${if (getValue("friendId").isEmpty()) "我" else "他"}关注的吧"
+        // title.value = "${if (getValue("friendId").isEmpty()) "我" else "他"}关注的吧"
     }
 
     override suspend fun fetchPage(page: Int) =

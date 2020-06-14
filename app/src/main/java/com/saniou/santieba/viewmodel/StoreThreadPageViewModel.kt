@@ -1,7 +1,7 @@
 package com.saniou.santieba.viewmodel
 
-import com.saniou.santieba.api.TiebaRequest
-import com.saniou.santieba.api.bean.ThreadPage
+import com.saniou.santieba.model.TiebaRequest
+import com.saniou.santieba.model.bean.ThreadPage
 import com.saniou.santieba.constant.BOOLEAN_FALSE
 import com.saniou.santieba.constant.BOOLEAN_TRUE
 import com.saniou.santieba.constant.PORTRAIT_HOST
@@ -59,7 +59,7 @@ class StoreThreadPageViewModel : PageViewModel() {
         )
             .let { threadDetail ->
 
-                title.value = threadDetail.forum.name
+                // title.value = threadDetail.forum.name
 
                 store.value = threadDetail.thread.collectStatus.toBool()
 
