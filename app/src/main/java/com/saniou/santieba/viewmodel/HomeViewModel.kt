@@ -13,10 +13,11 @@ class HomeViewModel : ListItemViewModel() {
     override val refreshable = true
 
     init {
-        startRefresh.value=true
+        startRefresh.value = Unit
     }
 
     override fun fetchData() {
+        startRefresh.value = null
         launch {
             try {
                 SanTiebaApi.forumRecommend()

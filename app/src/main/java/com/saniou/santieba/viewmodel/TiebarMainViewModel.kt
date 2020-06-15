@@ -2,11 +2,11 @@ package com.saniou.santieba.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.sanniou.support.components.BaseViewModel
-import com.sanniou.support.lifecycle.LatestLiveEvent
-import com.sanniou.support.lifecycle.SingleLiveEvent
+import com.sanniou.support.lifecycle.LatestLiveData
+import com.sanniou.support.lifecycle.SingleLiveData
 
 class TiebarMainViewModel : BaseViewModel() {
-    val appmenu = SingleLiveEvent<Int>()
+    val appmenu = SingleLiveData<Int>()
     val appTitle = MutableLiveData<CharSequence>()
-    val menuClicked = LatestLiveEvent<Int>()
+    val menuClicked = LatestLiveData<Int>()
 }

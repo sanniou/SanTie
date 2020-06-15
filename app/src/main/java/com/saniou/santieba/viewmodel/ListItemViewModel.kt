@@ -1,22 +1,21 @@
 package com.saniou.santieba.viewmodel
 
 import androidx.annotation.CallSuper
-import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.ToastUtils
 import com.sanniou.multiitem.DataItem
 import com.sanniou.multiitemkit.vo.LoadMoreItem
 import com.sanniou.multiitemkit.vo.NonItem
 import com.sanniou.support.components.BaseListViewModel
 import com.sanniou.support.exception.ExceptionEngine
-import com.sanniou.support.lifecycle.SingleLiveEvent
+import com.sanniou.support.lifecycle.SingleLiveData
 
 abstract class ListItemViewModel : BaseListViewModel() {
 
     private val param = mutableMapOf<String, String>()
 
-    val refreshState = SingleLiveEvent<Boolean>()
+    val refreshState = SingleLiveData<Boolean>()
 
-    val startRefresh = SingleLiveEvent<Boolean>()
+    val startRefresh = SingleLiveData<Any?>()
 
     open val dividerHeight = 1
 

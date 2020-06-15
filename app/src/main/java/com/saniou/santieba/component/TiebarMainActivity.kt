@@ -5,21 +5,14 @@ import android.view.MenuItem
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.appbar.MaterialToolbar
-import com.saniou.santieba.MainNavigationDirections
 import com.saniou.santieba.R
 import com.saniou.santieba.databinding.ActivityTiebarMainBinding
 import com.saniou.santieba.viewmodel.TiebarMainViewModel
-import com.sanniou.support.components.BaseViewModel
 import com.sanniou.support.extensions.getViewModel
-import com.sanniou.support.extensions.startActivityEx
-import com.sanniou.support.lifecycle.SingleLiveEvent
 
 class TiebarMainActivity : SanBaseActivity<TiebarMainViewModel>() {
 

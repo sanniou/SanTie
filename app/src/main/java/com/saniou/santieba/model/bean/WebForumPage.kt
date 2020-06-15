@@ -16,8 +16,6 @@ data class WebForumPage(
     data class Data(
         @Json(name = "android_client_version")
         val androidClientVersion: String = "",
-        @Json(name = "current_tab_id")
-        val currentTabId: Int = 0,
         @Json(name = "frs_data")
         val frsData: FrsData = FrsData(),
         @Json(name = "frs_hotthread_floor")
@@ -26,10 +24,6 @@ data class WebForumPage(
         val invokeType: Int = 0,
         @Json(name = "is_newfrs")
         val isNewfrs: Int = 0,
-        @Json(name = "nav_tab_info")
-        val navTabInfo: List<NavTabInfo> = listOf(),
-        @Json(name = "nav_tab_list")
-        val navTabList: List<NavTab> = listOf(),
         @Json(name = "pb_cut_floor")
         val pbCutFloor: String = ""
     ) {
@@ -150,29 +144,5 @@ data class WebForumPage(
                 )
             }
         }
-
-        @JsonClass(generateAdapter = true)
-        data class NavTabInfo(
-            @Json(name = "sort_type")
-            val sortType: Int = 0,
-            @Json(name = "tab_name")
-            val tabName: String = "",
-            @Json(name = "tab_type")
-            val tabType: Int = 0,
-            @Json(name = "tab_url")
-            val tabUrl: String = ""
-        )
-
-        @JsonClass(generateAdapter = true)
-        data class NavTab(
-            @Json(name = "tab_id")
-            val tabId: Int = 0,
-            @Json(name = "tab_name")
-            val tabName: String = "",
-            @Json(name = "tab_type")
-            val tabType: Int = 0,
-            @Json(name = "tab_url")
-            val tabUrl: String = ""
-        )
     }
 }
