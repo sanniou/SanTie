@@ -14,19 +14,19 @@ open class ListItem() : DataItem {
     var data = MultiItemArrayList<DataItem>()
 
     override fun getItemType() = R.layout.item_list
-
 }
 
 class FlexListItem : ListItem() {
 
-    private var created = false
+    init {
+        customerLayoutManager = true
+    }
 
     override fun onBind(holder: AdapterViewHolder) {
-        if (!created) {
-            (holder.itemView as RecyclerView).run {
+        (holder.itemView as RecyclerView).run {
+            if (layoutManager !is FlexboxLayoutManager) {
                 layoutManager = FlexboxLayoutManager(holder.itemView.context)
             }
-            created = true
         }
         super.onBind(holder)
     }

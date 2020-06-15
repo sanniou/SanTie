@@ -64,7 +64,7 @@
             android:layout_gravity="center"
             android:layout_margin="@dimen/slide_margin"
             android:inflatedId="@id/dialog_content"
-            app:layout_constraintBottom_toTopOf="@+id/dialog_cancel"
+            app:layout_constraintBottom_toTopOf="@id/dialog_cancel"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -94,7 +94,7 @@
                 app:backgroundColor="@color/config_transparent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/dialog_sure"
+                app:layout_constraintRight_toLeftOf="@id/dialog_sure"
                 app:layout_constraintTop_toBottomOf="@id/dialog_content"
                 app:radiusBottomLeft="@dimen/dialog_radius" />
 

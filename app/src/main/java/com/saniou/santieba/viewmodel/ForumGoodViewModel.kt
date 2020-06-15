@@ -15,9 +15,11 @@ class ForumGoodViewModel : ForumPageViewModel() {
 
     override fun onRefresh() {
         super.onRefresh()
-        goodClassifyId = goodClassify.first().classId
-        set(0, FlexListItem().apply {
-            data.addAll(goodClassify.map { TextItem(it.className) })
-        })
+        goodClassify.firstOrNull()?.run {
+            goodClassifyId = this.classId
+            set(0, FlexListItem().apply {
+                data.addAll(goodClassify.map { TextItem(it.className) })
+            })
+        }
     }
 }

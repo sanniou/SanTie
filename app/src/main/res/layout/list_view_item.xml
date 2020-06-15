@@ -48,9 +48,9 @@
         android:text=""
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@+id/user_points_text"
-        app:layout_constraintEnd_toStartOf="@+id/user_rank_text"
-        app:layout_constraintStart_toEndOf="@+id/user_avatar_image"
+        app:layout_constraintBottom_toTopOf="@id/user_points_text"
+        app:layout_constraintEnd_toStartOf="@id/user_rank_text"
+        app:layout_constraintStart_toEndOf="@id/user_avatar_image"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@tools:sample/full_names" />
 
@@ -64,9 +64,9 @@
         android:text="string/user_points"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/user_rank_text"
-        app:layout_constraintStart_toEndOf="@+id/user_avatar_image"
-        app:layout_constraintTop_toBottomOf="@+id/user_name_text"
+        app:layout_constraintEnd_toStartOf="@id/user_rank_text"
+        app:layout_constraintStart_toEndOf="@id/user_avatar_image"
+        app:layout_constraintTop_toBottomOf="@id/user_name_text"
         tools:text="10,000 pts" />
 
     <TextView

@@ -1,5 +1,6 @@
 package com.saniou.santieba.model.bean
 
+import com.sanniou.support.moshi.IgnoreJsonString2List
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -11,6 +12,7 @@ data class ForumSug(
     val errorCode: String = "",
     @Json(name = "error_msg")
     val errorMsg: String = "",
+    @IgnoreJsonString2List
     @Json(name = "fname")
     val fname: List<String> = listOf(),
     @Json(name = "logid")

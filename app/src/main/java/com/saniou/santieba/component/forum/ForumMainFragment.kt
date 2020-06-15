@@ -33,6 +33,17 @@ class ForumMainFragment : SanBaseFragment<ForumMainViewModel>() {
             .apply {
                 setValue("forum", requireArguments().getString("forum", ""))
             }
+        binding
+            .let { binding ->
+                // saveState 有问题，save 之后 childFragment 会被remove,无法 restore
+                // 所以禁用 save ，childFragment 由 parent 持有
+                binding.forumPage.isSaveEnabled = false
+                binding.forumPage.adapter = ForumMainAdapter(this, arguments, fs)
+                binding.forumPage.post {
+                    binding.forumTab.setScrollPosition(1, 0f, true);
+                    binding.forumPage.setCurrentItem(1,false)
+                }
+            }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,18 +67,6 @@ class ForumMainFragment : SanBaseFragment<ForumMainViewModel>() {
                 }
             }
         })
-
-        (binding as FragmentForumMainBinding)
-            .let { binding ->
-                // saveState 有问题，save 之后 childFragment 会被remove,无法 restore
-                // 所以禁用 save ，childFragment 由 parent 持有
-                binding.forumPage.isSaveEnabled = false
-                binding.forumPage.adapter = ForumMainAdapter(this, arguments, fs)
-                binding.forumPage.post {
-                    binding.forumTab.setScrollPosition(1, 0f, true);
-                    binding.forumPage.setCurrentItem(1,false)
-                }
-            }
         super.onViewCreated(view, savedInstanceState)
     }
 

@@ -13,6 +13,7 @@ class ThreadItem(
     private var isTop: Boolean,
     private var isGood: Boolean,
     private var isLivePost: Boolean,
+    var isNoTitle: Boolean,
     var tid: String,
     var title: CharSequence,
     var posterName: CharSequence,

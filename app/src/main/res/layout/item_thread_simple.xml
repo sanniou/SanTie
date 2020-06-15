@@ -22,8 +22,8 @@
         android:text="@{item.showTitle}"
         android:textColor="@color/majorText"
         android:textSize="@dimen/majorText"
-        app:layout_constraintEnd_toEndOf="@+id/poster_name"
-        app:layout_constraintStart_toStartOf="@+id/poster_avatar"
-        app:layout_constraintTop_toBottomOf="@+id/poster_avatar"
+        app:layout_constraintEnd_toEndOf="@id/poster_name"
+        app:layout_constraintStart_toStartOf="@id/poster_avatar"
+        app:layout_constraintTop_toBottomOf="@id/poster_avatar"
         tools:text="post_title" />
 </layout>

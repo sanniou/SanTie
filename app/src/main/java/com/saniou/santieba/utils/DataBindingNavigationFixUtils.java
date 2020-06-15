@@ -6,10 +6,10 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 
 /**
- * fix DataBinding not receiving LiveData updates after navigation to other fragment and return
- * when use navigation ,it will replace fragments when change ui , so the last fragment will call destroy,and ViewDataBinding unregister all LiveData
- * but when back to teh last, fragment recreate, in this time mLocalFieldObservers in ViewDataBinding had been set, so cannot register new LiveData Observer
- * we need reset mLocalFieldObservers by use reflect
+ * fix DataBinding not receiving LiveData updates after navigation to other fragment and return.
+ * when use navigation ,it will replace fragments when change ui , so the last fragment will call destroy,and ViewDataBinding unregister all LiveData.
+ * when back to the last, fragment recreate but not new instance, in this time mLocalFieldObservers in ViewDataBinding had been set, so cannot register new LiveData Observer.
+ * we need reset mLocalFieldObservers by use reflect.
  */
 public class DataBindingNavigationFixUtils {
 

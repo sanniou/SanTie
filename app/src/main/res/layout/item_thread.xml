@@ -44,8 +44,8 @@
             android:textSize="@dimen/majorText"
             app:layout_constraintBottom_toTopOf="@id/poster_time"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/poster_avatar"
-            app:layout_constraintTop_toTopOf="@+id/poster_avatar"
+            app:layout_constraintStart_toEndOf="@id/poster_avatar"
+            app:layout_constraintTop_toTopOf="@id/poster_avatar"
             tools:text="poster_name" />
 
         <TextView
@@ -55,8 +55,8 @@
             android:text="@{item.time}"
             android:textColor="@color/minorText"
             android:textSize="@dimen/minorText"
-            app:layout_constraintBottom_toBottomOf="@+id/poster_avatar"
-            app:layout_constraintStart_toStartOf="@+id/poster_name"
+            app:layout_constraintBottom_toBottomOf="@id/poster_avatar"
+            app:layout_constraintStart_toStartOf="@id/poster_name"
             app:layout_constraintTop_toBottomOf="@id/poster_name"
             tools:text="poster_time" />
 
@@ -66,11 +66,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/view_padding"
             android:text="@{item.showTitle}"
+            visible="@{!item.isNoTitle}"
             android:textColor="@color/majorText"
             android:textSize="@dimen/majorText"
-            app:layout_constraintEnd_toEndOf="@+id/poster_name"
-            app:layout_constraintStart_toStartOf="@+id/poster_avatar"
-            app:layout_constraintTop_toBottomOf="@+id/poster_avatar"
+            app:layout_constraintEnd_toEndOf="@id/poster_name"
+            app:layout_constraintStart_toStartOf="@id/poster_avatar"
+            app:layout_constraintTop_toBottomOf="@id/poster_avatar"
             tools:text="post_title" />
 
         <TextView
@@ -83,8 +84,8 @@
             android:text="@{item.content}"
             android:textColor="@color/normalText"
             android:textSize="@dimen/normalText"
-            app:layout_constraintEnd_toEndOf="@+id/post_title"
-            app:layout_constraintStart_toStartOf="@+id/post_title"
+            app:layout_constraintEnd_toEndOf="@id/post_title"
+            app:layout_constraintStart_toStartOf="@id/post_title"
             app:layout_constraintTop_toBottomOf="@id/post_title"
             tools:text="post_content" />
 

@@ -105,6 +105,7 @@ open class ForumPageViewModel : PageAutoListItemViewModel() {
                     thread.isTop.toBool(),
                     thread.isGood.toBool(),
                     thread.isLivepost.toBool(),
+                    thread.isNtitle.toBool(),
                     thread.tid,
                     thread.title,
                     "${author.nameShow}(${author.name})",
