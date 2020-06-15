@@ -10,12 +10,14 @@
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
-        android:padding="@dimen/view_inside_padding"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="@dimen/view_inside_padding">
 
         <TextView
-            android:text="@{item.text}"
+            textSize="@{item.textSize}"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@{item.text}"
+            textColorRes="@{item.textColor}" />
     </FrameLayout>
 </layout>

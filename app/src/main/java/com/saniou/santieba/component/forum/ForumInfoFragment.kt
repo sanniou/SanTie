@@ -26,4 +26,11 @@ class ForumInfoFragment : ListItemFragment<ForumInfoViewModel>() {
             true
         })
     }
+
+    override fun onResume() {
+        if (viewModel.refreshState.value != true) {
+            viewModel.refresh()
+        }
+        super.onResume()
+    }
 }

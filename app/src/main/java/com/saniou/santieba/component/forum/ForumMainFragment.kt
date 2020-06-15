@@ -60,7 +60,7 @@ class ForumMainFragment : SanBaseFragment<ForumMainViewModel>() {
         (binding as FragmentForumMainBinding)
             .let { binding ->
                 // saveState 有问题，save 之后 childFragment 会被remove,无法 restore
-                // 所以禁用 save ，childFragment 有 parent 持有
+                // 所以禁用 save ，childFragment 由 parent 持有
                 binding.forumPage.isSaveEnabled = false
                 binding.forumPage.adapter = ForumMainAdapter(this, arguments, fs)
                 binding.forumPage.post {

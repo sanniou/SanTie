@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.blankj.utilcode.util.SnackbarUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
@@ -33,14 +34,15 @@ class StoreFragment : ListItemFragment<StoreListViewModel>() {
                 (it.item as? StoreThreadItem)?.run {
                     takeIf { item -> !item.isDeleted }
                         ?.run {
-                            findNavController().navigate(StoreFragmentDirections.actionNavbarStoreToThreadPage(tid))
-                            // toStoreThreadPageList(
-                            //     tid,
-                            //     markPid,
-                            //     markState
-                            // )
+                            findNavController().navigate(
+                                StoreFragmentDirections.actionNavbarStoreToThreadPage(
+                                    tid,
+                                    markPid,
+                                    markState
+                                )
+                            )
                         }
-                        ?: run { ToastUtils.showShort("帖子被删除") }
+                        ?: run { SnackbarUtils.with(binding.root).setMessage("帖子被删除").show() }
                 }
                 false
             },
@@ -80,5 +82,4 @@ class StoreFragment : ListItemFragment<StoreListViewModel>() {
         })
         super.onViewCreated(view, savedInstanceState)
     }
-
 }

@@ -22,6 +22,7 @@ import com.saniou.santieba.model.bean.ForumRecommend
 import com.saniou.santieba.model.bean.StatusResponse
 import com.saniou.santieba.model.bean.ThreadStore
 import com.saniou.santieba.model.bean.UserInfo
+import com.saniou.santieba.model.bean.WebForumPage
 import com.saniou.santieba.viewmodel.MARK_STATE
 import com.sanniou.support.exception.ApiErrorException
 import com.squareup.moshi.Types
@@ -373,11 +374,16 @@ object SanTiebaApi : ITiebaApi {
         goodClassifyId: String?,
         sortType: ForumSortType,
         pageSize: Int
-    ): StatusResponse =
+    ): WebForumPage.Data =
         TiebaRetrofit.WEB_TIEBA_API.frs(
             forumName,
             (page - 1) * pageSize,
             sortType.value,
             goodClassifyId
-        )
+        ).run {
+            if (error.isNotEmpty()) {
+                throw ApiErrorException(-1, error)
+            }
+            data
+        }
 }

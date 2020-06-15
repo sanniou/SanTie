@@ -20,11 +20,11 @@ import com.saniou.santieba.constant.TIEBA_HOST
 import com.saniou.santieba.databinding.ActivityListBinding
 import com.saniou.santieba.dialog.LMessageDialog
 import com.saniou.santieba.kts.changeMenu
-import com.saniou.santieba.kts.startActivityEx
 import com.saniou.santieba.kts.tintDrawable
 import com.saniou.santieba.utils.ClipboardUtils
 import com.saniou.santieba.utils.openBrowser
 import com.saniou.santieba.viewmodel.PageViewModel
+import com.saniou.santieba.viewmodel.StoreThreadPageViewModel
 import com.saniou.santieba.viewmodel.ThreadPageViewModel
 import com.saniou.santieba.vo.CommentImageItem
 import com.saniou.santieba.vo.FloorTopItem
@@ -39,10 +39,23 @@ class ThreadPageFragment : ListItemFragment<PageViewModel>() {
     var top: Int = 0
     var viewHolder: RecyclerView.ViewHolder? = null
 
-    override fun getViewModelInstance() = getViewModel<ThreadPageViewModel>()
-        .apply {
-            setValue("tid", requireArguments().getString("tid", ""))
-        }
+    override fun getViewModelInstance() =
+        if (requireArguments().getString("markState") == null) createThreadPageViewModel() else createStoreThreadPageViewModel()
+
+    private fun createThreadPageViewModel() =
+        getViewModel<ThreadPageViewModel>()
+            .apply {
+                setValue("tid", requireArguments().getString("tid")!!)
+            }
+
+    private fun createStoreThreadPageViewModel()=
+        getViewModel<StoreThreadPageViewModel>()
+            .apply {
+                val arguments = requireArguments()
+                setValue("tid", arguments.getString("tid")!!)
+                setValue("markState", arguments.getString("markState")!!)
+                setValue("pid", arguments.getString("pid")!!)
+            }
 
     fun onBackPressed() {
         if (!viewModel.store.value) {

@@ -62,10 +62,11 @@ class TiebarMainActivity : SanBaseActivity<TiebarMainViewModel>() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        if (inflatedMenu != viewModel.appmenu.value) {
+        val value = viewModel.appmenu.value
+        if (value != null && inflatedMenu != value) {
             menu?.clear()
-            menuInflater.inflate(viewModel.appmenu.value, menu);
-            inflatedMenu = viewModel.appmenu.value
+            menuInflater.inflate(value, menu);
+            inflatedMenu = value
         }
         return super.onPrepareOptionsMenu(menu)
     }

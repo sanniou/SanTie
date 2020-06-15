@@ -4,6 +4,7 @@ import android.text.TextUtils
 import com.saniou.santieba.model.api.reqeust.Header
 import com.saniou.santieba.model.bean.StatusResponse
 import com.saniou.santieba.model.bean.UserInfo
+import com.saniou.santieba.model.bean.WebForumPage
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -74,7 +75,7 @@ interface WebTiebaApi {
         @Query("cid") cid: String?,
         @Query("lm") lm: String? = if (!TextUtils.isEmpty(cid)) "4" else null,
         @Query("fr") fr: String = "newwise"
-    ): StatusResponse
+    ): WebForumPage
 
     @Headers(
         "${Header.ADD_COOKIE}: ${Header.ADD_COOKIE_FALSE}"

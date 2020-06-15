@@ -11,6 +11,7 @@ import com.saniou.santieba.model.bean.ForumRecommend
 import com.saniou.santieba.model.bean.StatusResponse
 import com.saniou.santieba.model.bean.ThreadStore
 import com.saniou.santieba.model.bean.UserInfo
+import com.saniou.santieba.model.bean.WebForumPage
 
 interface ITiebaApi {
     /**
@@ -540,5 +541,5 @@ interface ITiebaApi {
         goodClassifyId: String? = null,
         sortType: ForumSortType = ForumSortType.REPLY_TIME,
         pageSize: Int = 30
-    ): StatusResponse
+    ): WebForumPage.Data
 }

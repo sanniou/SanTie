@@ -115,6 +115,16 @@
         <argument
             android:name="tid"
             app:argType="string" />
+        <argument
+            android:name="pid"
+            app:argType="string"
+            android:defaultValue="@null"
+            app:nullable="true" />
+        <argument
+            android:defaultValue="@null"
+            android:name="markState"
+            app:argType="string"
+            app:nullable="true" />
 
         <action
             android:id="@+id/forum_thread_to_sub_thread"

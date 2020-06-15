@@ -16,10 +16,6 @@ class HomeViewModel : ListItemViewModel() {
         startRefresh.value=true
     }
 
-    override fun onRefresh() {
-        fetchData()
-    }
-
     override fun fetchData() {
         launch {
             try {

@@ -8,14 +8,15 @@ import com.sanniou.multiitemkit.vo.LoadMoreItem
 import com.sanniou.multiitemkit.vo.NonItem
 import com.sanniou.support.components.BaseListViewModel
 import com.sanniou.support.exception.ExceptionEngine
+import com.sanniou.support.lifecycle.SingleLiveEvent
 
 abstract class ListItemViewModel : BaseListViewModel() {
 
     private val param = mutableMapOf<String, String>()
 
-    val refreshState = MutableLiveData<Boolean>()
-    val startRefresh = MutableLiveData<Boolean>()
+    val refreshState = SingleLiveEvent<Boolean>()
 
+    val startRefresh = SingleLiveEvent<Boolean>()
 
     open val dividerHeight = 1
 
@@ -44,6 +45,7 @@ abstract class ListItemViewModel : BaseListViewModel() {
     }
 
     open fun onRefresh() {
+        fetchData()
     }
 
     fun getValue(key: String) = param[key]!!
