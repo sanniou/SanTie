@@ -17,7 +17,6 @@ class HomeViewModel : ListItemViewModel() {
     }
 
     override fun fetchData() {
-        startRefresh.value = null
         launch {
             try {
                 SanTiebaApi.forumRecommend()

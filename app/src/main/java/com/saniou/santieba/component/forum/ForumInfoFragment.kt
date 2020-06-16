@@ -20,7 +20,7 @@ class ForumInfoFragment : ListItemFragment<ForumInfoViewModel>() {
 
     override fun onBinding(binding: ActivityListBinding) {
         ItemClickHelper.attachToRecyclerView(binding.recycler, OnItemClickListener {
-            (it.item as? ThreadItem?)?.run {
+            (it.item as? ThreadItem)?.run {
                 findNavController().navigate(ForumMainFragmentDirections.forumMainToThread(tid))
             }
             true
@@ -29,7 +29,7 @@ class ForumInfoFragment : ListItemFragment<ForumInfoViewModel>() {
 
     override fun onResume() {
         if (viewModel.refreshState.value != true) {
-            viewModel.refresh()
+            viewModel.startRefresh.value = Unit
         }
         super.onResume()
     }

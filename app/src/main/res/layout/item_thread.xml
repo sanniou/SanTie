@@ -84,8 +84,8 @@
             android:text="@{item.content}"
             android:textColor="@color/normalText"
             android:textSize="@dimen/normalText"
-            app:layout_constraintEnd_toEndOf="@id/post_title"
-            app:layout_constraintStart_toStartOf="@id/post_title"
+            app:layout_constraintEnd_toEndOf="@id/poster_name"
+            app:layout_constraintStart_toStartOf="@id/poster_avatar"
             app:layout_constraintTop_toBottomOf="@id/post_title"
             tools:text="post_content" />
 

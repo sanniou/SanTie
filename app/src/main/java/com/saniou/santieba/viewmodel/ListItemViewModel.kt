@@ -7,6 +7,7 @@ import com.sanniou.multiitemkit.vo.LoadMoreItem
 import com.sanniou.multiitemkit.vo.NonItem
 import com.sanniou.support.components.BaseListViewModel
 import com.sanniou.support.exception.ExceptionEngine
+import com.sanniou.support.lifecycle.OnceLiveData
 import com.sanniou.support.lifecycle.SingleLiveData
 
 abstract class ListItemViewModel : BaseListViewModel() {
@@ -15,7 +16,7 @@ abstract class ListItemViewModel : BaseListViewModel() {
 
     val refreshState = SingleLiveData<Boolean>()
 
-    val startRefresh = SingleLiveData<Any?>()
+    val startRefresh = OnceLiveData<Any?>(1)
 
     open val dividerHeight = 1
 

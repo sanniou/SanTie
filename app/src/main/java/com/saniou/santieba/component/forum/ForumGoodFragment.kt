@@ -24,7 +24,7 @@ class ForumGoodFragment : ListItemFragment<ForumGoodViewModel>() {
             requireParentFragment().getViewModel<ForumPageViewModel>().goodClassify
 
         ItemClickHelper.attachToRecyclerView(binding.recycler, OnItemClickListener {
-            (it.item as? ThreadItem?)?.run {
+            (it.item as? ThreadItem)?.run {
                 findNavController().navigate(ForumMainFragmentDirections.forumMainToThread(tid))
             }
             true

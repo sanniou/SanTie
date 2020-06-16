@@ -10,6 +10,9 @@ import com.sanniou.support.exception.ExceptionEngine
 
 class ForumInfoViewModel : ListItemViewModel() {
 
+    override val refreshable: Boolean
+        get() = true
+
     override fun fetchData() {
         launch {
             try {
