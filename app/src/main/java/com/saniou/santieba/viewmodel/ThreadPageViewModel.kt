@@ -67,17 +67,15 @@ abstract class PageViewModel : PointAutoListItemViewModel() {
 
     override fun getHeaderType() = R.layout.item_thread_title
 
-    fun addStore(pid: String) {
-        launch {
-            try {
-                TiebaRequest.addStore(tid, pid, lzOly.value, reverse.value)
-                    .let {
-                        ToastUtils.showShort("收藏成功")
-                        store.value = !store.value
-                    }
-            } catch (e: Exception) {
-                ToastUtils.showShort(ExceptionEngine.handleMessage(e))
-            }
+    suspend fun addStore(pid: String) {
+        try {
+            TiebaRequest.addStore(tid, pid, lzOly.value, reverse.value)
+                .let {
+                    ToastUtils.showShort("收藏成功")
+                    store.value = !store.value
+                }
+        } catch (e: Exception) {
+            ToastUtils.showShort(ExceptionEngine.handleMessage(e))
         }
     }
 

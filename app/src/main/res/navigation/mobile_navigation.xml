@@ -22,22 +22,23 @@
 
     <fragment
         android:id="@+id/navbar_explore"
-        android:name="com.saniou.santieba.component.FeedFragment"
-        android:label="@string/title_explore"
-        tools:layout="@layout/activity_feed" />
+        android:name="com.saniou.santieba.component.feed.FeedFragment"
+        android:label="@string/title_explore">
+
+        <action
+            android:id="@+id/action_navbar_explore_to_thread_page"
+            app:destination="@id/thread_page"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_close_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
+    </fragment>
 
 
     <fragment
         android:id="@+id/navbar_msg"
         android:name="com.saniou.santieba.component.HomeFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/activity_feed" />
-
-    <fragment
-        android:id="@+id/navbar_user"
-        android:name="com.saniou.santieba.component.FeedFragment"
-        android:label="@string/title_user"
-        tools:layout="@layout/activity_feed" />
+        android:label="@string/title_notifications" />
 
     <fragment
         android:id="@+id/navbar_store"
@@ -56,8 +57,7 @@
     <fragment
         android:id="@+id/msg_post"
         android:name="com.saniou.santieba.component.ListItemFragment"
-        android:label="@string/title_user"
-        tools:layout="@layout/activity_feed">
+        android:label="@string/title_user">
 
     </fragment>
 
@@ -117,12 +117,12 @@
             app:argType="string" />
         <argument
             android:name="pid"
-            app:argType="string"
             android:defaultValue="@null"
+            app:argType="string"
             app:nullable="true" />
         <argument
-            android:defaultValue="@null"
             android:name="markState"
+            android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
 

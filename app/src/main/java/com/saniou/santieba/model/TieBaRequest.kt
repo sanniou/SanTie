@@ -983,7 +983,7 @@ object TiebaRequest : TiebaService {
         hashMap["net_type"] = netType
         hashMap["pn"] = page
         hashMap["q_type"] = "2"
-        hashMap["rn"] = "20"
+        hashMap["rn"] = RANGE_NUMBER.toString()
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["uid"] = uid
         hashMap["sign"] = calsign(hashMap)

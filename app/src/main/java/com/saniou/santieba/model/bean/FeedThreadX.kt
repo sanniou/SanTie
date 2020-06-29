@@ -58,7 +58,7 @@ data class FeedThread(
         @Json(name = "is_voice_thread")
         val isVoiceThread: String = "",
         @Json(name = "media")
-        val media: List<Media> = listOf(),
+        val media: List<ThreadStore.StoreThread.Media> = listOf(),
         @Json(name = "modify_time")
         val modifyTime: String = "",
         @Json(name = "post_num")
@@ -86,30 +86,6 @@ data class FeedThread(
             val text: String = "",
             @Json(name = "type")
             val type: String = ""
-        )
-
-        @JsonClass(generateAdapter = true)
-        data class Media(
-            @Json(name = "big_pic")
-            val bigPic: String = "",
-            @Json(name = "is_long_pic")
-            val isLongPic: String = "",
-            @Json(name = "pic_info")
-            val picInfo: String = "",
-            @Json(name = "post_id")
-            val postId: String = "",
-            @Json(name = "show_original_btn")
-            val showOriginalBtn: String = "",
-            @Json(name = "src")
-            val src: String = "",
-            @Json(name = "type")
-            val type: String = "",
-            @Json(name = "vhsrc")
-            val vhsrc: String = "",
-            @Json(name = "vpic")
-            val vpic: String = "",
-            @Json(name = "vsrc")
-            val vsrc: String = ""
         )
 
         @JsonClass(generateAdapter = true)

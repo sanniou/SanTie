@@ -14,6 +14,7 @@ import com.saniou.santieba.vo.FloorTopItem
 import com.saniou.santieba.vo.SubCommentItem
 import com.sanniou.multiitemkit.ItemClickHelper
 import com.sanniou.multiitemkit.OnItemClickListener
+import kotlinx.coroutines.launch
 
 class ThreadPageViewActivity : ListItemActivity<PageViewModel>() {
 
@@ -29,7 +30,10 @@ class ThreadPageViewActivity : ListItemActivity<PageViewModel>() {
                 LMessageDialog(this)
                     .setMessage("是否更新收藏到${it.floor}")
                     .okListener { dialog, button ->
-                        viewModel.addStore(it.pid)
+                        launch {
+                            viewModel.addStore(it.pid)
+                            finish()
+                        }
                     }
                     .cancelListener { dialog, button ->
                         super.onBackPressed()

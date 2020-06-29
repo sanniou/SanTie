@@ -33,6 +33,7 @@ import com.sanniou.multiitemkit.ItemClickHelper
 import com.sanniou.multiitemkit.OnItemClickListener
 import com.sanniou.support.extensions.getViewModel
 import com.sanniou.support.utils.ResourcesUtils
+import kotlinx.coroutines.launch
 
 class ThreadPageFragment : ListItemFragment<PageViewModel>() {
 
@@ -48,7 +49,7 @@ class ThreadPageFragment : ListItemFragment<PageViewModel>() {
                 setValue("tid", requireArguments().getString("tid")!!)
             }
 
-    private fun createStoreThreadPageViewModel()=
+    private fun createStoreThreadPageViewModel() =
         getViewModel<StoreThreadPageViewModel>()
             .apply {
                 val arguments = requireArguments()
@@ -66,10 +67,13 @@ class ThreadPageFragment : ListItemFragment<PageViewModel>() {
             .also {
                 LMessageDialog(requireContext())
                     .setMessage("是否更新收藏到${it.floor}")
-                    .okListener { dialog, button ->
-                        viewModel.addStore(it.pid)
+                    .okListener { _, _ ->
+                        launch {
+                            viewModel.addStore(it.pid)
+                            findNavController().navigateUp()
+                        }
                     }
-                    .cancelListener { dialog, button ->
+                    .cancelListener { _, _ ->
                         findNavController().navigateUp()
                     }
                     .show()
@@ -95,7 +99,9 @@ class ThreadPageFragment : ListItemFragment<PageViewModel>() {
                     if (viewModel.store.value) {
                         viewModel.rmStore()
                     } else {
-                        viewModel.addStore(findFirstPid(binding as ActivityListBinding))
+                        launch {
+                            viewModel.addStore(findFirstPid(binding as ActivityListBinding))
+                        }
                     }
                 }
                 R.id.menu_share -> {
