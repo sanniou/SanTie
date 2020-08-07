@@ -29,7 +29,7 @@ object TiebaRetrofit {
     private val connectionPool = ConnectionPool()
 
     private val defaultCommonParamInterceptor = CommonParamInterceptor(
-        Param.BDUSS to { AccountUtil.getBduss(Utils.getApp()) },
+        Param.BDUSS to { AccountUtil.getBduss() },
         Param.CLIENT_ID to { clientId },
         Param.CLIENT_TYPE to { "2" },
         Param.OS_VERSION to { Build.VERSION.SDK_INT.toString() },

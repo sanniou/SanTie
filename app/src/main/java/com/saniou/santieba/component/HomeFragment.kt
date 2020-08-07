@@ -75,7 +75,7 @@ class HomeFragment : ListItemFragment<HomeViewModel>() {
             findNavController().navigate(R.id.action_navbar_home_to_user_login)
             return
         }
-        if (AccountUtil.getCookie(requireContext()) == null) {
+        if (AccountUtil.getCookie() == null) {
             LMessageDialog(requireContext())
                 .setMessage(getString(R.string.message_dialog_update_stoken))
                 .title(getString(R.string.title_dialog_update_stoken))

@@ -3,7 +3,6 @@ package com.saniou.santieba.model.api.interfaces
 import android.os.Build
 import android.text.TextUtils
 import com.blankj.utilcode.util.Utils
-import com.saniou.santieba.constant.CODE_SUCCESS
 import com.saniou.santieba.constant.ERROR_CODE_SUCCESS
 import com.saniou.santieba.constant.RANGE_NUMBER
 import com.saniou.santieba.model.DislikeBean
@@ -66,7 +65,7 @@ object SanTiebaApi : ITiebaApi {
     override suspend fun userLikeForum(
         uid: String, page: Int
     ): StatusResponse {
-        val myUid = AccountUtil.getUid(Utils.getApp())
+        val myUid = AccountUtil.getUid()
         return TiebaRetrofit.MINI_TIEBA_API.userLikeForum(
             page = page,
             uid = myUid,
@@ -164,7 +163,7 @@ object SanTiebaApi : ITiebaApi {
         TiebaRetrofit.NEW_TIEBA_API.threadStore(
             RANGE_NUMBER,
             offset,
-            AccountUtil.getUid(Utils.getApp())
+            AccountUtil.getUid()
         )
 
     override suspend fun removeStore(threadId: String, tbs: String): StatusResponse =

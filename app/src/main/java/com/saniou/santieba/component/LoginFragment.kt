@@ -49,7 +49,7 @@ class LoginFragment : WebViewFragment(),
 
                             val info = AccountUtil.updateUserInfoByBduss(bduss)
 
-                            var account = AccountUtil.getLoginInfo(requireContext())
+                            var account = AccountUtil.getLoginInfo()
                             if (account == null) {
                                 account = AccountUtil.getAccountInfoByBduss(bduss);
                             }

@@ -1,6 +1,5 @@
 package com.saniou.santieba.model.api.interceptors
 
-import com.blankj.utilcode.util.Utils
 import com.saniou.santieba.model.api.reqeust.AccountUtil
 import com.saniou.santieba.model.api.reqeust.Header
 import okhttp3.Interceptor
@@ -25,7 +24,7 @@ object AddCookieInterceptor : Interceptor {
         if (addCookie) {
             headers = headers.newBuilder()
                 .removeAll(Header.COOKIE)
-                .add(Header.COOKIE, AccountUtil.getCookie(Utils.getApp()) ?: "")
+                .add(Header.COOKIE, AccountUtil.getCookie() ?: "")
                 .build()
         }
 

@@ -31,6 +31,7 @@ import com.saniou.santieba.constant.HOST
 import com.saniou.santieba.constant.LINK
 import com.saniou.santieba.constant.RANGE_NUMBER
 import com.saniou.santieba.kts.getTimestamp
+import com.saniou.santieba.model.api.reqeust.AccountUtil
 import com.saniou.santieba.utils.StringUtil
 import com.saniou.santieba.viewmodel.MARK_STATE
 import com.sanniou.support.exception.ApiErrorException
@@ -69,7 +70,6 @@ object TiebaRequest : TiebaService {
     private var BDUSS: String
     private var imei: String
     private var preferences: SPUtils
-    private var loginInfo: SPUtils
     private var phoneInfo: SPUtils
     private var clientType: String
     private var clientVersion: String
@@ -121,7 +121,6 @@ object TiebaRequest : TiebaService {
         tiebaService = retrofit.create(TiebaService::class.java)
 
 
-        loginInfo = SPUtils.getInstance("login_info")
         phoneInfo = SPUtils.getInstance("phone_info")
 
         val sb = StringBuilder()
@@ -132,9 +131,10 @@ object TiebaRequest : TiebaService {
         if (imei.isEmpty()) {
             imei = "352316052799040"
         }
-        BDUSS = loginInfo.getString("BDUSS", "")
-        uid = loginInfo.getString("ID", "")
-        tbs = loginInfo.getString("tbs", "")
+        val loginInfo1 = AccountUtil.getLoginInfo()
+        BDUSS = loginInfo1?.bduss ?: ""
+        uid = loginInfo1?.uid ?: ""
+        tbs = loginInfo1?.tbs ?: ""
         val sb2 = StringBuilder()
         sb2.append(StringUtils.LF)
         sb2.append(preferences.getString("little_tail", ""))
@@ -148,7 +148,6 @@ object TiebaRequest : TiebaService {
         clientId = sb3.toString()
         if (clientId.isEmpty()) {
             clientId = UUID.randomUUID().toString().replace("-", "")
-            loginInfo.put("client_id", clientId)
         }
         clientType = EMOJI
         clientVersion = "5.7.0"
@@ -997,11 +996,6 @@ object TiebaRequest : TiebaService {
         }
         sb.append("tiebaclient!!!")
         return StringUtil.md54(sb.toString())
-    }
-
-    fun reset() {
-        val loginInfo = SPUtils.getInstance("login_info")
-        tbs = loginInfo.getString("tbs")
     }
 }
 

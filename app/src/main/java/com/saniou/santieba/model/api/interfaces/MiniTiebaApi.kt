@@ -3,7 +3,6 @@ package com.saniou.santieba.model.api.interfaces
 import android.text.TextUtils
 import com.blankj.utilcode.util.ScreenUtils.getScreenHeight
 import com.blankj.utilcode.util.ScreenUtils.getScreenWidth
-import com.blankj.utilcode.util.Utils
 import com.saniou.santieba.model.api.reqeust.AccountUtil
 import com.saniou.santieba.model.api.reqeust.Config
 import com.saniou.santieba.model.api.reqeust.Header
@@ -61,8 +60,8 @@ interface MiniTiebaApi {
         @Field("agree_type") agree_type: Int = 2,
         @Field("obj_type") obj_type: Int = 3,
         @Field("op_type") op_type: Int = 0,
-        @Field("tbs") tbs: String = AccountUtil.getLoginInfo(Utils.getApp())!!.itbTbs,
-        @Field("stoken") stoken: String = AccountUtil.getSToken(Utils.getApp())!!
+        @Field("tbs") tbs: String = AccountUtil.getLoginInfo()!!.itbTbs,
+        @Field("stoken") stoken: String = AccountUtil.getSToken()!!
     ): StatusResponse
 
     @Headers("${Header.FORCE_LOGIN}: ${Header.FORCE_LOGIN_TRUE}")
@@ -71,17 +70,15 @@ interface MiniTiebaApi {
     suspend fun disagree(
         @Field("post_id") postId: String,
         @Field("thread_id") threadId: String,
-        @retrofit2.http.Header("client_user_token") client_user_token: String? = AccountUtil.getUid(
-            Utils.getApp()
-        ),
+        @retrofit2.http.Header("client_user_token") client_user_token: String? = AccountUtil.getUid(),
         @Field("_client_version") client_version: String = "8.0.8.0",
         @retrofit2.http.Header(Header.USER_AGENT) user_agent: String = "bdtb for Android $client_version",
         @Field("cuid_gid") cuid_gid: String = "",
         @Field("agree_type") agree_type: Int = 2,
         @Field("obj_type") obj_type: Int = 3,
         @Field("op_type") op_type: Int = 1,
-        @Field("tbs") tbs: String = AccountUtil.getLoginInfo(Utils.getApp())!!.itbTbs,
-        @Field("stoken") stoken: String = AccountUtil.getSToken(Utils.getApp())!!
+        @Field("tbs") tbs: String = AccountUtil.getLoginInfo()!!.itbTbs,
+        @Field("stoken") stoken: String = AccountUtil.getSToken()!!
     ): StatusResponse
 
     @Headers("${Header.FORCE_LOGIN}: ${Header.FORCE_LOGIN_TRUE}")
@@ -152,7 +149,7 @@ interface MiniTiebaApi {
         @Field("obj_type") objType: String,
         @Field("page_name") page_name: String = "PB",
         @Field("next") next: Int = 10,
-        @Field("user_id") myUid: String? = AccountUtil.getUid(Utils.getApp()),
+        @Field("user_id") myUid: String? = AccountUtil.getUid(),
         @Field("scr_h") scr_h: String = getScreenHeight().toString(),
         @Field("scr_w") scr_w: String = getScreenWidth().toString(),
         @Field("q_type") q_type: Int = 2,
@@ -173,7 +170,7 @@ interface MiniTiebaApi {
     suspend fun unlikeForum(
         @Field("fid") forumId: String,
         @Field("kw") forumName: String,
-        @Field("tbs") tbs: String? = AccountUtil.getLoginInfo(Utils.getApp())?.itbTbs
+        @Field("tbs") tbs: String? = AccountUtil.getLoginInfo()?.itbTbs
     ): StatusResponse
 
     @Headers("${Header.FORCE_LOGIN}: ${Header.FORCE_LOGIN_TRUE}")
@@ -182,7 +179,7 @@ interface MiniTiebaApi {
     suspend fun likeForum(
         @Field("fid") forumId: String,
         @Field("kw") forumName: String,
-        @Field("tbs") tbs: String? = AccountUtil.getLoginInfo(Utils.getApp())?.itbTbs
+        @Field("tbs") tbs: String? = AccountUtil.getLoginInfo()?.itbTbs
     ): StatusResponse
 
     @Headers("${Header.FORCE_LOGIN}: ${Header.FORCE_LOGIN_TRUE}")
@@ -234,9 +231,7 @@ interface MiniTiebaApi {
     @GET("/mo/q/search/user")
     suspend fun searchUser(
         @Query("word") keyword: String,
-        @retrofit2.http.Header("client_user_token") client_user_token: String? = AccountUtil.getUid(
-            Utils.getApp()
-        ),
+        @retrofit2.http.Header("client_user_token") client_user_token: String? = AccountUtil.getUid(),
         @Query("_client_version") client_version: String = "8.0.8.0",
         @retrofit2.http.Header(Header.USER_AGENT) user_agent: String = "bdtb for Android $client_version",
         @Query("cuid_gid") cuid_gid: String = ""

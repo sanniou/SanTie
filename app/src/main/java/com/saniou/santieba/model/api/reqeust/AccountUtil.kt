@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.webkit.CookieManager
 import android.widget.Toast
-import com.blankj.utilcode.util.Utils
+import com.blankj.utilcode.util.SPUtils
 import com.saniou.santieba.R
 import com.saniou.santieba.model.api.interfaces.SanTiebaApi.myInfo
 import com.saniou.santieba.model.bean.UserInfo
@@ -16,9 +16,8 @@ import org.litepal.LitePal
 object AccountUtil {
     const val ACTION_SWITCH_ACCOUNT = "tieba.post.action.SWITCH_ACCOUNT"
 
-    fun getLoginInfo(context: Context): Account? {
-
-        val loginUser = context.getSharedPreferences("accountData", Context.MODE_PRIVATE)
+    fun getLoginInfo(): Account? {
+        val loginUser = SPUtils.getInstance("accountData", Context.MODE_PRIVATE)
             .getInt("now", -1)
         return if (loginUser == -1) null else getAccountInfo(loginUser)
     }
@@ -45,7 +44,7 @@ object AccountUtil {
     }
 
     fun isLoggedIn(context: Context): Boolean {
-        return getLoginInfo(context) != null
+        return getLoginInfo() != null
     }
 
     fun newAccount(
@@ -55,25 +54,19 @@ object AccountUtil {
     ): Boolean {
         return if (account.save()) {
             if (needSwitch) {
-                switchUser(
-                    context,
-                    account.id
-                )
+                switchUser(context, account.id)
+                true
             } else true
         } else false
     }
 
-    fun switchUser(context: Context, id: Int): Boolean {
-        context.sendBroadcast(
-            Intent()
-                .setAction(ACTION_SWITCH_ACCOUNT)
-        )
-        return context.getSharedPreferences("accountData", Context.MODE_PRIVATE)
-            .edit().putInt("now", id).commit()
+    fun switchUser(context: Context, id: Int) {
+        context.sendBroadcast(Intent().setAction(ACTION_SWITCH_ACCOUNT))
+        SPUtils.getInstance("accountData", Context.MODE_PRIVATE).put("now", id)
     }
 
     suspend fun updateUserInfo() {
-        val account = getLoginInfo(Utils.getApp()) ?: throw AppErrorException("未登录")
+        val account = getLoginInfo() ?: throw AppErrorException("未登录")
         updateUserInfoByBduss(account.bduss)
     }
 
@@ -134,9 +127,7 @@ object AccountUtil {
         if (context == null) return
         var accounts =
             allAccounts
-        var account = getLoginInfo(
-            context
-        ) ?: return
+        var account = getLoginInfo() ?: return
         account.delete()
         CookieManager.getInstance().removeAllCookies(null)
         if (accounts.size > 1) {
@@ -163,46 +154,32 @@ object AccountUtil {
         ).show()
     }
 
-    fun getSToken(context: Context?): String? {
-        if (context == null) return null
+    fun getSToken(): String? {
         val account =
-            getLoginInfo(
-                context
-            )
+            getLoginInfo()
         return account?.getsToken()
     }
 
-    fun getCookie(context: Context?): String? {
-        if (context == null) return null
+    fun getCookie(): String? {
         val account =
-            getLoginInfo(
-                context
-            )
+            getLoginInfo()
         return account?.cookie
     }
 
-    fun getUid(context: Context?): String? {
-        if (context == null) return null
+    fun getUid(): String? {
         val account =
-            getLoginInfo(
-                context
-            )
+            getLoginInfo()
         return account?.uid
     }
 
-    fun getBduss(context: Context?): String? {
-        if (context == null) return null
+    fun getBduss(): String? {
         val account =
-            getLoginInfo(
-                context
-            )
+            getLoginInfo()
         return account?.bduss
     }
 
-    fun getBdussCookie(context: Context?): String? {
-        if (context == null) return null
-        val bduss =
-            getBduss(context)
+    fun getBdussCookie(): String? {
+        val bduss = getBduss()
         return bduss?.let {
             getBdussCookie(
                 it

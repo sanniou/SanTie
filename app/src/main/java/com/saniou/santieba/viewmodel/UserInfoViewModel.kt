@@ -42,7 +42,6 @@ class UserInfoViewModel : BaseListViewModel() {
                         }
                         val loginInfo = SPUtils.getInstance("login_info")
                         loginInfo.put("tbs", it.anti.tbs)
-                        TiebaRequest.reset()
                         TiebaRequest.forumRecommend()
                     }
                     .let { forum ->

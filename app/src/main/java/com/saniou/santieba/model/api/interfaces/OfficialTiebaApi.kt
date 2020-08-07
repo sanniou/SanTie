@@ -2,7 +2,6 @@ package com.saniou.santieba.model.api.interfaces
 
 import com.blankj.utilcode.util.ScreenUtils.getScreenHeight
 import com.blankj.utilcode.util.ScreenUtils.getScreenWidth
-import com.blankj.utilcode.util.Utils
 import com.saniou.santieba.model.api.reqeust.AccountUtil
 import com.saniou.santieba.model.api.reqeust.Config
 import com.saniou.santieba.model.api.reqeust.Header
@@ -57,6 +56,6 @@ interface OfficialTiebaApi {
     suspend fun submitDislike(
         @Field("dislike") dislike: String,
         @Field("dislike_from") dislike_from: String = "homepage",
-        @Field("stoken") stoken: String = AccountUtil.getSToken(Utils.getApp())!!
+        @Field("stoken") stoken: String = AccountUtil.getSToken()!!
     ): StatusResponse
 }

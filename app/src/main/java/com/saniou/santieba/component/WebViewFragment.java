@@ -222,7 +222,7 @@ public class WebViewFragment extends Fragment {
                 swipeRefreshLayout.startRefresh();
             }
             if (AccountUtil.INSTANCE.isLoggedIn(getContext())) {
-                String cookieStr = AccountUtil.INSTANCE.getBdussCookie(getContext());
+                String cookieStr = AccountUtil.INSTANCE.getBdussCookie();
                 CookieManager.getInstance().setCookie(url, cookieStr);
             }
         }
