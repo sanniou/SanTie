@@ -14,7 +14,7 @@ import com.saniou.santieba.databinding.ActivityTiebarMainBinding
 import com.saniou.santieba.viewmodel.TiebarMainViewModel
 import com.sanniou.support.extensions.getViewModel
 
-class TiebarMainActivity : SanBaseActivity<TiebarMainViewModel>() {
+class TiebaMainActivity : SanBaseActivity<TiebarMainViewModel>() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
@@ -52,6 +52,15 @@ class TiebarMainActivity : SanBaseActivity<TiebarMainViewModel>() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
+    }
+
+    override fun onBackPressed() {
+        val drawerLayout = (binding as ActivityTiebarMainBinding).drawerLayout
+        if (drawerLayout.isOpen) {
+            drawerLayout.close()
+            return
+        }
+        super.onBackPressed()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {

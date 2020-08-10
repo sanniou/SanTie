@@ -40,8 +40,6 @@ class UserInfoViewModel : BaseListViewModel() {
                             storeCount.set(likeForumNum)
                             mID = id
                         }
-                        val loginInfo = SPUtils.getInstance("login_info")
-                        loginInfo.put("tbs", it.anti.tbs)
                         TiebaRequest.forumRecommend()
                     }
                     .let { forum ->

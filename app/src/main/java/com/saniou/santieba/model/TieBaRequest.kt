@@ -1,8 +1,6 @@
 package com.saniou.santieba.model
 
 import android.util.Log
-import com.blankj.utilcode.util.AppUtils
-import com.blankj.utilcode.util.SPUtils
 import com.saniou.santieba.model.bean.DataDTO
 import com.saniou.santieba.model.bean.Fans
 import com.saniou.santieba.model.bean.FeedThread
@@ -64,13 +62,10 @@ import kotlin.math.floor
 object TiebaRequest : TiebaService {
     private var clientId: String
     private var netType: String
-    private var littleTail: String
     private var tbs: String
     private var uid: String
     private var BDUSS: String
     private var imei: String
-    private var preferences: SPUtils
-    private var phoneInfo: SPUtils
     private var clientType: String
     private var clientVersion: String
     private var addClientVersion: String
@@ -79,6 +74,8 @@ object TiebaRequest : TiebaService {
     private val tiebaService: TiebaService
 
     val moshi: Moshi
+
+    fun failOnNull(): Nothing = throw AssertionError("Value should not be null")
 
     init {
         headers["Cookie"] = "ka=open"
@@ -116,29 +113,16 @@ object TiebaRequest : TiebaService {
                     .build()
             )
             .build()
-
-
         tiebaService = retrofit.create(TiebaService::class.java)
 
+        imei = "352316052799040"
 
-        phoneInfo = SPUtils.getInstance("phone_info")
+        val loginInfo = AccountUtil.getLoginInfo()
+        loginInfo ?: failOnNull()
+        BDUSS = loginInfo.bduss
+        uid = loginInfo.uid
+        tbs = loginInfo.tbs
 
-        val sb = StringBuilder()
-        sb.append(AppUtils.getAppPackageName())
-        sb.append("_preferences")
-        preferences = SPUtils.getInstance(sb.toString())
-        imei = phoneInfo.getString("imei", "")
-        if (imei.isEmpty()) {
-            imei = "352316052799040"
-        }
-        val loginInfo1 = AccountUtil.getLoginInfo()
-        BDUSS = loginInfo1?.bduss ?: ""
-        uid = loginInfo1?.uid ?: ""
-        tbs = loginInfo1?.tbs ?: ""
-        val sb2 = StringBuilder()
-        sb2.append(StringUtils.LF)
-        sb2.append(preferences.getString("little_tail", ""))
-        littleTail = sb2.toString()
         netType = LINK
         val sb3 = StringBuilder()
         sb3.append("wappc_")
@@ -736,10 +720,6 @@ object TiebaRequest : TiebaService {
         str5: String,
         str6: String
     ): StatusResponse {
-        var str2 = str2
-        if (littleTail.isNotEmpty()) {
-            str2 = str2 + StringUtils.LF + littleTail
-        }
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = BDUSS
         hashMap["_client_id"] = clientId
@@ -776,12 +756,7 @@ object TiebaRequest : TiebaService {
         str5: String,
         str6: String
     ): StatusResponse {
-        var str = str
-        if (littleTail.length > 0) {
-            str = str + StringUtils.LF + littleTail
-        }
         val hashMap = HashMap<String, String>()
-
         hashMap["BDUSS"] = BDUSS
         hashMap["_client_id"] = clientId
         hashMap["_client_type"] = clientType
@@ -820,10 +795,6 @@ object TiebaRequest : TiebaService {
         str7: String,
         str8: String
     ): StatusResponse {
-        var str = str
-        if (littleTail.length > 0) {
-            str = str + StringUtils.LF + littleTail
-        }
         val hashMap = HashMap<String, String>()
         hashMap["BDUSS"] = BDUSS
         hashMap["_client_id"] = clientId

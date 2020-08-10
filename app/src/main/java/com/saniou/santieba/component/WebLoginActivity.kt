@@ -11,7 +11,6 @@ import androidx.databinding.ViewDataBinding
 import com.blankj.utilcode.constant.PermissionConstants
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.PermissionUtils
-import com.blankj.utilcode.util.SPUtils
 import com.google.android.material.snackbar.Snackbar
 import com.saniou.santieba.R
 import com.saniou.santieba.kts.startActivityEx
@@ -154,9 +153,6 @@ class WebLoginActivity : SanBaseActivity<WebLoginViewModel>() {
 
     private fun loginSuccess() {
 
-        SPUtils.getInstance("login_info").clear()
-        SPUtils.getInstance("phone_info").clear()
-
         var z = false
         val edit = getSharedPreferences("login_info", 0).edit()
         edit.putBoolean("autologin", true)
@@ -189,7 +185,7 @@ class WebLoginActivity : SanBaseActivity<WebLoginViewModel>() {
             SQLiteUtil.insert(createOrOpenDataBase, "account", treeMap)
             SQLiteUtil.closeDataBase(createOrOpenDataBase)
         }
-        startActivityEx<TiebarMainActivity>()
+        startActivityEx<TiebaMainActivity>()
         finish()
     }
 
