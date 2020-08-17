@@ -1,4 +1,0 @@
-include ':app', ':support', ':multiitemkit', ':multiitem'
-project(':support').projectDir = new File('SanSupport/support')
-project(':multiitemkit').projectDir = new File('SanSupport/MultiItemKit/multiitemkit')
-project(':multiitem').projectDir = new File('SanSupport/MultiItemKit/multiitem')
