@@ -174,6 +174,7 @@ class ThreadPageFragment : ListItemFragment<PageViewModel>() {
                 is SubCommentItem ->
                     findNavController().navigate(
                         ThreadPageFragmentDirections.forumThreadToSubThread(
+                            item.forum,
                             item.threadId,
                             item.pid
                         )

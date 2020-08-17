@@ -115,6 +115,7 @@ open class ForumPageViewModel : PageAutoListItemViewModel() {
                     getDisplayTime(thread.createTime.toLong()),
                     "$PORTRAIT_HOST${author.portrait}",
                     author.id,
+                    forum.name,
                     postImage
                 )
             )

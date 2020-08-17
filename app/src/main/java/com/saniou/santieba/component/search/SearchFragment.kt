@@ -101,7 +101,7 @@ class SearchFragment : SanBaseFragment<SearchViewModel>() {
                             (it.item as SearchThreadItem).run {
                                 this@SearchFragment.findNavController()
                                     .navigate(
-                                        SearchFragmentDirections.actionSearchFragmentToThreadPage(
+                                        SearchFragmentDirections.actionSearchFragmentToThreadPage(forum.toString(),
                                             tid
                                         )
                                     )

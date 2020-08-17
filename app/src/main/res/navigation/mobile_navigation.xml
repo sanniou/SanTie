@@ -113,9 +113,12 @@
     <fragment
         android:id="@+id/thread_page"
         android:name="com.saniou.santieba.component.thread.ThreadPageFragment"
-        android:label="ThreadPageFragment"
+        android:label="{forum}"
         app:popUpTo="@id/forum_main"
         app:popUpToInclusive="true">
+        <argument
+            android:name="forum"
+            app:argType="string" />
         <argument
             android:name="tid"
             app:argType="string" />
@@ -143,7 +146,7 @@
     <fragment
         android:id="@+id/search_fragment"
         android:name="com.saniou.santieba.component.search.SearchFragment"
-        android:label="SearchFragmetn">
+        android:label="@string/search">
 
         <action
             android:id="@+id/action_search_fragment_to_forum_main"
@@ -163,7 +166,10 @@
     <fragment
         android:id="@+id/threadSubCommentFragment"
         android:name="com.saniou.santieba.component.thread.ThreadSubCommentFragment"
-        android:label="ThreadSubCommentFragment">
+        android:label="{forum}">
+        <argument
+            android:name="forum"
+            app:argType="string" />
         <argument
             android:name="tid"
             app:argType="string" />
@@ -175,7 +181,7 @@
     <fragment
         android:id="@+id/videoPlayerFragment"
         android:name="com.saniou.santieba.component.thread.VideoPlayerFragment"
-        android:label="VideoPlayerFragment">
+        android:label="@string/about">
         <argument
             android:name="video"
             app:argType="string" />

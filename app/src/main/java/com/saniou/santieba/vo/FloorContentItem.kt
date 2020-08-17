@@ -42,6 +42,7 @@ class SubCommentItem(
     var content: CharSequence,
     var pid: String,
     var threadId: String,
+    var forum: String = "",
     val isPoster: Boolean = false
 ) : DataItem {
     fun getShowText() = content

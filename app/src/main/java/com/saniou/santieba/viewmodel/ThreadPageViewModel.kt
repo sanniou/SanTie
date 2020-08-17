@@ -263,7 +263,7 @@ abstract class PageViewModel : PointAutoListItemViewModel() {
                     threadDetail.thread.author.id == subPoster?.id
                 analyzeSubText(name, subContent, isPoster, subContent.content)
             }.map {
-                SubCommentItem(it.text, post.id, tid, it.isPoster)
+                SubCommentItem(it.text, post.id, tid, forumName.value, it.isPoster)
 
             }
 
@@ -279,7 +279,8 @@ abstract class PageViewModel : PointAutoListItemViewModel() {
                     SubCommentItem(
                         "查看全部回复${post.subPostNumber}条",
                         post.id,
-                        tid
+                        tid,
+                        forumName.value
                     ) else NonItem()
             ), reverse
         )

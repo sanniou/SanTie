@@ -23,6 +23,7 @@ class ThreadItem(
     var time: CharSequence,
     var avatar: String,
     var uid: String,
+    var forum: String = "",
     var postImage: String = ""
 ) : DataItem {
     override fun getItemType() =
