@@ -27,6 +27,8 @@ import com.saniou.santieba.viewmodel.PageViewModel
 import com.saniou.santieba.viewmodel.StoreThreadPageViewModel
 import com.saniou.santieba.viewmodel.ThreadPageViewModel
 import com.saniou.santieba.vo.CommentImageItem
+import com.saniou.santieba.vo.CommentVideoItem
+import com.saniou.santieba.vo.CommentVoiceItem
 import com.saniou.santieba.vo.FloorTopItem
 import com.saniou.santieba.vo.SubCommentItem
 import com.sanniou.multiitemkit.ItemClickHelper
@@ -183,6 +185,12 @@ class ThreadPageFragment : ListItemFragment<PageViewModel>() {
                         viewModel.imageList,
                         it.itemView as ImageView
                     )
+
+                is CommentVoiceItem -> findNavController()
+                    .navigate(ThreadPageFragmentDirections.actionGlobalVideoPlayer(item.voice))
+
+                is CommentVideoItem -> findNavController()
+                    .navigate(ThreadPageFragmentDirections.actionGlobalVideoPlayer(item.video))
 
             }
 

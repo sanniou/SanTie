@@ -23,15 +23,15 @@
         <ImageView
             android:id="@+id/poster_avatar"
             circle="@{true}"
-            error="@{R.drawable.ic_placeholder}"
-            placeholder="@{R.drawable.ic_placeholder}"
+            error="@{R.drawable.ic_placeholder_avatar}"
+            placeholder="@{R.drawable.ic_placeholder_avatar}"
             res="@{item.avatar}"
             toUser="@{item.uid}"
             android:layout_width="50dp"
             android:layout_height="50dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@mipmap/ic_launcher" />
+            tools:src="@drawable/ic_placeholder_avatar" />
 
         <TextView
             android:id="@+id/poster_name"
@@ -91,8 +91,8 @@
 
         <ImageView
             android:id="@+id/post_image"
-            error="@{R.drawable.ic_placeholder}"
-            placeholder="@{R.drawable.ic_placeholder}"
+            error="@{R.drawable.ic_placeholder_pic}"
+            placeholder="@{R.drawable.ic_placeholder_pic}"
             res="@{item.postImage}"
             visible="@{!item.postImage.isEmpty()}"
             android:layout_width="0dp"
@@ -102,7 +102,7 @@
             app:layout_constraintEnd_toEndOf="@id/post_content"
             app:layout_constraintStart_toStartOf="@id/post_content"
             app:layout_constraintTop_toBottomOf="@id/post_content"
-            tools:src="@mipmap/ic_launcher" />
+            tools:src="@drawable/ic_placeholder_pic" />
 
         <ImageView
             android:id="@+id/post_read_icon"

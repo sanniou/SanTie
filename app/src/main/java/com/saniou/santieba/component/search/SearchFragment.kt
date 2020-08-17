@@ -66,6 +66,7 @@ class SearchFragment : SanBaseFragment<SearchViewModel>() {
             }
         })
 
+        KeyboardUtils.showSoftInput(binding.searchText)
     }
 
     override fun onDestroyView() {
@@ -75,7 +76,6 @@ class SearchFragment : SanBaseFragment<SearchViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         changeMenu(R.menu.empty)
-        KeyboardUtils.showSoftInput((binding as FragmentSearchBinding).searchText)
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -91,12 +91,20 @@ class SearchFragment : SanBaseFragment<SearchViewModel>() {
                         if (position == 0) {
                             (it.item as SearchForumItem).run {
                                 this@SearchFragment.findNavController()
-                                    .navigate(SearchFragmentDirections.actionSearchFragmentToForumMain(fname.toString()))
+                                    .navigate(
+                                        SearchFragmentDirections.actionSearchFragmentToForumMain(
+                                            fname.toString()
+                                        )
+                                    )
                             }
                         } else {
                             (it.item as SearchThreadItem).run {
                                 this@SearchFragment.findNavController()
-                                    .navigate(SearchFragmentDirections.actionSearchFragmentToThreadPage(tid))
+                                    .navigate(
+                                        SearchFragmentDirections.actionSearchFragmentToThreadPage(
+                                            tid
+                                        )
+                                    )
                             }
                         }
                         true

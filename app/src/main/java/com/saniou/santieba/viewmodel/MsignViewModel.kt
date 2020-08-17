@@ -77,26 +77,30 @@ class MsignViewModel : BaseListViewModel() {
                         }
                     }
                 TiebaRequest.forumRecommend()
-                    .let {
-                        add(SimpleHeaderItem("7级以下的吧"))
-
-                        it.likeForum
+                    .let { recommend ->
+                        recommend.likeForum
                             .filter { forum ->
                                 forum.levelId.toInt() < 7
                             }
-                            .forEach { forum ->
-                                if (!forum.isSign.toBool()) {
-                                    manualSigns.add(forum.forumName)
+                            .run {
+                                if (isEmpty()) {
+                                    return@run
                                 }
-                                add(
-                                    SimpleForumItem(
-                                        forum.forumName,
-                                        forum.avatar,
-                                        "LV${forum.levelId}",
-                                        getDisplayTime(forum.inTime),
-                                        if (forum.isSign.toBool()) 0 else -1
+                                add(SimpleHeaderItem("7级以下的吧"))
+                                forEach { forum ->
+                                    if (!forum.isSign.toBool()) {
+                                        manualSigns.add(forum.forumName)
+                                    }
+                                    add(
+                                        SimpleForumItem(
+                                            forum.forumName,
+                                            forum.avatar,
+                                            "LV${forum.levelId}",
+                                            getDisplayTime(forum.inTime),
+                                            if (forum.isSign.toBool()) 0 else -1
+                                        )
                                     )
-                                )
+                                }
                             }
                     }
 

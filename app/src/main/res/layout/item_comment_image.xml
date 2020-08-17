@@ -11,8 +11,8 @@
     </data>
 
     <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-        error="@{R.drawable.ic_placeholder}"
-        placeholder="@{R.drawable.ic_placeholder}"
+        error="@{R.drawable.ic_placeholder_pic}"
+        placeholder="@{R.drawable.ic_placeholder_pic}"
         res="@{item.image}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

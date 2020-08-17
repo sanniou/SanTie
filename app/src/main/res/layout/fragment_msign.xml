@@ -14,17 +14,6 @@
         android:layout_height="match_parent"
         tools:context=".component.sign.MSignFragment">
 
-        <!--        <androidx.appcompat.widget.Toolbar-->
-        <!--            android:id="@+id/msign_top"-->
-        <!--            onBackToTop="@{forumList}"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="parent"-->
-        <!--            app:navigationIcon="?attr/homeAsUpIndicator"-->
-        <!--            app:popupTheme="@style/ToolbarTheme"-->
-        <!--            app:title="" />-->
-
         <TextView
             android:id="@+id/msign_msg"
             android:layout_width="match_parent"

@@ -34,7 +34,7 @@ class CommentVoiceItem(var voice: String, var first: Boolean = false) : DataItem
     override fun getItemType() = R.layout.item_comment_voice
 }
 
-class CommentVideoItem(var thumbnail: CharSequence, var video: CharSequence) : DataItem {
+class CommentVideoItem(var thumbnail: CharSequence, var video: String) : DataItem {
     override fun getItemType() = R.layout.item_comment_video
 }
 
