@@ -49,6 +49,7 @@ class ThreadPageFragment : ListItemFragment<PageViewModel>() {
         getViewModel<ThreadPageViewModel>()
             .apply {
                 setValue("tid", requireArguments().getString("tid")!!)
+                setValue("forum", requireArguments().getString("forum")!!)
             }
 
     private fun createStoreThreadPageViewModel() =
@@ -56,6 +57,7 @@ class ThreadPageFragment : ListItemFragment<PageViewModel>() {
             .apply {
                 val arguments = requireArguments()
                 setValue("tid", arguments.getString("tid")!!)
+                setValue("forum", arguments.getString("forum")!!)
                 setValue("markState", arguments.getString("markState")!!)
                 setValue("pid", arguments.getString("pid")!!)
             }

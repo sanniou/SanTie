@@ -39,7 +39,7 @@ abstract class PageViewModel : PointAutoListItemViewModel() {
     val imageList = mutableListOf<String>()
     var tid = ""
     var wifiConnected = false
-    var forumName = NonNullLiveData("")
+    var forum = ""
     var store = NonNullLiveData(false)
     var lzOly = NonNullLiveData(false)
     var reverse = NonNullLiveData(false)
@@ -56,6 +56,7 @@ abstract class PageViewModel : PointAutoListItemViewModel() {
     override fun initParam(param: Map<String, String>) {
         super.initParam(param)
         tid = getValue("tid")
+        forum = getValue("forum")
         // title.value = "帖子"
     }
 
@@ -263,7 +264,7 @@ abstract class PageViewModel : PointAutoListItemViewModel() {
                     threadDetail.thread.author.id == subPoster?.id
                 analyzeSubText(name, subContent, isPoster, subContent.content)
             }.map {
-                SubCommentItem(it.text, post.id, tid, forumName.value, it.isPoster)
+                SubCommentItem(it.text, post.id, tid, forum, it.isPoster)
 
             }
 
@@ -280,7 +281,7 @@ abstract class PageViewModel : PointAutoListItemViewModel() {
                         "查看全部回复${post.subPostNumber}条",
                         post.id,
                         tid,
-                        forumName.value
+                        forum
                     ) else NonItem()
             ), reverse
         )
