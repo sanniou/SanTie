@@ -73,4 +73,20 @@ class UserMainActivity : SanBaseActivity<UserMainViewModel>() {
             finish()
         }
     }
+
+    private fun toFansList(s: String) {
+        TODO("Not yet implemented")
+    }
+
+    private fun toPostsList(s: String) {
+        TODO("Not yet implemented")
+    }
+
+    private fun toFollowsList(s: String) {
+        TODO("Not yet implemented")
+    }
+
+    private fun toForumList(s: String) {
+        TODO("Not yet implemented")
+    }
 }

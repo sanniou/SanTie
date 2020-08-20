@@ -15,7 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".component.ListItemActivity" />
         <activity android:name=".component.SchemeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -42,7 +41,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".component.WebLoginActivity" />
         <activity android:name=".component.ImagePreviewActivity" />
     </application>
 

@@ -5,13 +5,11 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.blankj.utilcode.util.SnackbarUtils
-import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.saniou.santieba.MainNavigationDirections
 import com.saniou.santieba.R
 import com.saniou.santieba.component.ListItemFragment
-import com.saniou.santieba.component.toStoreThreadPageList
 import com.saniou.santieba.databinding.ActivityListBinding
 import com.saniou.santieba.kts.changeMenu
 import com.saniou.santieba.viewmodel.StoreListViewModel
@@ -20,7 +18,6 @@ import com.sanniou.multiitemkit.ItemClickHelper
 import com.sanniou.multiitemkit.OnItemClickListener
 import com.sanniou.multiitemkit.OnLongPressListener
 import com.sanniou.support.extensions.getActivityViewModel
-import com.sanniou.support.extensions.getViewModel
 
 class StoreFragment : ListItemFragment<StoreListViewModel>() {
 

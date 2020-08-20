@@ -5,6 +5,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("androidx.navigation.safeargs.kotlin")
+    id("name.remal.check-dependency-updates")
 }
 
 android {
@@ -48,7 +49,7 @@ android {
 
 dependencies {
     val media2Version = "1.0.3"
-    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.9.2")
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.9.3")
 
     implementation("androidx.navigation:navigation-fragment-ktx:2.3.0")
     implementation("androidx.navigation:navigation-ui-ktx:2.3.0")
@@ -57,7 +58,7 @@ dependencies {
     implementation("com.google.android:flexbox:2.0.1")
     implementation("androidx.core:core-ktx:1.3.1")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${KotlinCompilerVersion.VERSION}")
-    implementation("org.apache.commons:commons-text:1.8")
+    implementation("org.apache.commons:commons-text:1.9")
     // Interacting with MediaSessions
     implementation("androidx.media2:media2-session:$media2Version")
     // optional - UI widgets for VideoView and MediaControlView
