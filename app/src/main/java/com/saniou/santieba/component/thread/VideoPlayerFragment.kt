@@ -38,7 +38,7 @@ class VideoPlayerFragment : Fragment() {
                 setMediaItem(mediaItem)
                 // play when ready
                 prepare().addListener(
-                    Runnable { play() }, ThreadUtils.getIoPool()
+                    { play() }, ThreadUtils.getIoPool()
                 )
             }
         }

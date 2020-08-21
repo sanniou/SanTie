@@ -195,6 +195,16 @@ public abstract class LContentDialog<T, C extends LContentDialog<T, C>> extends 
     return getThis();
   }
 
+  public C ok(CharSequence hit,LContentDialog.OnActionListener<T, C> okListener) {
+    okHint(hit);
+    return okListener(okListener);
+  }
+
+  public C cancel(CharSequence hit,LContentDialog.OnActionListener<T, C> listener) {
+    cancelHint(hit);
+    return cancelListener(listener);
+  }
+
   public C okListener(LContentDialog.OnActionListener<T, C> okListener) {
     mOkListener = okListener;
     return getThis();
@@ -267,6 +277,7 @@ public abstract class LContentDialog<T, C extends LContentDialog<T, C>> extends 
     super.show();
   }
 
+  @FunctionalInterface
   public interface OnActionListener<T, C extends LContentDialog<T, C>> {
 
     void onClick(LContentDialog<T, C> dialog, Button button);

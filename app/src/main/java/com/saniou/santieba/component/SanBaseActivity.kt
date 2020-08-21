@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.LayoutInflaterCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import com.blankj.utilcode.util.FileUtils
 import com.saniou.santieba.BR
 import com.saniou.santieba.R
 import com.saniou.santieba.skin.SkinFactory
@@ -34,7 +35,11 @@ abstract class SanBaseActivity<T : ViewModel> : BaseScopedActivity<T>() {
         val field =
             getSuperClassByName(AppCompatActivity::class.java.name).getDeclaredField("mResources")
 
-        val skinResources = SkinResources(this, resources, "/storage/emulated/0/skin.src")
+        val skinPath = "/storage/emulated/0/skin.src"
+        if (!FileUtils.isFileExists(skinPath)) {
+            return
+        }
+        val skinResources = SkinResources(this, resources, skinPath)
         skinResources.supportSkin = true
         field.let {
             it.isAccessible = true

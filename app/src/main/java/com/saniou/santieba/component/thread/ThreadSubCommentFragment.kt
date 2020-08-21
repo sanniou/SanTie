@@ -10,10 +10,10 @@ import com.sanniou.support.extensions.getViewModel
 
 class ThreadSubCommentFragment : ListItemFragment<ThreadSubCommentViewModel>() {
 
-    override fun createViewModel() = getViewModel<ThreadSubCommentViewModel>()
+    override fun getViewModelInstance() = getViewModel<ThreadSubCommentViewModel>()
         .apply {
-            setValue("pid", requireArguments().getString("pid")!!)
-            setValue("tid", requireArguments().getString("tid")!!)
+            setViewModelValue("pid")
+            setViewModelValue("tid")
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

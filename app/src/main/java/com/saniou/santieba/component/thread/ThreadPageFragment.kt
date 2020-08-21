@@ -48,18 +48,17 @@ class ThreadPageFragment : ListItemFragment<PageViewModel>() {
     private fun createThreadPageViewModel() =
         getViewModel<ThreadPageViewModel>()
             .apply {
-                setValue("tid", requireArguments().getString("tid")!!)
-                setValue("forum", requireArguments().getString("forum")!!)
+                setViewModelValue("tid")
+                setViewModelValue("forum")
             }
 
     private fun createStoreThreadPageViewModel() =
         getViewModel<StoreThreadPageViewModel>()
             .apply {
-                val arguments = requireArguments()
-                setValue("tid", arguments.getString("tid")!!)
-                setValue("forum", arguments.getString("forum")!!)
-                setValue("markState", arguments.getString("markState")!!)
-                setValue("pid", arguments.getString("pid")!!)
+                setViewModelValue("tid")
+                setViewModelValue("forum")
+                setViewModelValue("markState")
+                setViewModelValue("pid")
             }
 
     fun onBackPressed() {

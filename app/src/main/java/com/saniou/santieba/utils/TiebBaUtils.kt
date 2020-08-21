@@ -15,8 +15,6 @@ import com.saniou.santieba.R
 import com.saniou.santieba.model.bean.Content
 import com.saniou.santieba.model.bean.ThreadPage
 import com.saniou.santieba.component.UserMainActivity
-import com.saniou.santieba.component.toForum
-import com.saniou.santieba.component.toThreadPageList
 import com.saniou.santieba.constant.ATME
 import com.saniou.santieba.constant.EMOJI
 import com.saniou.santieba.constant.FORUM_SCHEME
@@ -234,6 +232,14 @@ class LinkClickSpan(val url: String) : ClickableSpan() {
             return
         }
         openBrowser(view.context, url)
+    }
+
+    private fun toForum(substring: String) {
+        TODO("Not yet implemented")
+    }
+
+    private fun toThreadPageList(substring: String) {
+        TODO("Not yet implemented")
     }
 }
 

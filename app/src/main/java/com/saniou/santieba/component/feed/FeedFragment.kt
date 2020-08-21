@@ -13,7 +13,7 @@ import com.sanniou.support.extensions.getViewModel
 
 class FeedFragment : ListItemFragment<FeedViewModel>() {
 
-    override fun createViewModel() = getViewModel<FeedViewModel>()
+    override fun getViewModelInstance() = getViewModel<FeedViewModel>()
 
     override fun onBinding(binding: ActivityListBinding) {
         super.onBinding(binding)

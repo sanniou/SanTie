@@ -14,6 +14,7 @@ import com.saniou.santieba.model.api.reqeust.ForumSortType
 import com.saniou.santieba.model.api.reqeust.SearchThreadFilter
 import com.saniou.santieba.model.api.reqeust.SearchThreadOrder
 import com.saniou.santieba.model.api.reqeust.TiebaRetrofit
+import com.saniou.santieba.model.api.reqeust.TiebaRetrofit.moshi
 import com.saniou.santieba.model.bean.DataDTO
 import com.saniou.santieba.model.bean.FloorPage
 import com.saniou.santieba.model.bean.ForumPage
@@ -174,7 +175,7 @@ object SanTiebaApi : ITiebaApi {
         reverse: Boolean, tbs: String
     ): StatusResponse =
         TiebaRetrofit.NEW_TIEBA_API.addStore(
-            TiebaRequest.moshi.adapter<List<DataDTO>>(
+            moshi.adapter<List<DataDTO>>(
                 Types.newParameterizedType(
                     List::class.java,
                     DataDTO::class.java

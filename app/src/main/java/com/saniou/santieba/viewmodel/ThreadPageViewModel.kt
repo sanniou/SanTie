@@ -208,13 +208,9 @@ abstract class PageViewModel : PointAutoListItemViewModel() {
                 .map {
                     when (it.type) {
                         TEXT -> CommentTextItem(it.text, first)
-
                         VIDEO -> CommentVideoItem(it.src, it.link.orEmpty(it.text.toString()))
-
                         VOICE -> CommentVoiceItem(TIEBA_VOICE_HOST + it.voiceMd5)
-
                         ATME -> CommentTextItem(it.text, first)
-
                         IMAGE -> {
                             var orgImage: String
                             var image: String

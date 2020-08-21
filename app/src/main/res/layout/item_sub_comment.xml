@@ -36,7 +36,6 @@
             android:id="@+id/comment_content_back"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:alpha="0.4"
             android:lines="1"
             android:paddingHorizontal="@dimen/view_padding"
             android:paddingTop="@dimen/view_padding"

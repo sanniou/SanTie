@@ -7,18 +7,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.View;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.browser.customtabs.CustomTabsIntent;
 
 
 import com.blankj.utilcode.util.SPUtils;
 import com.saniou.santieba.R;
+import com.saniou.santieba.dialog.LContentDialog;
+import com.saniou.santieba.dialog.LMessageDialog;
 
 import java.net.URISyntaxException;
 import java.util.List;
@@ -70,24 +75,22 @@ public final class NavigationHelper {
         return navigationByUrl(url, mWebView.getUrl());
     }
 
-    public void navigationByData(int action) {
-        switch (action) {
-            case ACTION_LOGIN:
-//                startActivity(new Intent(mContext, LoginActivity.class));
-                break;
-        }
-    }
 
     private void startActivity(Intent intent) {
-        mContext.startActivity(intent);
+        try {
+            mContext.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+            Toast.makeText(mContext, R.string.toast_nav_failed, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void navigationByData(int action, String data) {
         switch (action) {
             case ACTION_FORUM:
-//                Intent intent = new Intent(mContext, ForumActivity.class);
-//                intent.putExtra(EXTRA_FORUM_NAME, data);
-//                startActivity(intent);
+                Intent intent = new Intent(mContext, ImagePreviewActivity.class);
+                intent.putExtra("EXTRA_FORUM_NAME", data);
+                startActivity(intent);
                 break;
             case ACTION_URL:
                 navigationByUrl(data);
@@ -99,7 +102,7 @@ public final class NavigationHelper {
                 navigationByUrl(mContext.getString(R.string.url_user_home, data, 0));
                 break;
             case ACTION_USER_BY_UID:
-//                startActivity(new Intent(mContext, UserActivity.class).putExtra(UserActivity.EXTRA_UID, data));
+                startActivity(new Intent(mContext, ImagePreviewActivity.class).putExtra("UserActivity.EXTRA_UID", data));
                 break;
         }
     }
@@ -117,12 +120,12 @@ public final class NavigationHelper {
                     from = from == null ? "" : from;
                     maxPid = maxPid == null ? "" : maxPid;
                     boolean seeLz = (seeLzStr != null && seeLzStr.equalsIgnoreCase("1"));
-//                    startActivity(new Intent(mContext, ThreadActivity.class)
-//                            .putExtra("tid", tid)
-//                            .putExtra("pid", pid)
-//                            .putExtra("from", from)
-//                            .putExtra("max_pid", maxPid)
-//                            .putExtra("seeLz", seeLz));
+                    startActivity(new Intent(mContext, ImagePreviewActivity.class)
+                            .putExtra("tid", tid)
+                            .putExtra("pid", pid)
+                            .putExtra("from", from)
+                            .putExtra("max_pid", maxPid)
+                            .putExtra("seeLz", seeLz));
                 }
                 break;
             case ACTION_FLOOR:
@@ -132,13 +135,12 @@ public final class NavigationHelper {
                 if (floorTid != null) {
                     pid = floorPid == null ? "" : floorPid;
                     String spid = floorSPid == null ? "" : floorSPid;
-//                    startActivity(new Intent(mContext, FloorActivity.class)
-//                            .putExtra("tid", floorTid)
-//                            .putExtra("pid", pid)
-//                            .putExtra("spid", spid));
+                    startActivity(new Intent(mContext, ImagePreviewActivity.class)
+                            .putExtra("tid", floorTid)
+                            .putExtra("pid", pid)
+                            .putExtra("spid", spid));
                 }
                 break;
-            default:
         }
     }
 
@@ -175,9 +177,7 @@ public final class NavigationHelper {
                     String kz = uri.getQueryParameter("kz");
                     if (kw != null) {
                         if (activityName.startsWith("WebViewActivity") && isPostUri(oldUri)) {
-                            if (this.isActivityContext && activity != null) {
-                                activity.finish();
-                            }
+                            if (this.isActivityContext && activity != null) activity.finish();
                             return true;
                         } else if (!activityName.startsWith("ForumActivity")) {
                             navigationByData(ACTION_FORUM, kw);
@@ -189,40 +189,37 @@ public final class NavigationHelper {
                             return true;
                         }
                     } else if (kz != null) {
-//                        Intent intent = new Intent(mContext, ThreadActivity.class);
-//                        intent.putExtra("url", url);
-//                        startActivity(intent);
+                        Intent intent = new Intent(mContext, ImagePreviewActivity.class);
+                        intent.putExtra("url", url);
+                        startActivity(intent);
                         return true;
                     }
                 } else if (path.startsWith("/index/tbwise") || path.equalsIgnoreCase("/")) {
                     if (activityName.startsWith("ForumActivity")) {
-                        if (this.isActivityContext) {
-                            activity.finish();
-                        }
+                        if (this.isActivityContext) activity.finish();
                         Toast.makeText(mContext, "没找到内容鸭", Toast.LENGTH_SHORT).show();
                     } else if (oldPath != null && oldPath.startsWith("/mo/q/accountstatus")) {
-                        if (this.isActivityContext) {
-                            activity.finish();
-                        }
+                        if (this.isActivityContext) activity.finish();
                     }
                     return false;
                 } else if (path.startsWith("/p/")) {
-//                    Intent intent = new Intent(mContext, ThreadActivity.class);
-//                    intent.putExtra("url", url);
-//                    startActivity(intent);
+                    Intent intent = new Intent(mContext, ImagePreviewActivity.class);
+                    intent.putExtra("url", url);
+                    startActivity(intent);
                     return true;
                 }
             }
             if (!path.contains("android_asset")) {
                 if (!(activityName.startsWith("WebViewActivity") || activityName.startsWith("LoginActivity"))) {
                     boolean isTiebaLink = host.contains("tieba.baidu.com") || host.contains("wappass.baidu.com") || host.contains("ufosdk.baidu.com") || host.contains("m.help.baidu.com");
-                    if (isTiebaLink || SPUtils.getInstance().getBoolean("use_webview", true)) {
-//                        startActivity(new Intent(mContext, WebViewActivity.class).putExtra("url", url));
+                    if (isTiebaLink || SPUtils.getInstance().getBoolean("use_webview")) {
+                        startActivity(new Intent(mContext, ImagePreviewActivity.class).putExtra("url", url));
                         return true;
                     } else {
                         if (SPUtils.getInstance().getBoolean("use_custom_tabs", true)) {
                             CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder()
-                                    .setShowTitle(true);
+                                    .setShowTitle(true)
+                                    .setToolbarColor(Color.RED);
                             try {
                                 intentBuilder.build().launchUrl(mContext, uri);
                             } catch (ActivityNotFoundException e) {
@@ -252,13 +249,17 @@ public final class NavigationHelper {
                     } else {
                         appName = mContext.getString(R.string.name_multiapp);
                     }
-//                    new PermissionDialog(mContext,
+                    new LMessageDialog(mContext)
+                            .okListener((dialog, button) -> {
+                              startActivity(intent);
+                            })
+//
 //                            new PermissionBean(PermissionConstant.PERMISSION_START_APP,
 //                                    oldHost + scheme,
 //                                    mContext.getString(R.string.title_start_app_permission, oldHost, appName),
 //                                    R.drawable.ic_round_exit_to_app))
 //                            .setOnGrantedCallback(isForever -> startActivity(intent))
-//                            .show();
+                            .show();
                 }
                 return true;
             } catch (URISyntaxException e) {
@@ -280,13 +281,17 @@ public final class NavigationHelper {
                     } else {
                         appName = mContext.getString(R.string.name_multiapp);
                     }
+                    new LMessageDialog(mContext)
+                            .okListener((dialog, button) -> {
+                                startActivity(intent);
+                            })
 //                    new PermissionDialog(mContext,
 //                            new PermissionBean(PermissionConstant.PERMISSION_START_APP,
 //                                    oldHost + scheme,
 //                                    mContext.getString(R.string.title_start_app_permission, oldHost, appName),
 //                                    R.drawable.ic_round_exit_to_app))
 //                            .setOnGrantedCallback(isForever -> startActivity(intent))
-//                            .show();
+                            .show();
                 }
                 return true;
             } catch (Exception e) {

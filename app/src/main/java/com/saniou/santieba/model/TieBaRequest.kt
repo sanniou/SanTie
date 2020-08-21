@@ -30,6 +30,8 @@ import com.saniou.santieba.constant.LINK
 import com.saniou.santieba.constant.RANGE_NUMBER
 import com.saniou.santieba.kts.getTimestamp
 import com.saniou.santieba.model.api.reqeust.AccountUtil
+import com.saniou.santieba.model.api.reqeust.TiebaRetrofit
+import com.saniou.santieba.model.api.reqeust.TiebaRetrofit.moshi
 import com.saniou.santieba.utils.StringUtil
 import com.saniou.santieba.viewmodel.MARK_STATE
 import com.sanniou.support.exception.ApiErrorException
@@ -73,8 +75,6 @@ object TiebaRequest : TiebaService {
     private val headers = HashMap<String, String>()
     private val tiebaService: TiebaService
 
-    val moshi: Moshi
-
     fun failOnNull(): Nothing = throw AssertionError("Value should not be null")
 
     init {
@@ -83,24 +83,9 @@ object TiebaRequest : TiebaService {
         headers["User-Agent"] = "bdtb for Android 6.9.2.1"
         headers["Pragma"] = "no-cache"
 
-        moshi = Moshi.Builder()
-            .add(EmptyListToNull())
-            .add(IgnoreString2Object())
-            .add(object : Any() {
-                @ToJson
-                fun toJson(writer: JsonWriter, o: CharSequence?) {
-                    writer.value(o.toString())
-                }
-
-                @FromJson
-                fun fromJson(reader: JsonReader): CharSequence? {
-                    return reader.nextString()
-                }
-            })
-            .build()
         val retrofit = Retrofit.Builder()
             .baseUrl("http://$HOST/")
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addConverterFactory(MoshiConverterFactory.create(TiebaRetrofit.moshi))
             .client(
                 OkHttpClient.Builder()
                     .addInterceptor { chain ->
@@ -121,7 +106,7 @@ object TiebaRequest : TiebaService {
         loginInfo ?: failOnNull()
         BDUSS = loginInfo.bduss
         uid = loginInfo.uid
-        tbs = loginInfo.tbs
+        tbs = loginInfo.itbTbs
 
         netType = LINK
         val sb3 = StringBuilder()
@@ -187,7 +172,7 @@ object TiebaRequest : TiebaService {
         hashMap["forum_ids"] = forumIds
         hashMap["from"] = "tieba"
         hashMap["net_type"] = this.netType
-        hashMap["tbs"] = this.tbs
+        hashMap["tbs"] = tbs
         hashMap["timestamp"] = getTimestamp().toString()
         hashMap["user_id"] = this.uid
         hashMap["sign"] = calsign(hashMap)

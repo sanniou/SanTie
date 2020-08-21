@@ -67,5 +67,8 @@ open class ListItemFragment<T : ListItemViewModel> : SanBaseFragment<T>() {
             viewModel.refresh()
         }
     }
-}
 
+    fun ListItemViewModel.setViewModelValue(argumentKey: String, valueKey: String? = null) {
+        this.setValue(valueKey ?: argumentKey, requireArguments().getString(argumentKey)!!)
+    }
+}

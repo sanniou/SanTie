@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.ObjectUtils;
 import com.saniou.santieba.R;
 import com.saniou.santieba.model.TiebaRequest;
+import com.saniou.santieba.model.api.reqeust.TiebaRetrofit;
 import com.saniou.santieba.vo.PhotoViewItem;
 import com.saniou.santieba.widget.photoview.Info;
 import com.saniou.santieba.widget.photoview.PhotoView;
@@ -63,9 +65,12 @@ public class ImagePreviewActivity extends AppCompatActivity {
 
     protected void initData() throws IOException {
         String jsonString = getIntent().getStringExtra(KEY_IMAGE_INFO);
+        if (ObjectUtils.isEmpty(jsonString)) {
+            return;
+        }
         mPosition = getIntent().getIntExtra(KEY_IMAGE_POSITION, 0);
         mInfo = getIntent().getParcelableExtra(KEY_ANIMA_INFO);
-        images = TiebaRequest.INSTANCE.getMoshi().<List<String>>adapter(Types.newParameterizedType(List.class, String.class))
+        images = TiebaRetrofit.INSTANCE.getMoshi().<List<String>>adapter(Types.newParameterizedType(List.class, String.class))
                 .fromJson(jsonString);
 
         for (String image : images) {
@@ -105,7 +110,7 @@ public class ImagePreviewActivity extends AppCompatActivity {
         Intent intent = new Intent(view.getContext(), ImagePreviewActivity.class);
 
         intent.putExtra(ImagePreviewActivity.KEY_IMAGE_INFO,
-                TiebaRequest.INSTANCE.getMoshi().adapter(Types.newParameterizedType(List.class, String.class)).toJson(images));
+                TiebaRetrofit.INSTANCE.getMoshi().adapter(Types.newParameterizedType(List.class, String.class)).toJson(images));
         intent.putExtra(ImagePreviewActivity.KEY_IMAGE_POSITION, index);
         intent.putExtra(ImagePreviewActivity.KEY_ANIMA_INFO, imageViewInfo);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NEW_TASK);

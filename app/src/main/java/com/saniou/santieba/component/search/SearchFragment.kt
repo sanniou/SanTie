@@ -15,8 +15,6 @@ import androidx.viewpager.widget.ViewPager
 import com.blankj.utilcode.util.KeyboardUtils
 import com.saniou.santieba.R
 import com.saniou.santieba.component.SanBaseFragment
-import com.saniou.santieba.component.toThreadPageList
-import com.saniou.santieba.constant.BOOLEAN_TRUE
 import com.saniou.santieba.databinding.FragmentSearchBinding
 import com.saniou.santieba.kts.changeMenu
 import com.saniou.santieba.viewmodel.SearchViewModel

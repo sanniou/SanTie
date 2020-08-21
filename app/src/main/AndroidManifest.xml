@@ -17,21 +17,25 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".component.SchemeActivity">
             <intent-filter>
+                <data
+                    android:host="tieba.baidu.com"
+                    android:scheme="tbfrs" />
+                <data
+                    android:host="tieba.baidu.com"
+                    android:scheme="tbpb" />
+                <data
+                    android:host="tieba.baidu.com"
+                    android:scheme="http" />
+                <data
+                    android:host="tieba.baidu.com"
+                    android:scheme="https" />
+
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="tbfrs" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="tbpb" />
-            </intent-filter>
         </activity>
         <activity android:name=".component.UserMainActivity" />
         <activity android:name=".component.TiebaMainActivity">

@@ -1,5 +1,6 @@
 package com.saniou.santieba.component;
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.webkit.CookieManager
@@ -23,6 +24,10 @@ class LoginFragment : WebViewFragment(),
     override fun onDestroy() {
         super.onDestroy()
         cancel()
+    }
+
+    override fun getNavigationHelper(context: Context?): NavigationHelper {
+        return NavigationHelper.newInstance(context, "LoginActivity")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
