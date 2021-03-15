@@ -5,6 +5,8 @@ import com.sanniou.support.utils.ResourcesUtils
 
 val MENU_COLOR = ResourcesUtils.getColor(R.color.white)
 
+const val IMAGE_RADIUS = 25
+
 const val EVENT_UI_REFRESH_SUCCESS = 0
 const val EVENT_UI_REFRESH_FAILED = 1
 

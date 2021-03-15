@@ -16,7 +16,7 @@ class ForumPageFragment : ListItemFragment<ForumPageViewModel>() {
     }
 
     override fun onBinding(binding: ActivityListBinding) {
-        ItemClickHelper.attachToRecyclerView(binding.recycler, OnItemClickListener {
+        ItemClickHelper.attachToRecyclerView(binding.recycler, {
             (it.item as? ThreadItem)?.run {
                 findNavController().navigate(ForumMainFragmentDirections.forumMainToThread(forum,tid))
             }

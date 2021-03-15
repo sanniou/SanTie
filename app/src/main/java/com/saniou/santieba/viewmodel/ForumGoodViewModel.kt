@@ -7,7 +7,7 @@ import com.saniou.santieba.vo.TextItem
 
 class ForumGoodViewModel : ForumPageViewModel() {
 
-    private var goodClassifyId = ""
+    private var goodClassifyId: String? = null
 
     override suspend fun forumPage(page: Int): ForumPage {
         return SanTiebaApi.forumPage(name, page, goodClassifyId = goodClassifyId)
@@ -16,9 +16,15 @@ class ForumGoodViewModel : ForumPageViewModel() {
     override fun onRefresh() {
         super.onRefresh()
         goodClassify.firstOrNull()?.run {
-            goodClassifyId = this.classId
-            set(0, FlexListItem().apply {
-                data.addAll(goodClassify.map { TextItem(it.className) })
+            goodClassifyId = goodClassifyId ?: this.classId
+            set(0, FlexListItem({
+                (it.item as TextItem).run {
+                    goodClassifyId = any?.toString()
+                    refresh()
+                }
+
+            }).apply {
+                data.addAll(goodClassify.map { TextItem(it.className, any = it.classId) })
             })
         }
     }

@@ -28,7 +28,8 @@ class ForumTopItem(
     var needScore: Int,
     private var isSignIn: Boolean,
     private var forumSignCount: Int,
-    private var subscribeEvent: () -> Unit
+    private var subscribeEvent: () -> Unit,
+    val radius: Int = 10,
 ) : ScopeItem() {
 
     val isSubscribe = ObservableBoolean(subscribe)

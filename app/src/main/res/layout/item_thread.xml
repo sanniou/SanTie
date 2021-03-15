@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:background="@color/config_white"
         android:foreground="?selectableItemBackground"
+        android:clickable="true"
         android:padding="@dimen/default_margin_normal">
 
         <ImageView
@@ -27,8 +28,8 @@
             placeholder="@{R.drawable.ic_placeholder_avatar}"
             res="@{item.avatar}"
             toUser="@{item.uid}"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_placeholder_avatar" />

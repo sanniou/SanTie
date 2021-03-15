@@ -19,6 +19,7 @@
         <ImageView
             android:id="@+id/forumImage"
             res="@{item.forumImage}"
+            radius="@{item.radius}"
             android:layout_width="@dimen/image_normal"
             android:layout_height="@dimen/image_normal"
             app:layout_constraintDimensionRatio="W,1:1"

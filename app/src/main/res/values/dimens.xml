@@ -14,7 +14,7 @@
     <dimen name="normalText">15sp</dimen>
     <dimen name="majorText">16sp</dimen>
 
-    <dimen name="image_normal">60sp</dimen>
+    <dimen name="image_normal">60dp</dimen>
 
 
 

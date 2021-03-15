@@ -6,7 +6,8 @@ import com.sanniou.multiitem.DataItem
 class TextItem(
     var text: CharSequence,
     val textSize: Int = 14,
-    val textColor: Int = R.color.normalText
+    val textColor: Int = R.color.normalText,
+    val any: Any? = null,
 ) : DataItem {
     override fun getItemType() = R.layout.item_text
 

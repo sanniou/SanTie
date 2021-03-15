@@ -7,8 +7,9 @@ import com.saniou.santieba.R
 import com.sanniou.multiitem.AdapterViewHolder
 import com.sanniou.multiitem.DataItem
 import com.sanniou.multiitem.MultiItemArrayList
+import com.sanniou.multiitem.OnItemClickListener
 
-open class ListItem() : DataItem {
+open class ListItem(val clickListener: OnItemClickListener? = null) : DataItem {
     var customerLayoutManager = false
     var layoutManager = "LinearLayoutManager"
     var data = MultiItemArrayList<DataItem>()
@@ -16,7 +17,7 @@ open class ListItem() : DataItem {
     override fun getItemType() = R.layout.item_list
 }
 
-class FlexListItem : ListItem() {
+class FlexListItem(clickListener: OnItemClickListener? = null) : ListItem(clickListener) {
 
     init {
         customerLayoutManager = true

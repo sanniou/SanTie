@@ -12,6 +12,9 @@
         <variable
             name="pageViewModel"
             type="com.saniou.santieba.viewmodel.ForumPageViewModel" />
+
+        <import type="com.saniou.santieba.model.api.reqeust.ForumSortType" />
+        <import type="com.saniou.santieba.constant.SanConstanKt"/>
     </data>
 
     <com.saniou.santieba.widget.NestedCoordinatorLayout
@@ -20,16 +23,16 @@
         android:orientation="vertical">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:background="@color/colorPrimary"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary">
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 topAnimation="@{pageViewModel.forumInfo!=null}"
                 visible="@{pageViewModel.forumInfo!=null}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed|snap"
                 tools:context=".component.forum.ForumMainFragment">
@@ -37,6 +40,7 @@
                 <ImageView
                     android:id="@+id/forum_avatar"
                     res="@{pageViewModel.forumInfo.avatar}"
+                    radius="@{SanConstanKt.IMAGE_RADIUS}"
                     android:layout_width="@dimen/image_normal"
                     android:layout_height="@dimen/image_normal"
                     android:layout_marginStart="@dimen/view_padding"
@@ -113,11 +117,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="@string/title_sort_by_reply"
+                    android:text="@{pageViewModel.sortType==ForumSortType.REPLY_TIME ? @string/title_sort_by_reply : pageViewModel.sortType==ForumSortType.SEND_TIME ? @string/title_sort_by_send : @string/title_sort_by_like_user}"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@id/forum_tab"
                     app:layout_constraintEnd_toStartOf="@id/forum_sort_icon"
-                    app:layout_constraintTop_toTopOf="@id/forum_tab" />
+                    app:layout_constraintTop_toTopOf="@id/forum_tab"
+                    tools:text="@string/title_sort_by_reply" />
 
                 <ImageView
                     android:id="@+id/forum_sort_icon"

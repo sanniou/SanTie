@@ -12,9 +12,11 @@ import com.saniou.santieba.kts.getDisplayTime
 import com.saniou.santieba.kts.toBool
 import com.saniou.santieba.model.TiebaRequest
 import com.saniou.santieba.model.api.interfaces.SanTiebaApi
+import com.saniou.santieba.model.api.reqeust.ForumSortType
 import com.saniou.santieba.model.bean.ForumPage
 import com.saniou.santieba.vo.ThreadItem
 import com.sanniou.support.exception.ExceptionEngine
+import com.sanniou.support.lifecycle.NonNullLiveData
 import com.sanniou.support.utils.ResourcesUtils
 
 data class ForumInfo(
@@ -34,6 +36,8 @@ data class ForumInfo(
 )
 
 open class ForumPageViewModel : PageAutoListItemViewModel() {
+
+    val sortType = NonNullLiveData(ForumSortType.REPLY_TIME)
 
     private var fid = ""
 
@@ -126,7 +130,7 @@ open class ForumPageViewModel : PageAutoListItemViewModel() {
         }
     }
 
-    open suspend fun forumPage(page: Int) = SanTiebaApi.forumPage(name, page)
+    open suspend fun forumPage(page: Int) = SanTiebaApi.forumPage(name, page, sortType.value)
 
     fun unSubscribe() {
         if (!forumInfo.value!!.subscribed) {
@@ -158,6 +162,11 @@ open class ForumPageViewModel : PageAutoListItemViewModel() {
                 ToastUtils.showShort(ExceptionEngine.handleMessage(e))
             }
         }
+    }
+
+    fun setSortType(sortType: ForumSortType) {
+        this.sortType.value = sortType
+        refresh()
     }
 }
 

@@ -28,6 +28,7 @@
             data="@{viewModel.list}"
             dividerColor="@{viewModel.dividerColor}"
             dividerHeightDp="@{viewModel.dividerHeight}"
+            noClick="@{1}"
             span="@{viewModel.span}"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

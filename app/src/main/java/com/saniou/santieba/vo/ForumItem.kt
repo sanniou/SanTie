@@ -9,7 +9,6 @@ class ForumItem(var name: String, var image: String, private var isSign: Boolean
     DataItem {
 
     var levelColor: Int = LEVEL_CLOLRS[levelInt]
-    var radius = 0
     var level = "LV$levelInt"
 
     fun getSignColor() =

@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         layoutManager="@{item.layoutManager}"
         customerLayoutManager="@{item.customerLayoutManager}"
+        itemClickListener="@{item.clickListener}"
         data="@{item.data}"
         android:layout_height="wrap_content">
 
